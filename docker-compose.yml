@@ -1,0 +1,110 @@
+version: "3.9"
+
+services:
+  # ─── FastAPI Backend ──────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: farmsaathi-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./ml:/ml
+      - ./knowledge:/knowledge
+      - ./.env:/app/.env
+      - ./firebase-service-account.json:/app/firebase-service-account.json
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - postgres
+      - redis
+      - qdrant
+    restart: unless-stopped
+    networks:
+      - farmsaathi-net
+
+  # ─── PostgreSQL + PostGIS (market prices, weather cache) ─────────────────
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: farmsaathi-postgres
+    environment:
+      POSTGRES_USER: farmsaathi
+      POSTGRES_PASSWORD: farmsaathi
+      POSTGRES_DB: farmsaathi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - farmsaathi-net
+
+  # ─── Redis (caching + Celery) ─────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: farmsaathi-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - farmsaathi-net
+
+  # ─── Qdrant (vector store for RAG) ───────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: farmsaathi-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+    networks:
+      - farmsaathi-net
+
+  # ─── Ollama (local LLM — Qwen3:4B) ───────────────────────────────────────
+  # NOTE: On Windows with GPU, consider running Ollama natively instead
+  # ollama:
+  #   image: ollama/ollama
+  #   container_name: farmsaathi-ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   restart: unless-stopped
+  #   networks:
+  #     - farmsaathi-net
+
+  # ─── Celery Worker (proactive alerts, scheduled tasks) ───────────────────
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: farmsaathi-celery
+    command: celery -A app.workers.celery_app worker --loglevel=info
+    volumes:
+      - ./backend:/app
+      - ./ml:/ml
+      - ./knowledge:/knowledge
+      - ./.env:/app/.env
+      - ./firebase-service-account.json:/app/firebase-service-account.json
+    depends_on:
+      - redis
+      - postgres
+    restart: unless-stopped
+    networks:
+      - farmsaathi-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:
+  # ollama_data:
+
+networks:
+  farmsaathi-net:
+    driver: bridge

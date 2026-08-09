@@ -1,0 +1,104 @@
+[
+  {
+    "id": "pm_kisan",
+    "name": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+    "type": "income_support",
+    "states": "all",
+    "benefit": "₹6,000 per year in 3 equal installments of ₹2,000",
+    "eligibility": {
+      "land_required": true,
+      "max_land_ha": null,
+      "farmer_categories": ["small", "marginal", "large"],
+      "crops": "all",
+      "income_limit": null
+    },
+    "exclusions": [
+      "Income tax payers",
+      "Government employees (excluding Multi Tasking Staff/Class IV/Group D)",
+      "Constitutional post holders",
+      "Retired government pensioners with monthly pension > ₹10,000",
+      "Professionals (doctors, engineers, lawyers, CAs)",
+      "Institutional land-holders"
+    ],
+    "documents_required": [
+      "Aadhaar card",
+      "Land ownership documents",
+      "Bank account details"
+    ],
+    "application_method": "Online via PM-KISAN portal or Common Service Centre (CSC)",
+    "official_url": "https://pmkisan.gov.in",
+    "last_verified": "2024-01-01"
+  },
+  {
+    "id": "pmfby",
+    "name": "PM Fasal Bima Yojana (PMFBY)",
+    "type": "crop_insurance",
+    "states": "all",
+    "benefit": "Crop insurance coverage against natural calamities, pests and diseases",
+    "eligibility": {
+      "land_required": true,
+      "farmer_categories": ["all"],
+      "crops": "notified_crops_by_state"
+    },
+    "premium": {
+      "kharif": "2% of sum insured",
+      "rabi": "1.5% of sum insured",
+      "horticulture": "5% of sum insured"
+    },
+    "exclusions": [
+      "Crops not notified by state government",
+      "Losses due to war, nuclear risk"
+    ],
+    "documents_required": [
+      "Land records (Khatauni/RoR)",
+      "Bank passbook",
+      "Sowing certificate",
+      "Aadhaar card"
+    ],
+    "application_method": "Through banks, CSCs, or PMFBY portal",
+    "official_url": "https://pmfby.gov.in",
+    "last_verified": "2024-01-01"
+  },
+  {
+    "id": "kcc",
+    "name": "Kisan Credit Card (KCC)",
+    "type": "credit",
+    "states": "all",
+    "benefit": "Credit up to ₹3 lakh at 4% interest rate per annum (with timely repayment)",
+    "eligibility": {
+      "farmer_categories": ["all farmers", "tenant farmers", "sharecroppers", "oral lessees", "self-help groups"],
+      "land_required": false
+    },
+    "exclusions": [],
+    "documents_required": [
+      "Identity proof (Aadhaar/Voter ID)",
+      "Land records or tenancy documents",
+      "Passport-size photograph",
+      "Bank account details"
+    ],
+    "application_method": "Through any bank branch or cooperative bank",
+    "official_url": "https://www.nabard.org/auth/writereaddata/tenderdocs/KCC%20Revised%20Scheme_03092019.pdf",
+    "last_verified": "2024-01-01"
+  },
+  {
+    "id": "pkvy",
+    "name": "Paramparagat Krishi Vikas Yojana (PKVY)",
+    "type": "organic_farming",
+    "states": "all",
+    "benefit": "₹50,000 per hectare over 3 years for organic farming adoption",
+    "eligibility": {
+      "farming_type": "organic",
+      "min_group_size": 50,
+      "land_required": true
+    },
+    "exclusions": [],
+    "documents_required": [
+      "Group formation certificate",
+      "Land records",
+      "Bank account"
+    ],
+    "application_method": "Through State Agriculture Department",
+    "official_url": "https://pgsindia-ncof.gov.in",
+    "last_verified": "2024-01-01"
+  }
+]

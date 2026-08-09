@@ -1,0 +1,63 @@
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Firebase service account
+firebase-service-account.json
+serviceAccountKey.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# ML artifacts (large — use Git LFS or store separately)
+*.pkl
+*.pth
+*.onnx
+*.h5
+ml/*/models/
+data/raw/
+data/processed/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.log
+.turbo/
+
+# Flutter
+apps/mobile/.dart_tool/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/build/
+apps/mobile/.packages
+
+# Docker
+*.pid
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo

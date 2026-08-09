@@ -1,0 +1,63 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
+python-dotenv
+httpx
+# Firebase Admin SDK
+firebase-admin
+
+# Database (PostgreSQL — market/weather only)
+sqlalchemy[asyncio]
+asyncpg
+alembic
+geoalchemy2
+psycopg2-binary
+
+# Redis + Celery
+redis
+celery
+flower
+
+# Qdrant (RAG vector store)
+qdrant-client
+
+# ML / AI
+numpy
+pandas
+scikit-learn
+xgboost
+lightgbm
+joblib
+pillow
+onnxruntime
+torch
+torchvision
+timm
+
+# NLP / Embeddings
+sentence-transformers
+transformers
+tokenizers
+
+# RAG / Document processing
+pypdf
+langchain
+langchain-community
+langchain-core
+
+# Weather & external APIs
+pyowm
+
+# Utilities
+python-jose
+passlib[bcrypt]
+aiofiles
+loguru
+tenacity
+
+# Testing
+pytest
+pytest-asyncio
+httpx
