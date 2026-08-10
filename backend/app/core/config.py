@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     FIREBASE_STORAGE_BUCKET: str = ""
 
     # ── Weather ──────────────────────────────────────────────────────────────
-    WEATHER_API_KEY: str = ""
-    WEATHER_API_BASE_URL: str = "https://api.weatherapi.com/v1"
+    GOOGLE_WEATHER_API_KEY: str = ""
+    WEATHER_API_BASE_URL: str = "https://weather.googleapis.com/v1"
 
     # ── Qdrant ───────────────────────────────────────────────────────────────
     QDRANT_URL: str = "http://localhost:6333"

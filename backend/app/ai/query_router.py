@@ -145,7 +145,7 @@ class QueryRouter:
             f"**Advisory:** {answer}"
         )
 
-        return {"intent": INTENT_WEATHER, "answer": answer, "sources": ["WeatherAPI.com"]}
+        return {"intent": INTENT_WEATHER, "answer": answer, "sources": ["Google Weather API"]}
 
     async def _handle_crop_recommendation(self, message, uid, farm_id, language, profile):
         from app.ai.crop_engine import CropEngine

@@ -16,7 +16,7 @@ class WeatherService:
     CACHE_TTL = 1800  # 30 minutes
 
     def __init__(self):
-        self.api_key = settings.WEATHER_API_KEY
+        self.api_key = settings.GOOGLE_WEATHER_API_KEY
         self.base_url = settings.WEATHER_API_BASE_URL
         self._redis: Optional[aioredis.Redis] = None
 
@@ -26,8 +26,10 @@ class WeatherService:
         return self._redis
 
     async def get_raw_weather(self, lat: float, lon: float) -> dict:
-        """Fetch raw weather JSON from WeatherAPI.com with Redis cache."""
-        cache_key = f"weather:{lat:.3f}:{lon:.3f}"
+        """Fetch raw weather JSON from Google Weather API with Redis cache."""
+        import asyncio
+        
+        cache_key = f"google_weather:{lat:.3f}:{lon:.3f}"
         try:
             r = await self._get_redis()
             cached = await r.get(cache_key)
@@ -38,18 +40,32 @@ class WeatherService:
             logger.warning(f"Redis unavailable, fetching live weather: {e}")
 
         async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.get(
-                f"{self.base_url}/forecast.json",
+            current_req = client.get(
+                f"{self.base_url}/currentConditions:lookup",
                 params={
                     "key": self.api_key,
-                    "q": f"{lat},{lon}",
-                    "days": 7,
-                    "aqi": "no",
-                    "alerts": "yes",
+                    "location.latitude": lat,
+                    "location.longitude": lon,
                 },
             )
-            resp.raise_for_status()
-            data = resp.json()
+            forecast_req = client.get(
+                f"{self.base_url}/forecast/days:lookup",
+                params={
+                    "key": self.api_key,
+                    "location.latitude": lat,
+                    "location.longitude": lon,
+                    "pageSize": 7,
+                },
+            )
+            current_resp, forecast_resp = await asyncio.gather(current_req, forecast_req)
+            
+            current_resp.raise_for_status()
+            forecast_resp.raise_for_status()
+            
+            data = {
+                "currentConditions": current_resp.json(),
+                "forecastDays": forecast_resp.json().get("days", [])
+            }
 
         try:
             r = await self._get_redis()
@@ -66,58 +82,115 @@ class WeatherService:
         language: str = "en",
         crop_context: Optional[dict] = None,
     ) -> dict:
-        """Parse weather + generate agricultural advisory via LLM."""
+        """Parse weather + generate agricultural advisory via LLM with full caching."""
+        import json
+        
+        cache_key = f"weather_advisory:{lat:.3f}:{lon:.3f}:{language}"
+        if crop_context:
+            cache_key += f":{crop_context.get('crop_name', 'none')}"
+            
+        try:
+            r = await self._get_redis()
+            cached = await r.get(cache_key)
+            if cached:
+                logger.debug(f"Weather advisory cache hit: {cache_key}")
+                return json.loads(cached)
+        except Exception:
+            pass
+
         raw = await self.get_raw_weather(lat, lon)
 
-        current_data = raw.get("current", {})
-        forecast_days = raw.get("forecast", {}).get("forecastday", [])
-        location_data = raw.get("location", {})
-        alerts_data = raw.get("alerts", {}).get("alert", [])
+        current_data = raw.get("currentConditions", {})
+        forecast_days = raw.get("forecastDays", [])
 
         current = {
-            "temperature_c": current_data.get("temp_c", 0),
-            "feels_like_c": current_data.get("feelslike_c", 0),
-            "humidity_pct": current_data.get("humidity", 0),
-            "rainfall_mm": current_data.get("precip_mm", 0),
-            "wind_kph": current_data.get("wind_kph", 0),
-            "uv_index": current_data.get("uv", 0),
-            "condition": current_data.get("condition", {}).get("text", ""),
-            "condition_icon": current_data.get("condition", {}).get("icon", ""),
-            "is_day": bool(current_data.get("is_day", 1)),
+            "temperature_c": current_data.get("temperature", {}).get("degrees", 0),
+            "feels_like_c": current_data.get("feelsLikeTemperature", {}).get("degrees", 0),
+            "humidity_pct": current_data.get("relativeHumidity", 0),
+            "rainfall_mm": current_data.get("precipitation", {}).get("qpf", {}).get("quantity", 0),
+            "wind_kph": current_data.get("wind", {}).get("speed", {}).get("value", 0),
+            "uv_index": current_data.get("uvIndex", 0),
+            "condition": current_data.get("weatherCondition", {}).get("description", {}).get("text", ""),
+            "condition_icon": current_data.get("weatherCondition", {}).get("iconBaseUri", "") + ".png" if current_data.get("weatherCondition", {}).get("iconBaseUri", "") else "",
+            "is_day": bool(current_data.get("isDaytime", True)),
         }
 
         forecast = []
         for day in forecast_days:
-            d = day.get("day", {})
+            # Construct date safely
+            d_date = day.get("displayDate", {})
+            date_str = f"{d_date.get('year', 2026)}-{d_date.get('month', 1):02d}-{d_date.get('day', 1):02d}"
+            
+            dtf = day.get("daytimeForecast", {})
+            ntf = day.get("nighttimeForecast", {})
+            
+            rain_day = dtf.get("precipitation", {}).get("qpf", {}).get("quantity", 0)
+            rain_night = ntf.get("precipitation", {}).get("qpf", {}).get("quantity", 0)
+            
             forecast.append({
-                "date": day.get("date", ""),
-                "max_temp_c": d.get("maxtemp_c", 0),
-                "min_temp_c": d.get("mintemp_c", 0),
-                "avg_temp_c": d.get("avgtemp_c", 0),
-                "total_rainfall_mm": d.get("totalprecip_mm", 0),
-                "avg_humidity_pct": d.get("avghumidity", 0),
-                "uv_index": d.get("uv", 0),
-                "condition": d.get("condition", {}).get("text", ""),
-                "condition_icon": d.get("condition", {}).get("icon", ""),
-                "chance_of_rain_pct": d.get("daily_chance_of_rain", 0),
+                "date": date_str,
+                "max_temp_c": day.get("maxTemperature", {}).get("degrees", 0),
+                "min_temp_c": day.get("minTemperature", {}).get("degrees", 0),
+                "avg_temp_c": (day.get("maxTemperature", {}).get("degrees", 0) + day.get("minTemperature", {}).get("degrees", 0)) / 2,
+                "total_rainfall_mm": rain_day + rain_night,
+                "avg_humidity_pct": (dtf.get("relativeHumidity", 0) + ntf.get("relativeHumidity", 0)) / 2,
+                "uv_index": dtf.get("uvIndex", 0),
+                "condition": dtf.get("weatherCondition", {}).get("description", {}).get("text", ""),
+                "condition_icon": dtf.get("weatherCondition", {}).get("iconBaseUri", "") + ".png" if dtf.get("weatherCondition", {}).get("iconBaseUri", "") else "",
+                "chance_of_rain_pct": max(
+                    dtf.get("precipitation", {}).get("probability", {}).get("percent", 0),
+                    ntf.get("precipitation", {}).get("probability", {}).get("percent", 0)
+                ),
             })
 
         # Generate agricultural advisory
         advisory = await self._generate_advisory(current, forecast, crop_context, language)
 
-        return {
+        # Reverse geocode for accurate location name
+        location_name = "Current Location"
+        region_name = ""
+        country_name = ""
+        try:
+            async with httpx.AsyncClient(timeout=5) as client:
+                geo_resp = await client.get(
+                    "https://maps.googleapis.com/maps/api/geocode/json",
+                    params={"latlng": f"{lat},{lon}", "key": self.api_key}
+                )
+                if geo_resp.status_code == 200:
+                    geo_data = geo_resp.json()
+                    if geo_data.get("results"):
+                        comps = geo_data["results"][0].get("address_components", [])
+                        for c in comps:
+                            if "locality" in c["types"]:
+                                location_name = c["long_name"]
+                            elif "administrative_area_level_1" in c["types"]:
+                                region_name = c["long_name"]
+                            elif "country" in c["types"]:
+                                country_name = c["long_name"]
+        except Exception as e:
+            logger.warning(f"Reverse geocoding failed: {e}")
+
+        result = {
             "location": {
-                "name": location_data.get("name", ""),
-                "region": location_data.get("region", ""),
-                "country": location_data.get("country", ""),
-                "lat": location_data.get("lat", lat),
-                "lon": location_data.get("lon", lon),
+                "name": location_name,
+                "region": region_name,
+                "country": country_name,
+                "lat": lat,
+                "lon": lon,
             },
             "current": current,
             "forecast": forecast,
             "agricultural_advisory": advisory,
-            "alerts": alerts_data[:5],  # max 5 alerts
+            "alerts": [],  # Google Weather doesn't natively include simple alerts string array in the same way, we can leave this empty or fetch alerts explicitly
         }
+
+        try:
+            r = await self._get_redis()
+            await r.setex(cache_key, self.CACHE_TTL, json.dumps(result))
+        except Exception:
+            pass
+
+        return result
 
     async def _generate_advisory(
         self,

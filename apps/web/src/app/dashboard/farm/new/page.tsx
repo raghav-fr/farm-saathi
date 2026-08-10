@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Loader2, AlertCircle, MapPin, Droplets, Sprout } from "lucide-react";
+import { Loader2, AlertCircle, MapPin, Droplets, Sprout, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { farmerApi, farmApi } from "@/lib/api";
+import { farmApi } from "@/lib/api";
 
 const SOIL_TYPES = [
   { value: "clay", label: "Clay" },
@@ -18,11 +18,11 @@ const SOIL_TYPES = [
   { value: "unknown", label: "Other / Unknown" }
 ];
 
-export default function OnboardingPage() {
-  const { profile, refreshProfile } = useAuth();
+export default function AddFarmPage() {
+  const { refreshProfile } = useAuth();
   const router = useRouter();
 
-  const [farmName, setFarmName] = useState("My Farm");
+  const [farmName, setFarmName] = useState("");
   const [area, setArea] = useState("");
   const [soilType, setSoilType] = useState("");
   const [irrigation, setIrrigation] = useState(false);
@@ -88,8 +88,7 @@ export default function OnboardingPage() {
         has_irrigation: irrigation,
       });
 
-      // 2. Mark onboarding complete
-      await farmerApi.updateMe({ onboardingComplete: true });
+      // 2. Refresh profile to load new farms
       await refreshProfile();
 
       // 3. Go to dashboard
@@ -110,7 +109,14 @@ export default function OnboardingPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-xl"
       >
-        <div className="glass-card p-10">
+        <div className="glass-card p-10 relative">
+          <button 
+            onClick={() => router.push("/dashboard")}
+            className="absolute top-6 left-6 text-gray-400 hover:text-black transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          
           <div className="text-center mb-10">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
@@ -118,9 +124,9 @@ export default function OnboardingPage() {
             >
               <Sprout size={32} color="white" />
             </div>
-            <h1 className="text-2xl font-outfit font-bold mb-2">Welcome to FarmSaathi, {profile?.name?.split(' ')[0] || 'Farmer'}!</h1>
+            <h1 className="text-2xl font-outfit font-bold mb-2">Add a New Farm</h1>
             <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-              Let's set up your first farm to get personalized AI recommendations.
+              Add details for another piece of land to get location-specific recommendations.
             </p>
           </div>
 
@@ -141,7 +147,7 @@ export default function OnboardingPage() {
                 type="text"
                 value={farmName}
                 onChange={(e) => setFarmName(e.target.value)}
-                placeholder="e.g. North Field"
+                placeholder="e.g. South Field"
                 required
                 className="input-field"
               />
@@ -244,7 +250,7 @@ export default function OnboardingPage() {
               disabled={isSubmitting}
               className="btn-primary w-full py-4 mt-6 text-base"
             >
-              {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : "Complete Setup"}
+              {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : "Add Farm"}
             </button>
           </form>
         </div>

@@ -28,6 +28,22 @@ export default function DashboardPage() {
   const { user, profile } = useAuth();
   const [farms, setFarms] = useState<any[]>([]);
   const [time, setTime] = useState(new Date());
+  const [deviceLat, setDeviceLat] = useState<number | null>(null);
+  const [deviceLon, setDeviceLon] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setDeviceLat(pos.coords.latitude);
+          setDeviceLon(pos.coords.longitude);
+        },
+        (err) => {
+          console.warn("Location permission denied. Falling back to farm location.");
+        }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -42,12 +58,14 @@ export default function DashboardPage() {
   }, []);
 
   const primaryFarm = farms[0];
+  const weatherLat = deviceLat || primaryFarm?.latitude || 20.29;
+  const weatherLon = deviceLon || primaryFarm?.longitude || 85.82;
 
   const { data: weather } = useQuery<WeatherData>({
-    queryKey: ["weather", primaryFarm?.latitude, primaryFarm?.longitude],
+    queryKey: ["weather", weatherLat, weatherLon],
     queryFn: () =>
       weatherApi
-        .getCurrent(primaryFarm?.latitude || 20.29, primaryFarm?.longitude || 85.82)
+        .getCurrent(weatherLat, weatherLon)
         .then((r) => r.data),
     enabled: true,
     staleTime: 30 * 60 * 1000,
