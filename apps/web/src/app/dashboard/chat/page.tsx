@@ -114,73 +114,35 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-full" style={{ background: "var(--bg-primary)" }}>
-      {/* ── Header ─────────────────────────────────────────────────── */}
-      <div
-        className="flex items-center justify-between px-6 py-4"
-        style={{ borderBottom: "1px solid var(--border)", background: "var(--bg-secondary)" }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center animate-pulse-glow"
-            style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
-          >
-            <Bot size={18} color="white" />
-          </div>
-          <div>
-            <h1 className="font-outfit font-bold text-base">FarmSaathi AI</h1>
-            <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-muted)" }}>
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: "#22c55e" }}
-              />
-              Powered by Qwen3:4B · {profile?.language === "hi" ? "हिंदी" : profile?.language === "od" ? "ଓଡ଼ିଆ" : "English"}
-            </div>
-          </div>
-        </div>
-        <button
-          id="new-chat-btn"
-          onClick={startNewConversation}
-          className="btn-ghost text-sm"
-        >
-          <Plus size={15} /> New Chat
-        </button>
-      </div>
-
+    <div className="flex flex-col h-[calc(100vh-80px)]">
       {/* ── Messages ───────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto px-6 py-6">
         {messages.length === 0 ? (
           /* Welcome screen */
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-10">
-              <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-float"
-                style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
-              >
-                <Bot size={28} color="white" />
+          <div className="max-w-2xl mx-auto mt-8">
+            <div className="text-center mb-12">
+              <div className="w-20 h-20 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 bg-black shadow-xl animate-float">
+                <Bot size={36} color="#c3f53c" strokeWidth={2} />
               </div>
-              <h2 className="text-2xl font-outfit font-bold mb-2">
+              <h2 className="text-3xl font-outfit font-black mb-3 text-black">
                 How can I help you today?
               </h2>
-              <p style={{ color: "var(--text-muted)" }} className="text-sm">
+              <p className="text-gray-600 text-sm font-medium">
                 Ask me anything about farming — crop advice, disease, weather, schemes or market prices.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {QUICK_QUESTIONS.map((q) => (
                 <button
                   key={q.text}
                   onClick={() => sendMessage(q.text)}
-                  className="glass-card p-4 text-left hover:scale-[1.02] transition-all group"
+                  className="bg-white border border-gray-100 p-5 rounded-2xl text-left hover:border-black hover:shadow-md transition-all group"
                 >
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center mb-2"
-                    style={{ background: `${q.color}18`, border: `1px solid ${q.color}30` }}
-                  >
-                    <q.icon size={16} color={q.color} />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-gray-50 group-hover:bg-black transition-colors">
+                    <q.icon size={18} className="text-gray-700 group-hover:text-[#c3f53c]" strokeWidth={2.5} />
                   </div>
-                  <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                  <p className="text-[15px] font-semibold text-black leading-snug">
                     {q.text}
                   </p>
                 </button>
@@ -199,11 +161,8 @@ export default function ChatPage() {
                   className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.role === "assistant" && (
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-1"
-                      style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
-                    >
-                      <Bot size={16} color="white" />
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 bg-black shadow-sm">
+                      <Bot size={18} color="#c3f53c" strokeWidth={2.5} />
                     </div>
                   )}
 
@@ -246,11 +205,8 @@ export default function ChatPage() {
                   </div>
 
                   {msg.role === "user" && (
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-1"
-                      style={{ background: "rgba(34,197,94,0.2)" }}
-                    >
-                      <User size={16} style={{ color: "#22c55e" }} />
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 bg-[#c3f53c] shadow-sm">
+                      <User size={18} color="black" strokeWidth={2.5} />
                     </div>
                   )}
                 </motion.div>
@@ -264,11 +220,8 @@ export default function ChatPage() {
                 animate={{ opacity: 1 }}
                 className="flex gap-3 justify-start"
               >
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
-                >
-                  <Bot size={16} color="white" />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-black shadow-sm">
+                  <Bot size={18} color="#c3f53c" strokeWidth={2.5} />
                 </div>
                 <div className="chat-bubble-ai flex items-center gap-2">
                   <Loader2 size={14} className="animate-spin" style={{ color: "#22c55e" }} />
@@ -283,16 +236,22 @@ export default function ChatPage() {
       </div>
 
       {/* ── Input ──────────────────────────────────────────────────── */}
-      <div
-        className="px-6 py-4"
-        style={{ borderTop: "1px solid var(--border)", background: "var(--bg-secondary)" }}
-      >
+      <div className="px-6 py-6 pb-8">
         <div className="max-w-3xl mx-auto">
           <form
             onSubmit={handleSubmit}
-            className="flex items-end gap-3 p-3 rounded-2xl"
-            style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+            className="flex items-end gap-3 p-2 pl-2 rounded-full bg-white shadow-xl shadow-gray-200/50 border border-gray-100 transition-shadow focus-within:shadow-2xl focus-within:border-gray-200"
           >
+            {messages.length > 0 && (
+              <button
+                type="button"
+                onClick={startNewConversation}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-red-50 text-gray-500 hover:text-red-500 flex-shrink-0 mb-1 ml-1"
+                title="Clear Chat"
+              >
+                <Plus size={18} strokeWidth={2.5} className="rotate-45" />
+              </button>
+            )}
             <textarea
               id="chat-input"
               ref={inputRef}
@@ -306,35 +265,33 @@ export default function ChatPage() {
               onKeyDown={handleKeyDown}
               placeholder="Ask anything about farming... (English, हिंदी, ଓଡ଼ିଆ)"
               disabled={isLoading}
-              className="flex-1 bg-transparent outline-none resize-none text-sm leading-relaxed"
-              style={{ color: "var(--text-primary)", maxHeight: "120px", minHeight: "24px" }}
+              className={`flex-1 bg-transparent outline-none resize-none text-[15px] font-medium leading-relaxed py-3 text-black placeholder:text-gray-400 ${messages.length === 0 ? 'pl-4' : 'pl-1'}`}
+              style={{ maxHeight: "120px", minHeight: "24px" }}
             />
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 flex-shrink-0 mb-1 mr-1">
               <button
                 type="button"
                 id="voice-btn"
-                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110"
-                style={{ background: "rgba(34,197,94,0.1)" }}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-black"
                 title="Voice input (coming soon)"
               >
-                <Mic size={16} style={{ color: "#22c55e" }} />
+                <Mic size={18} strokeWidth={2.5} />
               </button>
               <button
                 id="send-btn"
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-black hover:bg-gray-800 text-[#c3f53c]"
               >
                 {isLoading ? (
-                  <Loader2 size={16} color="white" className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                 ) : (
-                  <Send size={16} color="white" />
+                  <Send size={18} strokeWidth={2.5} />
                 )}
               </button>
             </div>
           </form>
-          <p className="text-center text-xs mt-2" style={{ color: "var(--text-dim)" }}>
+          <p className="text-center text-xs mt-4 text-gray-400 font-medium">
             AI decisions are based on verified agricultural data. Always consult local experts for critical decisions.
           </p>
         </div>

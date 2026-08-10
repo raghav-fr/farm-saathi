@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Sprout, Camera, CloudRain,
   TrendingUp, Shield, Newspaper, MessageSquare,
-  Bell, Settings, LogOut, Search, Menu, X
+  Bell, Settings, LogOut, Search, Menu, X, User
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -21,6 +21,7 @@ const navItems = [
   { href: "/dashboard/news", icon: Newspaper, label: "News" },
   { href: "/dashboard/chat", icon: MessageSquare, label: "Ask AI" },
 ];
+
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading, signOut } = useAuth();
@@ -68,25 +69,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-primary)" }}>
 
       {/* ── Sticky Top Navigation ─────────────────────────────────── */}
-      <header
-        className="sticky top-0 z-50 transition-all duration-200"
-        style={{
-          background: "var(--bg-primary)",
-          borderBottom: scrolled ? "1px solid rgba(34,197,94,0.15)" : "1px solid transparent",
-          boxShadow: scrolled ? "0 2px 12px rgba(0,0,0,0.05)" : "none",
-        }}
-      >
-        <div className="flex items-center justify-between px-6 py-3 max-w-screen-2xl mx-auto">
-
-          {/* Logo */}
-          <Link href="/dashboard" className="flex items-center gap-2.5 flex-shrink-0 group">
+      <header className="sticky top-0 z-50">
+        <div className="flex items-start justify-between max-w-screen-2xl mx-auto px-6">
+          
+          {/* Logo (Left) */}
+          <Link href="/dashboard" className="flex items-center gap-2.5 mt-6 flex-shrink-0 group">
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm transition-transform group-hover:scale-105"
               style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
             >
               <Sprout size={18} color="white" />
             </div>
-            <span className="font-outfit font-bold text-[17px]" style={{ color: "var(--text-primary)" }}>
+            <span className="font-outfit font-bold text-[17px] text-black tracking-tight">
               Farm<span style={{ color: "#16a34a" }}>Saathi</span>
               <span
                 className="ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md align-middle"
@@ -97,83 +91,53 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </span>
           </Link>
 
-          {/* Dark pill nav — desktop */}
-          <nav className="top-nav hidden lg:flex">
+          {/* Center Black Nav */}
+          <nav className="hidden lg:flex items-center gap-2 px-8 py-3 bg-black rounded-b-[2.5rem] shadow-lg relative -top-1">
             {navItems.map((item) => {
-              const isActive =
-                pathname === item.href ||
-                (item.href !== "/dashboard" && pathname.startsWith(item.href));
+              const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`top-nav-link ${isActive ? "active" : ""}`}
+                  className={`px-5 py-2 rounded-full text-[13px] font-medium transition-colors ${
+                    isActive ? "bg-[#c3f53c] text-black" : "text-gray-300 hover:text-white"
+                  }`}
                 >
-                  <span>{item.label}</span>
+                  {item.label}
                 </Link>
               );
             })}
           </nav>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2">
-            {/* Alerts */}
-            <Link
-              href="/dashboard/alerts"
-              className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-105"
-              style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.06)" }}
-              title="Alerts"
-            >
-              <Bell size={16} style={{ color: "var(--text-muted)" }} />
+          <div className="flex items-center gap-3 mt-6">
+            <Link href="/dashboard/alerts" className="relative w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-black hover:bg-gray-50 transition-colors">
+              <Bell size={18} strokeWidth={2.5} />
+              <span className="absolute top-2 right-2 w-[9px] h-[9px] bg-red-500 rounded-full border-[1.5px] border-white"></span>
             </Link>
-
-            {/* Settings */}
-            <Link
-              href="/dashboard/settings"
-              className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-105"
-              style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.06)" }}
-              title="Settings"
-            >
-              <Settings size={16} style={{ color: "var(--text-muted)" }} />
-            </Link>
-
-            {/* Profile dropdown */}
+            
             <div className="relative group">
-              <button
-                className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full transition-all hover:shadow-md"
-                style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(0,0,0,0.07)" }}
-              >
+              <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-black hover:bg-gray-50 transition-colors">
                 <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold text-white flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
                 >
                   {initials}
                 </div>
-                <span className="text-sm font-medium hidden sm:block" style={{ color: "var(--text-primary)" }}>
-                  {displayName}
-                </span>
               </button>
-
+              
               {/* Dropdown */}
-              <div
-                className="absolute right-0 top-11 w-52 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-                style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
-              >
-                <div className="px-4 py-3 border-b" style={{ borderColor: "rgba(0,0,0,0.05)" }}>
-                  <div className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                    {profile?.name || user.displayName}
-                  </div>
-                  <div className="text-xs mt-0.5 truncate" style={{ color: "var(--text-muted)" }}>{user.email}</div>
+              <div className="absolute right-0 top-12 w-52 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-white border border-gray-100">
+                <div className="px-4 py-3 border-b border-gray-100">
+                  <div className="text-sm font-semibold text-gray-900">{profile?.name || user.displayName}</div>
+                  <div className="text-xs mt-0.5 truncate text-gray-500">{user.email}</div>
                 </div>
                 <div className="py-1">
-                  <Link href="/dashboard/settings" className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 transition-colors" style={{ color: "var(--text-secondary)" }}>
+                  <Link href="/dashboard/settings" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                     <Settings size={14} /> Settings
                   </Link>
-                  <Link href="/dashboard/chat" className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 transition-colors" style={{ color: "var(--text-secondary)" }}>
-                    <MessageSquare size={14} /> Ask AI
-                  </Link>
                 </div>
-                <div className="border-t" style={{ borderColor: "rgba(0,0,0,0.05)" }} />
+                <div className="border-t border-gray-100" />
                 <button
                   onClick={() => signOut()}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
@@ -185,11 +149,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             {/* Mobile menu toggle */}
             <button
-              className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.06)" }}
+              className="lg:hidden w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-black"
               onClick={() => setMobileOpen((v) => !v)}
             >
-              {mobileOpen ? <X size={16} /> : <Menu size={16} />}
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -202,25 +165,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="overflow-hidden lg:hidden border-t"
-              style={{ borderColor: "rgba(34,197,94,0.12)" }}
+              className="overflow-hidden lg:hidden bg-black mx-4 mt-4 rounded-2xl"
             >
-              <div className="px-4 py-3 flex flex-wrap gap-2">
+              <div className="px-4 py-3 flex flex-col gap-2">
                 {navItems.map((item) => {
-                  const isActive =
-                    pathname === item.href ||
-                    (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                  const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all"
-                      style={{
-                        background: isActive ? "#111a12" : "rgba(255,255,255,0.8)",
-                        color: isActive ? "#a3e635" : "var(--text-secondary)",
-                      }}
+                      className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                        isActive ? "bg-[#c3f53c] text-black" : "text-white"
+                      }`}
                     >
-                      <item.icon size={14} />
                       {item.label}
                     </Link>
                   );

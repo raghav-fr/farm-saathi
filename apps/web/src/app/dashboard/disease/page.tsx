@@ -64,7 +64,9 @@ export default function DiseasePage() {
       const { data } = await diseaseApi.predict(formData);
       setResult(data);
     } catch (err: any) {
-      setError(err?.response?.data?.detail || "Analysis failed. Please try again with a clearer image.");
+      const detail = err?.response?.data?.detail;
+      const errorMsg = Array.isArray(detail) ? detail[0]?.msg : (typeof detail === 'string' ? detail : "Analysis failed. Please try again with a clearer image.");
+      setError(errorMsg);
     } finally {
       setIsLoading(false);
     }

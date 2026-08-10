@@ -8,7 +8,14 @@ import { useAuth } from "@/context/AuthContext";
 import { farmerApi, farmApi } from "@/lib/api";
 
 const SOIL_TYPES = [
-  "Alluvial", "Black", "Red", "Laterite", "Arid", "Forest/Mountain", "Peaty/Marshy", "Other"
+  { value: "clay", label: "Clay" },
+  { value: "sandy", label: "Sandy" },
+  { value: "loamy", label: "Loamy" },
+  { value: "silty", label: "Silty" },
+  { value: "black", label: "Black" },
+  { value: "red", label: "Red" },
+  { value: "laterite", label: "Laterite" },
+  { value: "unknown", label: "Other / Unknown" }
 ];
 
 export default function OnboardingPage() {
@@ -45,7 +52,7 @@ export default function OnboardingPage() {
         longitude: 85.8245,
         area_hectares: Number(area),
         soil_type: soilType,
-        irrigation_type: irrigationType || "None",
+        irrigation_type: irrigationType || "rainfed",
         has_irrigation: irrigation,
       });
 
@@ -56,7 +63,9 @@ export default function OnboardingPage() {
       // 3. Go to dashboard
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err?.response?.data?.detail || "Failed to save farm details. Please try again.");
+      const detail = err?.response?.data?.detail;
+      const errorMsg = Array.isArray(detail) ? detail[0]?.msg : (typeof detail === 'string' ? detail : "Failed to save farm details. Please try again.");
+      setError(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -131,7 +140,7 @@ export default function OnboardingPage() {
                 className="input-field"
               >
                 <option value="">Select soil type</option>
-                {SOIL_TYPES.map(s => <option key={s} value={s}>{s}</option>)}
+                {SOIL_TYPES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
 
@@ -165,11 +174,12 @@ export default function OnboardingPage() {
                     className="input-field pl-10"
                   >
                     <option value="">Select method</option>
-                    <option value="Drip">Drip Irrigation</option>
-                    <option value="Sprinkler">Sprinkler</option>
-                    <option value="Canal">Canal</option>
-                    <option value="Tube Well">Tube Well / Borewell</option>
-                    <option value="Other">Other</option>
+                    <option value="drip">Drip Irrigation</option>
+                    <option value="sprinkler">Sprinkler</option>
+                    <option value="canal">Canal</option>
+                    <option value="borewell">Tube Well / Borewell</option>
+                    <option value="pond">Pond</option>
+                    <option value="rainfed">Other / Rainfed</option>
                   </select>
                   <Droplets size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--text-muted)" }} />
                 </div>
