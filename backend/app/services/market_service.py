@@ -70,6 +70,19 @@ class MarketService:
         }
 
         try:
+            import json
+            import redis.asyncio as aioredis
+            
+            # Try cache first
+            cache_key = f"market_rates:{state}:{district}:{market}:{commodity}:{variety}:{grade}:{limit}:{offset}"
+            try:
+                r = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
+                cached = await r.get(cache_key)
+                if cached:
+                    return json.loads(cached)
+            except Exception as e:
+                logger.warning(f"Redis cache error: {e}")
+
             async with httpx.AsyncClient(timeout=15.0) as client:
                 response = await client.get(url, params=params, headers=headers)
                 response.raise_for_status()
@@ -96,6 +109,13 @@ class MarketService:
                     data["count"] = len(data["records"])
                     data["limit"] = str(original_limit)
                     data["offset"] = str(original_offset)
+
+                # Save to cache
+                try:
+                    r = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
+                    await r.setex(cache_key, 3600, json.dumps(data)) # Cache for 1 hour
+                except Exception:
+                    pass
                     
                 return data
         except httpx.HTTPStatusError as e:

@@ -8,6 +8,7 @@ import { cropApi, farmApi, type CropRecommendation } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import Link from "next/link";
 
 export default function CropsPage() {
   const { user, profile } = useAuth();
@@ -52,7 +53,16 @@ export default function CropsPage() {
 
   return (
     <PageShell>
-      <PageHeader title="Crop Intelligence" subtitle="AI-driven crop recommendations based on your soil, weather, and agronomic data" icon="🌾" />
+      <PageHeader 
+        title="Crop Intelligence" 
+        subtitle="AI-driven crop recommendations based on your soil, weather, and agronomic data" 
+        icon="🌾"
+        action={
+          <Link href="/dashboard/crops/active" className="btn-secondary py-2 px-4 flex items-center gap-2 text-sm">
+            <Leaf size={16} /> View Active Crops
+          </Link>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Column: Farm Context */}

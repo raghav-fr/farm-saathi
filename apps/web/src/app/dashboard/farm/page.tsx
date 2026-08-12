@@ -7,11 +7,14 @@ import { PageHeader, PageShell } from "@/components/PageHeader";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
+import { farmApi } from "@/lib/api";
 
 export default function FarmPage() {
   const { user } = useAuth();
   const [farms, setFarms] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingFarm, setEditingFarm] = useState<any | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -20,6 +23,40 @@ export default function FarmPage() {
       setIsLoading(false);
     });
   }, [user]);
+
+  const handleDeleteFarm = async (farmId: string, farmName: string) => {
+    if (window.confirm(`Are you sure you want to delete ${farmName}? This action cannot be undone.`)) {
+      try {
+        await farmApi.delete(farmId);
+        setFarms((prev) => prev.filter((f) => f.id !== farmId));
+      } catch (err) {
+        console.error("Failed to delete farm:", err);
+        alert("Failed to delete farm. Please try again.");
+      }
+    }
+  };
+
+  const handleUpdateFarm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingFarm) return;
+    setIsUpdating(true);
+    try {
+      await farmApi.update(editingFarm.id, {
+        name: editingFarm.name,
+        area_hectares: Number(editingFarm.area_hectares),
+        soil_type: editingFarm.soil_type,
+        has_irrigation: editingFarm.has_irrigation,
+        irrigation_type: editingFarm.has_irrigation ? editingFarm.irrigation_type : "rainfed"
+      });
+      setFarms((prev) => prev.map((f) => f.id === editingFarm.id ? editingFarm : f));
+      setEditingFarm(null);
+    } catch (err) {
+      console.error("Failed to update farm:", err);
+      alert("Failed to update farm details.");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
     <PageShell>
@@ -68,7 +105,15 @@ export default function FarmPage() {
                          </div>
                       </div>
                    </div>
-                   <button className="btn-ghost text-xs"><Edit2 size={14} /> Edit</button>
+                   <div className="flex gap-2">
+                       <button onClick={() => setEditingFarm(farm)} className="btn-ghost text-xs"><Edit2 size={14} /> Edit</button>
+                       <button 
+                         onClick={() => handleDeleteFarm(farm.id, farm.name)}
+                         className="btn-ghost text-xs text-red-500 hover:text-red-600 hover:bg-red-50"
+                       >
+                         <Trash2 size={14} /> Delete
+                       </button>
+                    </div>
                 </div>
                 
                 <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -104,6 +149,59 @@ export default function FarmPage() {
                 </div>
              </motion.div>
           ))}
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editingFarm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-card w-full max-w-md p-6">
+            <h3 className="font-outfit font-bold text-xl mb-4">Edit Farm Details</h3>
+            <form onSubmit={handleUpdateFarm} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Farm Name</label>
+                <input type="text" required className="input-field py-2 text-sm" value={editingFarm.name} onChange={e => setEditingFarm({...editingFarm, name: e.target.value})} />
+              </div>
+              <div>
+                <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Area (Hectares)</label>
+                <input type="number" step="0.1" required className="input-field py-2 text-sm" value={editingFarm.area_hectares} onChange={e => setEditingFarm({...editingFarm, area_hectares: e.target.value})} />
+              </div>
+              <div>
+                <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Soil Type</label>
+                <select className="input-field py-2 text-sm" value={editingFarm.soil_type} onChange={e => setEditingFarm({...editingFarm, soil_type: e.target.value})}>
+                  <option value="clay">Clay</option>
+                  <option value="sandy">Sandy</option>
+                  <option value="loamy">Loamy</option>
+                  <option value="silty">Silty</option>
+                  <option value="black">Black</option>
+                  <option value="red">Red</option>
+                  <option value="laterite">Laterite</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" checked={editingFarm.has_irrigation} onChange={e => setEditingFarm({...editingFarm, has_irrigation: e.target.checked})} />
+                <label className="text-sm font-bold">Has Irrigation</label>
+              </div>
+              {editingFarm.has_irrigation && (
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Irrigation Type</label>
+                  <select className="input-field py-2 text-sm" value={editingFarm.irrigation_type} onChange={e => setEditingFarm({...editingFarm, irrigation_type: e.target.value})}>
+                    <option value="drip">Drip</option>
+                    <option value="sprinkler">Sprinkler</option>
+                    <option value="canal">Canal</option>
+                    <option value="borewell">Borewell</option>
+                    <option value="pond">Pond</option>
+                    <option value="rainfed">Other</option>
+                  </select>
+                </div>
+              )}
+              <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
+                <button type="button" onClick={() => setEditingFarm(null)} className="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Cancel</button>
+                <button type="submit" disabled={isUpdating} className="btn-primary py-2 px-6 text-sm">{isUpdating ? "Saving..." : "Save Changes"}</button>
+              </div>
+            </form>
+          </motion.div>
         </div>
       )}
     </PageShell>

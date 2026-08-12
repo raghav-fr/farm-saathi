@@ -12,6 +12,7 @@ from app.core.firestore_service import (
     get_latest_soil_test,
     list_farms,
     update_farm,
+    delete_farm,
 )
 from app.schemas import (
     FarmCreate,
@@ -54,6 +55,16 @@ async def update_my_farm(farm_id: str, data: FarmUpdate, farmer: FarmerDep):
     if not farm:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Farm not found")
     return await update_farm(farmer.uid, farm_id, data.model_dump(exclude_none=True))
+
+
+@router.delete("/{farm_id}", response_model=MessageResponse)
+async def delete_my_farm(farm_id: str, farmer: FarmerDep):
+    """Delete a farm."""
+    farm = await get_farm(farmer.uid, farm_id)
+    if not farm:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Farm not found")
+    await delete_farm(farmer.uid, farm_id)
+    return MessageResponse(message="Farm deleted successfully")
 
 
 @router.post("/{farm_id}/soil-test", response_model=SoilTestResponse, status_code=status.HTTP_201_CREATED)

@@ -79,42 +79,7 @@ services:
   #   networks:
   #     - farmsaathi-net
 
-  # ─── Celery Worker (proactive alerts, scheduled tasks) ───────────────────
-  celery-worker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: farmsaathi-celery
-    command: celery -A app.workers.celery_app worker --loglevel=info
-    volumes:
-      - ./backend:/app
-      - ./ml:/ml
-      - ./knowledge:/knowledge
-      - ./.env:/app/.env
-      - ./firebase-service-account.json:/app/firebase-service-account.json
-    depends_on:
-      - redis
-      - postgres
-    restart: unless-stopped
-    networks:
-      - farmsaathi-net
 
-  # ─── Celery Beat (Scheduler) ────────────────────────────────────────────────
-  celery-beat:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: farmsaathi-celery-beat
-    command: celery -A app.workers.celery_app beat --loglevel=info
-    volumes:
-      - ./backend:/app
-      - ./.env:/app/.env
-      - ./firebase-service-account.json:/app/firebase-service-account.json
-    depends_on:
-      - redis
-    restart: unless-stopped
-    networks:
-      - farmsaathi-net
 
 volumes:
   postgres_data:

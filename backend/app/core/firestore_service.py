@@ -87,6 +87,12 @@ async def update_farm(uid: str, farm_id: str, data: dict) -> dict:
     return snap.to_dict()
 
 
+async def delete_farm(uid: str, farm_id: str) -> None:
+    db = _db()
+    ref = db.collection("farmers").document(uid).collection("farms").document(farm_id)
+    await ref.delete()
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # CROPS
 # Collection: farmers/{uid}/farms/{farmId}/crops/{cropId}

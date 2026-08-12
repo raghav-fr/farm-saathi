@@ -56,3 +56,19 @@ cd apps/web && npm install && npm run dev
 ## Architecture Principle
 
 > **Deterministic/ML systems make agricultural decisions; the LLM explains and communicates those decisions.**
+
+## Free Serverless Production Deployment
+
+The backend is architected to run on a 100% free serverless tier by splitting up the microservices:
+
+1. **Database (PostgreSQL + PostGIS):** Supabase (Free Tier)
+2. **Cache (Redis):** Upstash Serverless Redis (Free Tier)
+3. **Vector Store (Qdrant):** Qdrant Cloud (Forever Free 1GB)
+4. **App Hosting (FastAPI):** Render Web Service (Free Tier) or Koyeb Eco
+
+**To deploy:**
+1. Create free accounts on Supabase, Upstash, and Qdrant Cloud.
+2. Obtain connection URLs for all three services.
+3. Deploy the `backend` folder on Render or Koyeb. Use `uvicorn app.main:app --host 0.0.0.0 --port $PORT` as the start command.
+4. Supply the `.env` variables to Render/Koyeb.
+Note: APScheduler replaces Celery to ensure background tasks run smoothly inside the free web instance!

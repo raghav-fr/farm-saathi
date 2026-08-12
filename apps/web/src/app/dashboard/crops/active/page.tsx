@@ -50,11 +50,10 @@ export default function ActiveCropsPage() {
     if (!newCrop.name || !selectedFarmId) return;
     try {
       await cropApi.addCrop(selectedFarmId, {
-        crop: newCrop.name,
-        variety: newCrop.variety,
-        planted_date: newCrop.plantedDate || new Date().toISOString(),
-        status: "active",
-        stage: "seedling"
+        crop_name: newCrop.name,
+        variety: newCrop.variety || undefined,
+        sowing_date: newCrop.plantedDate ? new Date(newCrop.plantedDate).toISOString().split('T')[0] : undefined,
+        stage: "vegetative"
       });
       setIsAdding(false);
       setNewCrop({ name: "", variety: "", plantedDate: "" });
@@ -132,7 +131,7 @@ export default function ActiveCropsPage() {
              <motion.div key={crop.id || i} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05 }} className="glass-card overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-all hover:border-green-500">
                 <div className="h-36 bg-gradient-to-br from-green-500/10 to-green-500/5 relative flex items-center justify-center border-b border-green-500/10">
                    {crop.image_url ? (
-                     <img src={crop.image_url} alt={crop.crop} className="w-full h-full object-cover" />
+                     <img src={crop.image_url} alt={crop.crop_name} className="w-full h-full object-cover" />
                    ) : (
                      <Sprout size={56} className="text-green-500/20 drop-shadow-sm" />
                    )}
@@ -141,7 +140,7 @@ export default function ActiveCropsPage() {
                    </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
-                   <h3 className="font-outfit font-black text-2xl mb-0.5 capitalize text-black dark:text-white">{crop.crop}</h3>
+                   <h3 className="font-outfit font-black text-2xl mb-0.5 capitalize text-black dark:text-white">{crop.crop_name}</h3>
                    <div className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-5">{crop.variety || "Standard Variety"}</div>
                    
                    <div className="flex items-center gap-3 text-xs font-bold text-gray-700 dark:text-gray-300 mb-6 bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
@@ -150,12 +149,12 @@ export default function ActiveCropsPage() {
                       </div>
                       <div>
                         <div className="text-[10px] text-gray-500 uppercase tracking-widest">Planted On</div>
-                        <div className="text-sm">{crop.planted_date ? new Date(crop.planted_date).toLocaleDateString() : "Unknown"}</div>
+                        <div className="text-sm">{crop.sowing_date ? new Date(crop.sowing_date).toLocaleDateString() : "Unknown"}</div>
                       </div>
                    </div>
 
                    <div className="mt-auto grid grid-cols-2 gap-3">
-                      <Link href={`/dashboard/disease?crop=${crop.crop}`} className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-green-700 bg-green-50 hover:bg-green-100 transition-all dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/40 border border-green-500/10 hover:border-green-500/30">
+                      <Link href={`/dashboard/disease?crop=${crop.crop_name}`} className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-green-700 bg-green-50 hover:bg-green-100 transition-all dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/40 border border-green-500/10 hover:border-green-500/30">
                         <Camera size={16} /> Scan Image
                       </Link>
                       <button className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40 border border-blue-500/10 hover:border-blue-500/30">

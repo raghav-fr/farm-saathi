@@ -15,10 +15,9 @@ alembic
 geoalchemy2
 psycopg2-binary
 
-# Redis + Celery
+# Redis + Scheduler
 redis
-celery
-flower
+apscheduler
 
 # Qdrant (RAG vector store)
 qdrant-client

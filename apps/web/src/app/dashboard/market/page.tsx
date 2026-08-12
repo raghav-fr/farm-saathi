@@ -61,12 +61,7 @@ export default function MarketPage() {
     <PageShell>
       <PageHeader title="Market Prices" subtitle="Real-time Mandi prices across India (data.gov.in)" icon="📈" />
 
-      {(!profile?.state || !profile?.district) && !isInferringLocation && (
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-500">
-           <AlertCircle size={18} className="shrink-0" />
-           <div className="text-sm font-medium">We've guessed your local markets using your farm's weather data! <Link href="/dashboard/settings" className="underline font-bold">Update your profile</Link> to permanently set your state and district.</div>
-        </motion.div>
-      )}
+
 
       {isInferringLocation && (
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-500">

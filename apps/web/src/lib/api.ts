@@ -134,6 +134,7 @@ export const farmApi = {
   list: () => api.get<Farm[]>("/farms"),
   get: (id: string) => api.get<Farm>(`/farms/${id}`),
   update: (id: string, data: object) => api.put<Farm>(`/farms/${id}`, data),
+  delete: (id: string) => api.delete(`/farms/${id}`),
   addSoilTest: (farmId: string, data: object) =>
     api.post(`/farms/${farmId}/soil-test`, data),
   getLatestSoilTest: (farmId: string) =>

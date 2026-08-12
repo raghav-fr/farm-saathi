@@ -11,6 +11,11 @@ from loguru import logger
 from app.core.config import settings
 from app.core.firebase import initialize_firebase
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from app.workers.scheduler import check_and_notify_crops
+
+# Global scheduler instance
+scheduler = AsyncIOScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -26,6 +31,11 @@ async def lifespan(app: FastAPI):
         logger.error(f"❌ Firebase initialization failed: {e}")
         logger.warning("Continuing without Firebase — auth will not work")
 
+    # Start APScheduler for background jobs
+    scheduler.add_job(check_and_notify_crops, 'cron', hour=9, minute=0, id='daily_crop_update')
+    scheduler.start()
+    logger.info("✅ Background job scheduler started")
+
     # Pre-load AI models (lazy load in engines, but log status)
     logger.info("✅ AI engines ready (lazy-load on first request)")
 
@@ -34,7 +44,8 @@ async def lifespan(app: FastAPI):
 
     # ── Shutdown ─────────────────────────────────────────────────────────────
     logger.info(f"👋 Shutting down {settings.APP_NAME}")
-
+    scheduler.shutdown()
+    logger.info("🛑 Background job scheduler stopped")
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -107,7 +118,10 @@ async def health():
     # Qdrant
     try:
         from qdrant_client import AsyncQdrantClient
-        qc = AsyncQdrantClient(url=settings.QDRANT_URL)
+        qc_kwargs = {"url": settings.QDRANT_URL}
+        if settings.QDRANT_API_KEY:
+            qc_kwargs["api_key"] = settings.QDRANT_API_KEY
+        qc = AsyncQdrantClient(**qc_kwargs)
         await qc.get_collections()
         await qc.close()
         checks["qdrant"] = "ok"
