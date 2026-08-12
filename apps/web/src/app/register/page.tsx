@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Sprout, Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { CustomSelect } from "@/components/CustomSelect";
 
 const STATES = [
   "Andhra Pradesh", "Bihar", "Chhattisgarh", "Gujarat", "Haryana",
@@ -190,11 +191,15 @@ export default function RegisterPage() {
 
                 <div>
                   <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>Preferred Language</label>
-                  <select id="language-select" value={language} onChange={e => setLanguage(e.target.value as "en" | "hi" | "od")} className="input-field">
-                    <option value="en">English</option>
-                    <option value="hi">हिंदी (Hindi)</option>
-                    <option value="od">ଓଡ଼ିଆ (Odia)</option>
-                  </select>
+                  <CustomSelect 
+                    value={language} 
+                    onChange={v => setLanguage(v as "en" | "hi" | "od")} 
+                    options={[
+                      { value: "en", label: "English" },
+                      { value: "hi", label: "हिंदी (Hindi)" },
+                      { value: "od", label: "ଓଡ଼ିଆ (Odia)" },
+                    ]}
+                  />
                 </div>
 
                 <button id="next-step-btn" type="submit" className="btn-primary w-full py-3">
@@ -206,10 +211,13 @@ export default function RegisterPage() {
             <form onSubmit={handleRegister} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>State</label>
-                <select id="state-select" value={state} onChange={e => setState(e.target.value)} required className="input-field">
-                  <option value="">Select your state</option>
-                  {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
+                <CustomSelect 
+                  value={state} 
+                  onChange={setState} 
+                  required
+                  placeholder="Select your state"
+                  options={STATES.map(s => ({ value: s, label: s }))}
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>District</label>

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Loader2, AlertCircle, MapPin, Droplets, Sprout, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { farmApi } from "@/lib/api";
+import { CustomSelect } from "@/components/CustomSelect";
 
 const SOIL_TYPES = [
   { value: "clay", label: "Clay" },
@@ -191,16 +192,13 @@ export default function AddFarmPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>Primary Soil Type</label>
-              <select
+              <CustomSelect
                 value={soilType}
-                onChange={(e) => setSoilType(e.target.value)}
+                onChange={setSoilType}
                 required
-                className="input-field"
-              >
-                <option value="">Select soil type</option>
-                {SOIL_TYPES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-              </select>
+                placeholder="Select soil type"
+                options={SOIL_TYPES}
+              />
             </div>
 
             <div className="p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)" }}>
@@ -225,23 +223,20 @@ export default function AddFarmPage() {
                 className="overflow-hidden mt-4"
               >
                 <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>Irrigation Method</label>
-                <div className="relative">
-                  <select
+                  <CustomSelect
                     value={irrigationType}
-                    onChange={(e) => setIrrigationType(e.target.value)}
+                    onChange={setIrrigationType}
                     required={irrigation}
-                    className="input-field pl-10"
-                  >
-                    <option value="">Select method</option>
-                    <option value="drip">Drip Irrigation</option>
-                    <option value="sprinkler">Sprinkler</option>
-                    <option value="canal">Canal</option>
-                    <option value="borewell">Tube Well / Borewell</option>
-                    <option value="pond">Pond</option>
-                    <option value="rainfed">Other / Rainfed</option>
-                  </select>
-                  <Droplets size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--text-muted)" }} />
-                </div>
+                    placeholder="Select method"
+                    options={[
+                      { value: "drip", label: "Drip Irrigation" },
+                      { value: "sprinkler", label: "Sprinkler" },
+                      { value: "canal", label: "Canal" },
+                      { value: "borewell", label: "Tube Well / Borewell" },
+                      { value: "pond", label: "Pond" },
+                      { value: "rainfed", label: "Other / Rainfed" }
+                    ]}
+                  />
               </motion.div>
             )}
 

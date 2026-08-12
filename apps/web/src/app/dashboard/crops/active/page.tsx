@@ -7,6 +7,7 @@ import { PageHeader, PageShell } from "@/components/PageHeader";
 import { useAuth } from "@/context/AuthContext";
 import { cropApi } from "@/lib/api";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
+import { CustomSelect } from "@/components/CustomSelect";
 import Link from "next/link";
 
 export default function ActiveCropsPage() {
@@ -70,15 +71,15 @@ export default function ActiveCropsPage() {
 
       {/* Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <div className="glass-card flex items-center px-4 py-2 gap-3 w-full md:w-auto">
-           <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Farm:</label>
-           <select 
-              className="bg-transparent border-none outline-none font-bold text-sm text-black dark:text-white"
-              value={selectedFarmId}
-              onChange={(e) => setSelectedFarmId(e.target.value)}
-            >
-              {farms.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
-            </select>
+        <div className="flex items-center gap-3 w-full md:w-auto min-w-[250px]">
+           <label className="text-xs font-bold text-gray-500 uppercase tracking-wider shrink-0">Farm:</label>
+           <div className="w-full">
+             <CustomSelect
+                value={selectedFarmId}
+                onChange={setSelectedFarmId}
+                options={farms.map(f => ({ value: f.id, label: f.name }))}
+             />
+           </div>
         </div>
         <button onClick={() => setIsAdding(!isAdding)} className="btn-primary flex items-center gap-2 px-5 py-2.5 w-full md:w-auto justify-center">
            <Plus size={18} /> Add Crop

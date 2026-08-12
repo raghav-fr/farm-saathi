@@ -133,6 +133,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <div className="text-xs mt-0.5 truncate text-gray-500">{user.email}</div>
                 </div>
                 <div className="py-1">
+                  <Link href="/dashboard/farm" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                    <Sprout size={14} /> My Farms
+                  </Link>
                   <Link href="/dashboard/settings" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                     <Settings size={14} /> Settings
                   </Link>

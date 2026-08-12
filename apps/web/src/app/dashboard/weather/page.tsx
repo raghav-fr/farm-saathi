@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { CloudRain, Wind, Droplets, Sun, Moon, MapPin, Loader2, ThermometerSun } from "lucide-react";
+import { CloudRain, Wind, Droplets, Sun, Moon, MapPin, Loader2, ThermometerSun, AlertCircle, Cloud, CloudLightning, Snowflake } from "lucide-react";
 import { weatherApi, type WeatherData } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import { CustomSelect } from "@/components/CustomSelect";
 
 export default function WeatherPage() {
   const { user } = useAuth();
@@ -40,13 +41,13 @@ export default function WeatherPage() {
         icon="⛅"
         action={
           farms.length > 0 ? (
-            <select
-              className="input-field text-sm py-2 max-w-[200px]"
-              value={selectedFarmId}
-              onChange={(e) => setSelectedFarmId(e.target.value)}
-            >
-              {farms.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
-            </select>
+            <div className="w-[200px]">
+              <CustomSelect
+                value={selectedFarmId}
+                onChange={setSelectedFarmId}
+                options={farms.map(f => ({ value: f.id, label: f.name }))}
+              />
+            </div>
           ) : undefined
         }
       />

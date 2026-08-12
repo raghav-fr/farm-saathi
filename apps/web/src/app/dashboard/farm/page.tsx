@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Plus, Edit2, Trash2, MapPin, Droplets, Loader2, ArrowRight, Mountain, AlertCircle } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import { CustomSelect } from "@/components/CustomSelect";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
@@ -168,16 +169,20 @@ export default function FarmPage() {
               </div>
               <div>
                 <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Soil Type</label>
-                <select className="input-field py-2 text-sm" value={editingFarm.soil_type} onChange={e => setEditingFarm({...editingFarm, soil_type: e.target.value})}>
-                  <option value="clay">Clay</option>
-                  <option value="sandy">Sandy</option>
-                  <option value="loamy">Loamy</option>
-                  <option value="silty">Silty</option>
-                  <option value="black">Black</option>
-                  <option value="red">Red</option>
-                  <option value="laterite">Laterite</option>
-                  <option value="unknown">Unknown</option>
-                </select>
+                <CustomSelect
+                  value={editingFarm.soil_type}
+                  onChange={v => setEditingFarm({...editingFarm, soil_type: v})}
+                  options={[
+                    { value: "clay", label: "Clay" },
+                    { value: "sandy", label: "Sandy" },
+                    { value: "loamy", label: "Loamy" },
+                    { value: "silty", label: "Silty" },
+                    { value: "black", label: "Black" },
+                    { value: "red", label: "Red" },
+                    { value: "laterite", label: "Laterite" },
+                    { value: "unknown", label: "Unknown" },
+                  ]}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <input type="checkbox" checked={editingFarm.has_irrigation} onChange={e => setEditingFarm({...editingFarm, has_irrigation: e.target.checked})} />
@@ -186,14 +191,18 @@ export default function FarmPage() {
               {editingFarm.has_irrigation && (
                 <div>
                   <label className="block text-xs font-bold mb-1 text-gray-500 uppercase">Irrigation Type</label>
-                  <select className="input-field py-2 text-sm" value={editingFarm.irrigation_type} onChange={e => setEditingFarm({...editingFarm, irrigation_type: e.target.value})}>
-                    <option value="drip">Drip</option>
-                    <option value="sprinkler">Sprinkler</option>
-                    <option value="canal">Canal</option>
-                    <option value="borewell">Borewell</option>
-                    <option value="pond">Pond</option>
-                    <option value="rainfed">Other</option>
-                  </select>
+                  <CustomSelect
+                    value={editingFarm.irrigation_type}
+                    onChange={v => setEditingFarm({...editingFarm, irrigation_type: v})}
+                    options={[
+                      { value: "drip", label: "Drip" },
+                      { value: "sprinkler", label: "Sprinkler" },
+                      { value: "canal", label: "Canal" },
+                      { value: "borewell", label: "Borewell" },
+                      { value: "pond", label: "Pond" },
+                      { value: "rainfed", label: "Other" },
+                    ]}
+                  />
                 </div>
               )}
               <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">

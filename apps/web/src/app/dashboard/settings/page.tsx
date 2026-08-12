@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Loader2, User, MapPin, Globe, Save, Check } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import { CustomSelect } from "@/components/CustomSelect";
 import { useAuth } from "@/context/AuthContext";
 import { farmerApi } from "@/lib/api";
 
@@ -84,15 +85,15 @@ export default function SettingsPage() {
                 <label className="flex items-center gap-2 text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
                    <Globe size={16} /> App Language
                 </label>
-                <select
+                <CustomSelect
                    value={language}
-                   onChange={(e) => setLanguage(e.target.value)}
-                   className="input-field"
-                >
-                   <option value="en">English</option>
-                   <option value="hi">हिंदी (Hindi)</option>
-                   <option value="od">ଓଡ଼ିଆ (Odia)</option>
-                </select>
+                   onChange={setLanguage}
+                   options={[
+                     { value: "en", label: "English" },
+                     { value: "hi", label: "हिंदी (Hindi)" },
+                     { value: "od", label: "ଓଡ଼ିଆ (Odia)" },
+                   ]}
+                />
                 <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
                    This language will be used for AI explanations, chat, and app UI.
                 </p>

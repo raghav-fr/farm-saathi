@@ -8,6 +8,7 @@ import { cropApi, farmApi, type CropRecommendation } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import { CustomSelect } from "@/components/CustomSelect";
 import Link from "next/link";
 
 export default function CropsPage() {
@@ -71,13 +72,13 @@ export default function CropsPage() {
             <h2 className="font-outfit font-semibold mb-4">Farm Context</h2>
             
             <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--text-muted)" }}>Select Farm</label>
-            <select 
-              className="input-field mb-4 text-sm py-2"
-              value={selectedFarmId}
-              onChange={(e) => setSelectedFarmId(e.target.value)}
-            >
-              {farms.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
-            </select>
+            <div className="mb-4">
+              <CustomSelect
+                value={selectedFarmId}
+                onChange={setSelectedFarmId}
+                options={farms.map(f => ({ value: f.id, label: f.name }))}
+              />
+            </div>
 
             {selectedFarm && (
               <div className="space-y-3">

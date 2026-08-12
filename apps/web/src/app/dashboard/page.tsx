@@ -254,7 +254,7 @@ export default function DashboardPage() {
                   <span className="text-[11px] font-medium" style={{ color: "var(--text-muted)" }}>No farm added</span>
                 </div>
               )}
-              <Link href={primaryFarm ? "/dashboard/crops" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
+              <Link href={primaryFarm ? "/dashboard/farm" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
                 {primaryFarm ? "Manage Farm →" : "Add Farm →"}
               </Link>
             </motion.div>
