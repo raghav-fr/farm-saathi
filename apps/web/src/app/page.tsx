@@ -111,7 +111,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ── Hero ───────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-24 px-6 overflow-hidden">
+      <section className="relative min-h-[95vh] flex flex-col justify-center pt-32 pb-24 px-6 overflow-hidden">
         {/* Background orbs */}
         <div
           className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full opacity-10 pointer-events-none"
@@ -175,7 +175,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="grid grid-cols-4 gap-6 mt-20 max-w-2xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-28 max-w-3xl mx-auto"
           >
             {stats.map((s) => (
               <div key={s.label} className="text-center">
@@ -188,7 +188,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Features grid ──────────────────────────────────────────── */}
-      <section className="py-24 px-6">
+      <section className="py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-outfit font-bold mb-4">
@@ -229,7 +229,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Architecture callout ────────────────────────────────────── */}
-      <section className="py-24 px-6">
+      <section className="py-32 px-6 flex items-center justify-center min-h-[70vh]">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -262,7 +262,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA ────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 text-center">
+      <section className="py-32 px-6 text-center min-h-[50vh] flex flex-col justify-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

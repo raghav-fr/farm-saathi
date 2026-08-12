@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import {
   CloudRain, Droplets, Wind, Sprout, AlertTriangle,
   TrendingUp, Shield, Plus, ChevronRight, ArrowRight,
-  MapPin, Newspaper, Eye, CheckCircle2, AlertCircle
+  MapPin, Newspaper, Eye, CheckCircle2, AlertCircle, Brain
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
@@ -93,12 +93,12 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="px-5 pb-6 pt-4 space-y-4">
+    <div className="px-5 pb-4 pt-2 space-y-4 flex flex-col max-w-[1400px] mx-auto h-[calc(100vh-90px)]">
 
       {/* ── Greeting ─────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between shrink-0">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="font-outfit font-bold" style={{ fontSize: "1.75rem", lineHeight: 1.2, color: "var(--text-primary)" }}>
+          <h1 className="font-outfit font-bold" style={{ fontSize: "1.85rem", lineHeight: 1.2, color: "var(--text-primary)" }}>
             {greet()},{" "}
             <em style={{ color: "var(--text-muted)", fontStyle: "italic" }}>{firstName}</em>
           </h1>
@@ -112,10 +112,10 @@ export default function DashboardPage() {
         <motion.div initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 }}>
           <Link
             href="/dashboard/farm/new"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white hover:opacity-90 transition-all"
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold text-white hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
             style={{ background: "linear-gradient(135deg,#22c55e,#16a34a)" }}
           >
-            <Plus size={14} /> Add Farm
+            <Plus size={16} /> Add Farm
           </Link>
         </motion.div>
       </div>
@@ -125,65 +125,75 @@ export default function DashboardPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center gap-3 px-4 py-2.5 rounded-xl"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl shrink-0"
           style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}
         >
-          <AlertTriangle size={13} className="flex-shrink-0" style={{ color: "#f59e0b" }} />
-          <span className="text-xs font-semibold" style={{ color: "#92400e" }}>{alerts.length} alert{alerts.length > 1 ? "s" : ""}</span>
-          <span className="text-xs truncate hidden sm:block" style={{ color: "var(--text-muted)" }}>{alerts[0]?.message?.slice(0, 65)}…</span>
-          <Link href="/dashboard/alerts" className="ml-auto text-xs font-bold flex items-center gap-0.5 flex-shrink-0" style={{ color: "#d97706" }}>
-            View <ChevronRight size={10} />
+          <AlertTriangle size={14} className="flex-shrink-0" style={{ color: "#f59e0b" }} />
+          <span className="text-xs font-bold" style={{ color: "#92400e" }}>{alerts.length} alert{alerts.length > 1 ? "s" : ""}</span>
+          <span className="text-xs truncate hidden sm:block flex-1" style={{ color: "var(--text-muted)" }}>{alerts[0]?.message}</span>
+          <Link href="/dashboard/alerts" className="ml-auto text-xs font-bold flex items-center gap-1 flex-shrink-0" style={{ color: "#d97706" }}>
+            View Details <ChevronRight size={12} />
           </Link>
         </motion.div>
       )}
 
       {/* ── Two-Column Layout ─────────────────────────────────────────── */}
-      <div className="grid gap-4" style={{ gridTemplateColumns: "1fr 360px" }}>
+      <div className="grid gap-4 flex-1 min-h-0" style={{ gridTemplateColumns: "minmax(0, 1fr) 380px" }}>
 
         {/* LEFT: Weather panel */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
-          className="relative overflow-hidden rounded-2xl flex flex-col"
-          style={{ background: "linear-gradient(145deg,#14532d 0%,#166534 45%,#15803d 100%)", minHeight: "440px" }}
+          className="relative overflow-hidden rounded-3xl flex flex-col h-full shadow-lg"
+          style={{ background: "linear-gradient(145deg,#14532d 0%,#166534 45%,#15803d 100%)" }}
         >
-          <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: "radial-gradient(circle,#a3e635,transparent)" }} />
-          <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full opacity-10 pointer-events-none" style={{ background: "radial-gradient(circle,#4ade80,transparent)" }} />
+          <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full opacity-15 pointer-events-none" style={{ background: "radial-gradient(circle,#a3e635,transparent)" }} />
+          <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: "radial-gradient(circle,#4ade80,transparent)" }} />
 
-          <div className="relative z-10 p-6 flex flex-col h-full gap-4">
+          <div className="relative z-10 p-6 flex flex-col h-full gap-3">
 
             {/* Location + time */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
-                <MapPin size={11} />
+            <div className="flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <MapPin size={12} />
                 {weather?.location ? `${weather.location.name}, ${weather.location.region}` : profile?.district ? `${profile.district}, ${profile.state}` : "Your Location"}
               </div>
-              <span className="text-xs font-semibold tabular-nums" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <span className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }}>
                 {time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
               </span>
             </div>
 
             {/* Big temperature */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-1 shrink-0">
               <div>
-                <div className="font-outfit font-black text-white leading-none" style={{ fontSize: "4.5rem", textShadow: "0 2px 16px rgba(0,0,0,0.15)" }}>
+                <div className="font-outfit font-black text-white leading-none" style={{ fontSize: "5rem", textShadow: "0 4px 24px rgba(0,0,0,0.2)" }}>
                   {weather ? `${Math.round(weather.current.temperature_c)}°` : "—°"}
                 </div>
-                <div className="text-base font-semibold mt-1" style={{ color: "rgba(255,255,255,0.8)" }}>
+                <div className="text-lg font-bold mt-1" style={{ color: "rgba(255,255,255,0.9)" }}>
                   {weather?.current.condition || "Loading…"}
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>
+                <div className="text-xs mt-0.5 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
                   Feels like {weather ? `${Math.round(weather.current.temperature_c - 2)}°C` : "—"}
                 </div>
               </div>
-              <div className="text-[5rem] leading-none select-none animate-float" style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.15))" }}>
+              <div className="text-[5.5rem] leading-none select-none animate-float" style={{ filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.25))" }}>
                 {conditionEmoji(weather?.current.condition)}
               </div>
             </div>
 
+            {/* Advisory */}
+            {weather?.agricultural_advisory && (
+              <div className="rounded-2xl px-4 py-3 text-xs leading-relaxed shrink-0" style={{ background: "rgba(163,230,53,0.12)", border: "1px solid rgba(163,230,53,0.2)" }}>
+                <span className="font-bold text-sm block mb-0.5" style={{ color: "#a3e635" }}>🌾 Advisory</span>
+                <span style={{ color: "rgba(255,255,255,0.85)" }}>{weather.agricultural_advisory}</span>
+              </div>
+            )}
+
+            <div className="flex-1" />
+
             {/* Metrics strip */}
-            <div className="grid grid-cols-4 gap-2 rounded-xl p-3" style={{ background: "rgba(0,0,0,0.15)" }}>
+            <div className="grid grid-cols-4 gap-2 rounded-2xl p-4 shrink-0" style={{ background: "rgba(0,0,0,0.15)" }}>
               {[
                 { icon: Droplets, label: "Humidity", value: weather ? `${weather.current.humidity_pct}%` : "—" },
                 { icon: Wind, label: "Wind", value: weather ? `${Math.round(weather.current.wind_kph)} km/h` : "—" },
@@ -191,30 +201,20 @@ export default function DashboardPage() {
                 { icon: Eye, label: "Visibility", value: "Good" },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col items-center gap-1 text-center">
-                  <m.icon size={14} style={{ color: "rgba(255,255,255,0.55)" }} />
-                  <div className="text-xs font-bold text-white">{m.value}</div>
-                  <div className="text-[9px]" style={{ color: "rgba(255,255,255,0.4)" }}>{m.label}</div>
+                  <m.icon size={16} style={{ color: "rgba(255,255,255,0.55)" }} />
+                  <div className="text-sm font-black text-white">{m.value}</div>
+                  <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.5)" }}>{m.label}</div>
                 </div>
               ))}
             </div>
 
-            {/* Advisory */}
-            {weather?.agricultural_advisory && (
-              <div className="rounded-xl px-3 py-2.5 text-xs leading-relaxed" style={{ background: "rgba(163,230,53,0.12)", border: "1px solid rgba(163,230,53,0.2)" }}>
-                <span className="font-semibold" style={{ color: "#a3e635" }}>🌾 Advisory: </span>
-                <span style={{ color: "rgba(255,255,255,0.72)" }}>{weather.agricultural_advisory}</span>
-              </div>
-            )}
-
-            <div className="flex-1" />
-
             {/* Farm summary in panel */}
             {primaryFarm && (
-              <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <span className="text-lg">🌾</span>
+              <div className="rounded-2xl px-4 py-3 flex items-center gap-3 shrink-0" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}>
+                <span className="text-xl">🌾</span>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-semibold text-white truncate">{primaryFarm.name}</div>
-                  <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  <div className="text-sm font-bold text-white truncate">{primaryFarm.name}</div>
+                  <div className="text-[11px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>
                     {primaryFarm.area_hectares} ha · {primaryFarm.soil_type} · {primaryFarm.has_irrigation ? "Irrigated" : "Rainfed"}
                   </div>
                 </div>
@@ -222,125 +222,110 @@ export default function DashboardPage() {
             )}
 
             {/* CTAs */}
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/dashboard/weather" className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold hover:opacity-80 transition-all" style={{ background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.12)" }}>
-                <CloudRain size={12} /> 7-Day Forecast
+            <div className="grid grid-cols-2 gap-3 shrink-0">
+              <Link href="/dashboard/weather" className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold hover:opacity-80 transition-all" style={{ background: "rgba(255,255,255,0.1)", color: "white", border: "1px solid rgba(255,255,255,0.15)" }}>
+                <CloudRain size={14} /> 7-Day Forecast
               </Link>
-              <Link href="/dashboard/crops" className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold hover:opacity-90 transition-all" style={{ background: "#a3e635", color: "#1a2e05" }}>
-                <Sprout size={12} /> Crop Advice
+              <Link href="/dashboard/crops" className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-glow" style={{ background: "#a3e635", color: "#1a2e05" }}>
+                <Sprout size={14} /> Crop Advice
               </Link>
             </div>
           </div>
         </motion.div>
 
         {/* RIGHT: Cards */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 h-full min-h-0">
 
           {/* Farm + Alerts */}
-          <div className="grid grid-cols-2 gap-3">
-            <motion.div {...f(0.1)} className="glass-card p-4 flex flex-col">
-              <div className="text-[9px] font-bold tracking-widest mb-2.5" style={{ color: "var(--text-dim)" }}>MY FARM</div>
+          <div className="grid grid-cols-2 gap-3 flex-1 min-h-0 shrink-0">
+            <motion.div {...f(0.1)} className="glass-card p-4 flex flex-col h-full hover:shadow-md transition-all overflow-hidden">
+              <div className="text-[9px] font-black tracking-widest mb-2 shrink-0" style={{ color: "var(--text-dim)" }}>MY FARM</div>
               {primaryFarm ? (
-                <div className="flex-1 space-y-1.5">
-                  <div className="font-semibold text-sm" style={{ color: "var(--text-primary)" }}>{primaryFarm.name}</div>
-                  <div className="text-[10px]" style={{ color: "var(--text-muted)" }}>{primaryFarm.area_hectares} ha · {primaryFarm.soil_type}</div>
-                  <div className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-full" style={{ background: primaryFarm.has_irrigation ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)", color: primaryFarm.has_irrigation ? "#16a34a" : "#b45309" }}>
+                <div className="flex-1 space-y-1 min-h-0 overflow-hidden">
+                  <div className="font-bold text-sm truncate" style={{ color: "var(--text-primary)" }}>{primaryFarm.name}</div>
+                  <div className="text-[11px] font-medium truncate" style={{ color: "var(--text-muted)" }}>{primaryFarm.area_hectares} ha · {primaryFarm.soil_type}</div>
+                  <div className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 shrink-0" style={{ background: primaryFarm.has_irrigation ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)", color: primaryFarm.has_irrigation ? "#16a34a" : "#b45309" }}>
                     {primaryFarm.has_irrigation ? "✓ Irrigated" : "Rainfed"}
                   </div>
                 </div>
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center gap-1.5 text-center">
-                  <span className="text-2xl">🌱</span>
-                  <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>No farm added</span>
+                <div className="flex-1 flex flex-col items-center justify-center gap-1 text-center min-h-0">
+                  <span className="text-2xl shrink-0">🌱</span>
+                  <span className="text-[11px] font-medium" style={{ color: "var(--text-muted)" }}>No farm added</span>
                 </div>
               )}
-              <Link href={primaryFarm ? "/dashboard/crops" : "/dashboard/farm/new"} className="mt-2.5 text-center py-1.5 rounded-xl text-[10px] font-bold" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
-                {primaryFarm ? "Crop Advice →" : "Add Farm →"}
+              <Link href={primaryFarm ? "/dashboard/crops" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
+                {primaryFarm ? "Manage Farm →" : "Add Farm →"}
               </Link>
             </motion.div>
 
-            <motion.div {...f(0.14)} className="glass-card p-4 flex flex-col">
-              <div className="text-[9px] font-bold tracking-widest mb-2.5" style={{ color: "var(--text-dim)" }}>ALERTS</div>
-              <div className="flex-1 flex flex-col gap-1.5">
+            <motion.div {...f(0.14)} className="glass-card p-4 flex flex-col h-full hover:shadow-md transition-all overflow-hidden">
+              <div className="text-[9px] font-black tracking-widest mb-2 shrink-0" style={{ color: "var(--text-dim)" }}>ALERTS</div>
+              <div className="flex-1 flex flex-col items-center justify-center min-h-0 text-center">
                 {alerts.length > 0 ? (
-                  alerts.slice(0, 3).map((a: Alert, i: number) => (
-                    <div key={i} className="flex items-start gap-1.5">
-                      <AlertCircle size={10} className="flex-shrink-0 mt-0.5" style={{ color: "#f59e0b" }} />
-                      <span className="text-[10px] leading-tight line-clamp-2" style={{ color: "var(--text-muted)" }}>{a.message}</span>
+                  <>
+                    <div className="flex items-baseline gap-1" style={{ color: "#d97706" }}>
+                      <span className="text-4xl font-black leading-none">{alerts.length}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Active</span>
                     </div>
-                  ))
+                    <span className="text-[10px] font-medium mt-1" style={{ color: "var(--text-muted)" }}>Action required</span>
+                  </>
                 ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center gap-1.5 text-center">
-                    <CheckCircle2 size={22} style={{ color: "#22c55e" }} />
-                    <span className="text-[10px] font-medium" style={{ color: "var(--text-muted)" }}>All clear</span>
-                  </div>
+                  <>
+                    <CheckCircle2 size={24} className="shrink-0 mb-1" style={{ color: "#22c55e" }} />
+                    <span className="text-[11px] font-bold" style={{ color: "var(--text-muted)" }}>All clear</span>
+                  </>
                 )}
               </div>
-              <Link href="/dashboard/alerts" className="mt-2.5 text-center py-1.5 rounded-xl text-[10px] font-bold" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
-                View alerts →
+              <Link href="/dashboard/alerts" className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
+                View all alerts →
               </Link>
             </motion.div>
           </div>
 
           {/* AI Recommendations */}
-          <motion.div {...f(0.18)} className="rounded-2xl p-4 relative overflow-hidden" style={{ background: "linear-gradient(135deg,#f0fdf4,#dcfce7)" }}>
+          <motion.div {...f(0.18)} className="rounded-3xl p-5 relative overflow-hidden flex-[1.2] flex flex-col min-h-0 shadow-sm hover:shadow-md transition-all border border-green-100" style={{ background: "linear-gradient(135deg,#f0fdf4,#dcfce7)" }}>
             <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-30 pointer-events-none" style={{ background: "radial-gradient(circle,#86efac,transparent)" }} />
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold" style={{ color: "#14532d" }}>🤖 AI Recommendations</span>
-                <Link href="/dashboard/chat" className="text-[10px] font-bold flex items-center gap-0.5" style={{ color: "#16a34a" }}>
+            <div className="relative z-10 flex flex-col h-full min-h-0">
+              <div className="flex items-center justify-between mb-3 shrink-0">
+                <span className="text-xs font-black flex items-center gap-1.5" style={{ color: "#14532d" }}><Brain size={14} className="text-green-600"/> AI Insights</span>
+                <Link href="/dashboard/chat" className="text-[10px] font-bold flex items-center gap-1 hover:underline shrink-0" style={{ color: "#16a34a" }}>
                   Ask AI <ArrowRight size={10} />
                 </Link>
               </div>
               {weather?.agricultural_advisory ? (
-                <div className="rounded-xl px-3 py-2 text-xs leading-relaxed" style={{ background: "rgba(255,255,255,0.7)", color: "#14532d" }}>{weather.agricultural_advisory}</div>
+                <div className="rounded-xl px-4 py-3 text-sm font-medium leading-relaxed shadow-sm bg-white/70 backdrop-blur-sm flex-1 overflow-hidden min-h-0" style={{ color: "#14532d" }}>
+                  <div className="line-clamp-4">{weather.agricultural_advisory}</div>
+                </div>
               ) : (
-                <div className="space-y-1.5">
-                  <div className="rounded-xl px-3 py-2 text-[11px]" style={{ background: "rgba(255,255,255,0.6)", color: "#166534" }}>
-                    💡 Apply <strong>5 kg urea</strong> before next rainfall.
+                <div className="flex-1 flex flex-col justify-end gap-2 min-h-0">
+                  <div className="rounded-xl px-3 py-2.5 text-xs font-medium shadow-sm bg-white/60 shrink-0 line-clamp-2" style={{ color: "#166534" }}>
+                    💡 Apply <strong className="text-green-800">5 kg urea</strong> before next rainfall.
                   </div>
-                  <Link href="/dashboard/crops" className="flex items-center justify-between rounded-xl px-3 py-2 text-[11px] font-semibold group" style={{ background: "rgba(255,255,255,0.7)", color: "#14532d" }}>
-                    Get crop recommendation <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+                  <Link href="/dashboard/crops" className="flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold group shadow-sm bg-white/80 hover:bg-white transition-colors shrink-0" style={{ color: "#14532d" }}>
+                    <span className="truncate">Get crop recommendation</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform shrink-0 ml-1" />
                   </Link>
                 </div>
               )}
             </div>
           </motion.div>
 
-          {/* Quick actions */}
-          <motion.div {...f(0.22)} className="grid grid-cols-3 gap-2.5">
+          {/* Combined Features Grid */}
+          <motion.div {...f(0.22)} className="grid grid-cols-3 grid-rows-2 gap-3 flex-[1.5] min-h-0 shrink-0">
             {[
               { label: "Crop Advice", href: "/dashboard/crops", emoji: "🌾", bg: "#f0fdf4", border: "rgba(34,197,94,0.18)", color: "#15803d" },
               { label: "Disease Scan", href: "/dashboard/disease", emoji: "🔬", bg: "#fefce8", border: "rgba(202,138,4,0.18)", color: "#854d0e" },
               { label: "Ask AI", href: "/dashboard/chat", emoji: "💬", bg: "#f5f3ff", border: "rgba(124,58,237,0.15)", color: "#6d28d9" },
+              { label: "Schemes", href: "/dashboard/schemes", emoji: "🛡️", bg: "#f0fdfa", border: "rgba(20,184,166,0.18)", color: "#0f766e" },
+              { label: "Market Rates", href: "/dashboard/market", emoji: "📈", bg: "#fff7ed", border: "rgba(249,115,22,0.18)", color: "#c2410c" },
+              { label: "Agri News", href: "/dashboard/news", emoji: "📰", bg: "#f8fafc", border: "rgba(100,116,139,0.18)", color: "#334155" },
             ].map((item) => (
-              <Link key={item.label} href={item.href} className="flex flex-col gap-2 p-3 rounded-xl group transition-all hover:scale-[1.03] hover:shadow-md" style={{ background: item.bg, border: `1px solid ${item.border}` }}>
-                <span className="text-xl">{item.emoji}</span>
-                <span className="text-[11px] font-semibold leading-tight" style={{ color: item.color }}>{item.label}</span>
+              <Link key={item.label} href={item.href} className="flex flex-col items-center justify-center gap-1 p-2 rounded-2xl group transition-all hover:scale-[1.03] hover:shadow-md text-center min-h-0 h-full overflow-hidden" style={{ background: item.bg, border: `1px solid ${item.border}` }}>
+                <span className="text-2xl transform group-hover:scale-110 transition-transform shrink-0">{item.emoji}</span>
+                <span className="text-[10px] font-black leading-tight truncate w-full px-1" style={{ color: item.color }}>{item.label}</span>
               </Link>
             ))}
           </motion.div>
-
-          {/* Feature links */}
-          <div className="grid grid-cols-3 gap-2.5">
-            {[
-              { icon: Shield, title: "Schemes", sub: "3 eligible", href: "/dashboard/schemes" },
-              { icon: TrendingUp, title: "Market", sub: "Live rates", href: "/dashboard/market" },
-              { icon: Newspaper, title: "News", sub: "Latest", href: "/dashboard/news" },
-            ].map((s, i) => (
-              <motion.div key={s.title} {...f(0.26 + i * 0.04)}>
-                <Link href={s.href} className="glass-card p-3 flex flex-col gap-1.5 group transition-all hover:scale-[1.02]">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110" style={{ background: "rgba(34,197,94,0.1)" }}>
-                    <s.icon size={15} style={{ color: "#16a34a" }} />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold" style={{ color: "var(--text-primary)" }}>{s.title}</div>
-                    <div className="text-[10px]" style={{ color: "var(--text-muted)" }}>{s.sub}</div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </div>
     </div>

@@ -37,18 +37,26 @@ class WeatherService:
         except Exception as e:
             logger.warning(f"Redis unavailable, fetching live weather: {e}")
 
-        async with httpx.AsyncClient(timeout=10) as client:
-            url = "https://api.open-meteo.com/v1/forecast"
-            params = {
-                "latitude": lat,
-                "longitude": lon,
-                "current": "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day",
-                "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max",
-                "timezone": "auto"
+        try:
+            async with httpx.AsyncClient(timeout=10) as client:
+                url = "https://api.open-meteo.com/v1/forecast"
+                params = {
+                    "latitude": lat,
+                    "longitude": lon,
+                    "current": "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day",
+                    "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max",
+                    "timezone": "auto"
+                }
+                resp = await client.get(url, params=params)
+                resp.raise_for_status()
+                data = resp.json()
+        except Exception as e:
+            logger.error(f"Weather API request failed: {e}")
+            # Fallback data if Open-Meteo is completely down or times out
+            data = {
+                "current": {"temperature_2m": 25, "relative_humidity_2m": 50, "apparent_temperature": 25, "precipitation": 0, "weather_code": 0, "wind_speed_10m": 5, "is_day": 1},
+                "daily": {"time": [], "temperature_2m_max": [], "temperature_2m_min": [], "precipitation_sum": [], "precipitation_probability_max": [], "uv_index_max": [], "weather_code": []}
             }
-            resp = await client.get(url, params=params)
-            resp.raise_for_status()
-            data = resp.json()
 
         try:
             r = await self._get_redis()

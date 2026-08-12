@@ -194,6 +194,29 @@ export const alertApi = {
   markAllRead: () => api.put("/alerts/read-all"),
 };
 
+export interface MarketRate {
+  state: string;
+  district: string;
+  market: string;
+  commodity: string;
+  variety: string;
+  grade: string;
+  arrival_date: string;
+  min_price: string;
+  max_price: string;
+  modal_price: string;
+}
+
+export interface MarketResponse {
+  records: MarketRate[];
+  total?: number;
+}
+
+export const marketApi = {
+  getRates: (params: { state?: string; district?: string; commodity?: string; market?: string; offset?: number; limit?: number }) =>
+    api.get<MarketResponse>("/market/rates", { params }),
+};
+
 export const healthApi = {
   check: () => api.get("/health"),
 };
