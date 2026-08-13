@@ -60,3 +60,5 @@ tenacity
 pytest
 pytest-asyncio
 httpx
+feedparser
+beautifulsoup4

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useQueryClient } from "@tanstack/react-query";
+import { newsApi } from "@/lib/api";
 import {
   LayoutDashboard, Sprout, Camera, CloudRain,
   TrendingUp, Shield, Newspaper, MessageSquare,
@@ -29,6 +31,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (user) {
+      queryClient.prefetchQuery({
+        queryKey: ["news"],
+        queryFn: async () => {
+          const { data } = await newsApi.getNews();
+          return data;
+        },
+        staleTime: 10 * 60 * 1000, // 10 mins
+      });
+    }
+  }, [user, queryClient]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);

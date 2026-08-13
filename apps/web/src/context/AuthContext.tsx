@@ -50,7 +50,7 @@ interface AuthContextValue {
   profile: FarmerProfile | null;
   loading: boolean;
   idToken: string | null;
-  signInGoogle: () => Promise<void>;
+  signInGoogle: () => Promise<{ onboardingComplete: boolean }>;
   signInEmail: (email: string, password: string) => Promise<void>;
   registerEmail: (email: string, password: string, name: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -150,7 +150,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
+      return { onboardingComplete: false };
     }
+    const data = snap.data();
+    return { onboardingComplete: data?.onboardingComplete || false };
   };
 
   const handleSignInEmail = async (email: string, password: string) => {

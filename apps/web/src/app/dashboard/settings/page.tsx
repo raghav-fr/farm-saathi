@@ -87,7 +87,7 @@ export default function SettingsPage() {
                 </label>
                 <CustomSelect
                    value={language}
-                   onChange={setLanguage}
+                   onChange={(val) => setLanguage(val as "en" | "hi" | "od")}
                    options={[
                      { value: "en", label: "English" },
                      { value: "hi", label: "हिंदी (Hindi)" },

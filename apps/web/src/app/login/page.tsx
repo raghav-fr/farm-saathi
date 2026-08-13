@@ -38,8 +38,25 @@ export default function LoginPage() {
     setError("");
     setIsSubmitting(true);
     try {
-      await signInGoogle();
-      router.push("/dashboard");
+      const { onboardingComplete } = await signInGoogle();
+      if (onboardingComplete) {
+        router.push("/dashboard");
+        return;
+      }
+
+      // Fallback: Check if farm is already available via API
+      try {
+        const { farmApi } = await import("@/lib/api");
+        const { data: farms } = await farmApi.list();
+        if (farms && farms.length > 0) {
+          router.push("/dashboard");
+          return;
+        }
+      } catch (e) {
+        console.error("Failed to check farms:", e);
+      }
+
+      router.push("/dashboard/onboarding");
     } catch (err: any) {
       setError(err?.message || "Google sign-in failed.");
     } finally {

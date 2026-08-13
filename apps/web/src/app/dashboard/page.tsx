@@ -27,9 +27,17 @@ function conditionEmoji(c?: string) {
 export default function DashboardPage() {
   const { user, profile } = useAuth();
   const [farms, setFarms] = useState<any[]>([]);
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState<Date | null>(null);
   const [deviceLat, setDeviceLat] = useState<number | null>(null);
   const [deviceLon, setDeviceLon] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setTime(new Date());
+    const t = setInterval(() => setTime(new Date()), 60000);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -52,10 +60,7 @@ export default function DashboardPage() {
     );
   }, [user]);
 
-  useEffect(() => {
-    const t = setInterval(() => setTime(new Date()), 60000);
-    return () => clearInterval(t);
-  }, []);
+
 
   const primaryFarm = farms[0];
   const weatherLat = deviceLat || primaryFarm?.latitude || 20.29;
@@ -80,6 +85,7 @@ export default function DashboardPage() {
   const firstName = profile?.name?.split(" ")[0] || user?.displayName?.split(" ")[0] || "Farmer";
 
   const greet = () => {
+    if (!time) return "Welcome";
     const h = time.getHours();
     if (h < 12) return "Good morning";
     if (h < 17) return "Good afternoon";
@@ -103,9 +109,11 @@ export default function DashboardPage() {
             <em style={{ color: "var(--text-muted)", fontStyle: "italic" }}>{firstName}</em>
           </h1>
           <p className="text-xs mt-0.5 flex items-center gap-1.5" style={{ color: "var(--text-muted)" }}>
-            {time.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-            {profile?.district && (
-              <><span className="opacity-40">·</span><MapPin size={10} />{profile.district}, {profile.state}</>
+            <span suppressHydrationWarning>{time ? time.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "Loading..."}</span>
+            {profile?.district && profile?.state && (
+              <span className="flex items-center gap-1.5">
+                <span className="opacity-40">·</span><MapPin size={10} />{profile.district}, {profile.state}
+              </span>
             )}
           </p>
         </motion.div>
@@ -157,10 +165,10 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between shrink-0">
               <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
                 <MapPin size={12} />
-                {weather?.location ? `${weather.location.name}, ${weather.location.region}` : profile?.district ? `${profile.district}, ${profile.state}` : "Your Location"}
+                {weather?.location ? [weather.location.name, weather.location.region].filter(Boolean).join(", ") : profile?.district ? [profile.district, profile.state].filter(Boolean).join(", ") : "Your Location"}
               </div>
-              <span className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }}>
-                {time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
+              <span className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }} suppressHydrationWarning>
+                {time ? time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "--:--"}
               </span>
             </div>
 

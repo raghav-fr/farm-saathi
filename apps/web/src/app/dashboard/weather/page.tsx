@@ -79,7 +79,7 @@ export default function WeatherPage() {
                     {weather.current.condition}
                   </div>
                   <div className="flex items-center gap-1.5 text-sm" style={{ color: "var(--text-muted)" }}>
-                    <MapPin size={14} /> {weather.location.name}, {weather.location.region}
+                    <MapPin size={14} /> {[weather.location.name, weather.location.region].filter(Boolean).join(", ") || "Your Location"}
                   </div>
                 </div>
               </div>

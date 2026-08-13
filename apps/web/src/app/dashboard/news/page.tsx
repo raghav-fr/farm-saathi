@@ -4,34 +4,19 @@ import { useState } from "react";
 import { Newspaper, ExternalLink, Calendar, Search, Loader2 } from "lucide-react";
 import { newsApi, type Article } from "@/lib/api";
 import { PageHeader, PageShell } from "@/components/PageHeader";
-
-// Mock news data
-const MOCK_NEWS = [
-  {
-    title: "Monsoon expected to reach Odisha coast by June 15",
-    source: "IMD Weather Bulletin",
-    date: "2 hours ago",
-    category: "Weather",
-    excerpt: "The southwest monsoon is advancing steadily and is expected to cover most parts of Odisha within the next 48 hours. Farmers are advised to prepare fields for Kharif sowing."
-  },
-  {
-    title: "Govt increases MSP for Paddy by ₹117 for 2024-25 season",
-    source: "Ministry of Agriculture",
-    date: "1 day ago",
-    category: "Policy",
-    excerpt: "The Cabinet Committee on Economic Affairs has approved the increase in the Minimum Support Prices (MSP) for all mandated Kharif crops for the marketing season 2024-25."
-  },
-  {
-    title: "New pest resistant cotton variety released by ICAR",
-    source: "ICAR News",
-    date: "3 days ago",
-    category: "Research",
-    excerpt: "The Indian Council of Agricultural Research has developed a new high-yielding, pest-resistant variety of cotton suitable for central and southern zones."
-  },
-];
+import { useQuery } from "@tanstack/react-query";
 
 export default function NewsPage() {
   const [filter, setFilter] = useState("All");
+  
+  const { data: news = [], isLoading, isError } = useQuery({
+    queryKey: ["news"],
+    queryFn: async () => {
+      const { data } = await newsApi.getNews();
+      return data;
+    },
+    staleTime: 10 * 60 * 1000,
+  });
   
   return (
     <PageShell>
@@ -50,27 +35,36 @@ export default function NewsPage() {
       </div>
 
       <div className="space-y-4">
-         {MOCK_NEWS.filter(n => filter === "All" || n.category === filter).map((news, i) => (
-            <div key={i} className="glass-card p-5 hover:border-green-500 transition-colors">
+         {isLoading && (
+           <div className="flex justify-center p-10"><Loader2 className="animate-spin text-green-500" size={32} /></div>
+         )}
+         {isError && (
+           <div className="text-red-400 text-center p-10 bg-red-500/10 rounded-xl border border-red-500/20">Failed to load news. Please try again later.</div>
+         )}
+         {!isLoading && !isError && news.filter((n: Article) => filter === "All" || n.category === filter).length === 0 && (
+           <div className="text-gray-400 text-center p-10">No news articles found for this category.</div>
+         )}
+         {news.filter((n: Article) => filter === "All" || n.category === filter).map((newsItem: Article, i: number) => (
+            <a href={newsItem.link} target="_blank" rel="noreferrer" key={i} className="glass-card p-5 hover:border-green-500 transition-colors block">
                <div className="flex items-center gap-3 mb-3">
-                  <span className="badge badge-info">{news.category}</span>
-                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>{news.date}</span>
+                  <span className="badge badge-info">{newsItem.category}</span>
+                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>{newsItem.date}</span>
                </div>
                
-               <h3 className="font-outfit font-bold text-lg mb-2">{news.title}</h3>
+               <h3 className="font-outfit font-bold text-lg mb-2">{newsItem.title}</h3>
                <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--text-muted)" }}>
-                  {news.excerpt}
+                  {newsItem.excerpt}
                </p>
                
                <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "var(--border)" }}>
                   <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
-                     <Newspaper size={14} /> {news.source}
+                     <Newspaper size={14} /> {newsItem.source}
                   </div>
                   <button className="btn-ghost text-xs flex items-center gap-1">
                      Read Full <ExternalLink size={12} />
                   </button>
                </div>
-            </div>
+            </a>
          ))}
       </div>
     </PageShell>

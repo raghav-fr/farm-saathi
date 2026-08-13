@@ -222,4 +222,17 @@ export const healthApi = {
   check: () => api.get("/health"),
 };
 
+export interface Article {
+  title: string;
+  source: string;
+  date: string;
+  category: string;
+  excerpt: string;
+  link: string;
+}
+
+export const newsApi = {
+  getNews: () => api.get<Article[]>("/news"),
+};
+
 export default api;

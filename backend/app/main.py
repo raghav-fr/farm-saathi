@@ -70,7 +70,7 @@ app.add_middleware(
 
 
 # ── Routers ───────────────────────────────────────────────────────────────────
-from app.api import alerts, chatbot, crops, disease, farmer, farms, weather, market
+from app.api import alerts, chatbot, crops, disease, farmer, farms, weather, market, news
 
 app.include_router(farmer.router, prefix="/api/v1")
 app.include_router(farms.router, prefix="/api/v1")
@@ -80,6 +80,7 @@ app.include_router(weather.router, prefix="/api/v1")
 app.include_router(chatbot.router, prefix="/api/v1")
 app.include_router(alerts.router, prefix="/api/v1")
 app.include_router(market.router, prefix="/api/v1")
+app.include_router(news.router, prefix="/api/v1")
 
 
 # ── Health endpoints ──────────────────────────────────────────────────────────

@@ -221,7 +221,7 @@ async def list_disease_scans(uid: str, farm_id: Optional[str] = None) -> list[di
         .limit(20)
     )
     if farm_id:
-        query = query.where("farmId", "==", farm_id)
+        query = query.where(filter=firestore.FieldFilter("farmId", "==", farm_id))
     return [s.to_dict() async for s in query.stream()]
 
 
@@ -256,7 +256,7 @@ async def list_alerts(uid: str, unread_only: bool = False) -> list[dict]:
         .limit(50)
     )
     if unread_only:
-        query = query.where("read", "==", False)
+        query = query.where(filter=firestore.FieldFilter("read", "==", False))
     return [s.to_dict() async for s in query.stream()]
 
 

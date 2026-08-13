@@ -50,18 +50,24 @@ export default function ActiveCropsPage() {
   const handleAddCrop = async () => {
     if (!newCrop.name || !selectedFarmId) return;
     try {
-      await cropApi.addCrop(selectedFarmId, {
+      const payload: any = {
         crop_name: newCrop.name,
-        variety: newCrop.variety || undefined,
-        sowing_date: newCrop.plantedDate ? new Date(newCrop.plantedDate).toISOString().split('T')[0] : undefined,
         stage: "vegetative"
-      });
+      };
+      if (newCrop.variety) payload.variety = newCrop.variety;
+      if (newCrop.plantedDate) {
+        payload.sowing_date = new Date(newCrop.plantedDate).toISOString().split('T')[0];
+      }
+      
+      await cropApi.addCrop(selectedFarmId, payload);
       setIsAdding(false);
       setNewCrop({ name: "", variety: "", plantedDate: "" });
       loadCrops(selectedFarmId);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to add crop");
+    } catch (err: any) {
+      console.error(err.response?.data || err);
+      const detail = err.response?.data?.detail;
+      const msg = Array.isArray(detail) ? JSON.stringify(detail) : (detail || "Failed to add crop");
+      alert(msg);
     }
   };
 
