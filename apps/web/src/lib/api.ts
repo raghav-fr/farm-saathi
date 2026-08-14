@@ -155,6 +155,17 @@ export const cropApi = {
     api.get(`/crops/farms/${farmId}/crops`),
   updateCrop: (farmId: string, cropId: string, data: object) =>
     api.put(`/crops/farms/${farmId}/crops/${cropId}`, data),
+  deleteCrop: (farmId: string, cropId: string) =>
+    api.delete(`/crops/farms/${farmId}/crops/${cropId}`),
+  analyzeCropStage: (farmId: string, cropId: string, formData: FormData) =>
+    api.post<{
+      stage: string;
+      confidence: number;
+      recommendation: string;
+    }>(`/crops/farms/${farmId}/crops/${cropId}/analyze`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      timeout: 60000,
+    }),
 };
 
 export const diseaseApi = {
@@ -231,8 +242,16 @@ export interface Article {
   link: string;
 }
 
+export interface NewsResponse {
+  items: Article[];
+  total: number;
+  page: number;
+  limit: number;
+  has_more: boolean;
+}
+
 export const newsApi = {
-  getNews: () => api.get<Article[]>("/news"),
+  getNews: (page = 1, limit = 15) => api.get<NewsResponse>("/news", { params: { page, limit } }),
 };
 
 export default api;

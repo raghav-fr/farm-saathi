@@ -1,22 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Newspaper, ExternalLink, Calendar, Search, Loader2 } from "lucide-react";
 import { newsApi, type Article } from "@/lib/api";
 import { PageHeader, PageShell } from "@/components/PageHeader";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function NewsPage() {
   const [filter, setFilter] = useState("All");
   
-  const { data: news = [], isLoading, isError } = useQuery({
+  const { 
+    data, 
+    isLoading, 
+    isError, 
+    hasNextPage, 
+    fetchNextPage, 
+    isFetchingNextPage 
+  } = useInfiniteQuery({
     queryKey: ["news"],
-    queryFn: async () => {
-      const { data } = await newsApi.getNews();
+    queryFn: async ({ pageParam = 1 }) => {
+      const { data } = await newsApi.getNews(pageParam as number, 15);
       return data;
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.has_more ? lastPage.page + 1 : undefined,
     staleTime: 10 * 60 * 1000,
   });
+  
+  const news = data?.pages.flatMap(p => p.items) || [];
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isLoading || isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
+  );
   
   return (
     <PageShell>
@@ -66,6 +92,17 @@ export default function NewsPage() {
                </div>
             </a>
          ))}
+         
+         {/* Auto-loader boundary element */}
+         <div ref={loadMoreRef} className="h-4" />
+
+         {isFetchingNextPage && (
+           <div className="flex justify-center pt-2 pb-10">
+             <div className="flex items-center gap-2 text-sm text-green-500 bg-green-500/10 px-4 py-2 rounded-full">
+               <Loader2 className="animate-spin" size={16} /> Loading more...
+             </div>
+           </div>
+         )}
       </div>
     </PageShell>
   );

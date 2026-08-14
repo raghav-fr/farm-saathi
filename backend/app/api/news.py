@@ -16,10 +16,14 @@ _NEWS_CACHE: Dict[str, Any] = {
 CACHE_TTL = timedelta(minutes=30)
 
 RSS_FEEDS = [
+    # Google News Agriculture India
+    "https://news.google.com/rss/search?q=agriculture+india&hl=en-IN&gl=IN&ceid=IN:en",
+    # The Print Agriculture
+    "https://theprint.in/category/economy/agriculture/feed/",
+    # Krishi Jagran General News
+    "https://krishijagran.com/feeds/?cat=1",
     # The Hindu Agriculture
     "https://www.thehindu.com/sci-tech/agriculture/feeder/default.rss",
-    # Krishi Jagran General News
-    "https://krishijagran.com/feeds/?cat=1"
 ]
 
 def clean_html(raw_html: str) -> str:
@@ -53,7 +57,8 @@ def fetch_and_parse_feeds() -> List[Dict[str, str]]:
     for url in RSS_FEEDS:
         feed = feedparser.parse(url)
         source_title = feed.feed.get("title", "Agri News")
-        for entry in feed.entries[:10]:
+        # Fetch up to 40 articles per feed to build a large pool
+        for entry in feed.entries[:40]:
             raw_summary = entry.get("summary", "") or entry.get("description", "")
             excerpt = clean_html(raw_summary)
             if len(excerpt) > 150:
@@ -83,7 +88,7 @@ def fetch_and_parse_feeds() -> List[Dict[str, str]]:
     return articles
 
 @router.get("/")
-async def get_news():
+async def get_news(page: int = 1, limit: int = 15):
     now = datetime.now()
     if _NEWS_CACHE["last_fetched"] is None or now - _NEWS_CACHE["last_fetched"] > CACHE_TTL:
         # Fetch synchronously in a thread pool to avoid blocking async loop
@@ -91,4 +96,16 @@ async def get_news():
         _NEWS_CACHE["data"] = articles
         _NEWS_CACHE["last_fetched"] = now
     
-    return _NEWS_CACHE["data"]
+    start_idx = (page - 1) * limit
+    end_idx = start_idx + limit
+    
+    total = len(_NEWS_CACHE["data"])
+    items = _NEWS_CACHE["data"][start_idx:end_idx]
+    
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "has_more": end_idx < total
+    }

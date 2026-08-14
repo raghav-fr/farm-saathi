@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Sprout, Camera, Plus, Calendar, AlertCircle } from "lucide-react";
+import { Sprout, Camera, Plus, Calendar, AlertCircle, Trash2, X, Upload } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/PageHeader";
 import { useAuth } from "@/context/AuthContext";
 import { cropApi } from "@/lib/api";
@@ -20,6 +20,13 @@ export default function ActiveCropsPage() {
   
   // Form state
   const [newCrop, setNewCrop] = useState({ name: "", variety: "", plantedDate: "" });
+  
+  // Modal state
+  const [stageModal, setStageModal] = useState<{isOpen: boolean, cropId: string, cropName: string}>({ isOpen: false, cropId: "", cropName: "" });
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<{stage: string, recommendation: string} | null>(null);
+  const [manualStage, setManualStage] = useState<string>("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -68,6 +75,57 @@ export default function ActiveCropsPage() {
       const detail = err.response?.data?.detail;
       const msg = Array.isArray(detail) ? JSON.stringify(detail) : (detail || "Failed to add crop");
       alert(msg);
+    }
+  };
+  const handleDeleteCrop = async (cropId: string) => {
+    if (!confirm("Are you sure you want to delete this crop?")) return;
+    try {
+      await cropApi.deleteCrop(selectedFarmId, cropId);
+      loadCrops(selectedFarmId);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete crop");
+    }
+  };
+
+  const handleUpdateStage = async () => {
+    if (!manualStage && !analysisResult) return;
+    const stage = analysisResult ? analysisResult.stage : manualStage;
+    setIsUpdating(true);
+    try {
+      await cropApi.updateCrop(selectedFarmId, stageModal.cropId, { stage });
+      setStageModal({ isOpen: false, cropId: "", cropName: "" });
+      setAnalysisResult(null);
+      setManualStage("");
+      loadCrops(selectedFarmId);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update stage");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleCapturePhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    
+    setIsAnalyzing(true);
+    setAnalysisResult(null);
+    try {
+      const res = await cropApi.analyzeCropStage(selectedFarmId, stageModal.cropId, formData);
+      setAnalysisResult({
+        stage: res.data.stage,
+        recommendation: res.data.recommendation
+      });
+      loadCrops(selectedFarmId); // to update the stage shown on the card instantly
+    } catch (err) {
+      console.error(err);
+      alert("Failed to analyze image");
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
@@ -142,8 +200,13 @@ export default function ActiveCropsPage() {
                    ) : (
                      <Sprout size={56} className="text-green-500/20 drop-shadow-sm" />
                    )}
-                   <div className="absolute top-3 right-3 bg-white/95 dark:bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm text-green-700 dark:text-green-400 border border-green-500/20">
-                     {crop.stage || "Seedling"}
+                   <div className="absolute top-3 right-3 flex items-center gap-2">
+                     <div className="bg-white/95 dark:bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm text-green-700 dark:text-green-400 border border-green-500/20">
+                       {crop.stage || "Seedling"}
+                     </div>
+                     <button onClick={() => handleDeleteCrop(crop.id)} className="bg-white/95 dark:bg-black/80 backdrop-blur-md p-1.5 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-500/20 transition-all">
+                       <Trash2 size={14} />
+                     </button>
                    </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
@@ -164,13 +227,101 @@ export default function ActiveCropsPage() {
                       <Link href={`/dashboard/disease?crop=${crop.crop_name}`} className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-green-700 bg-green-50 hover:bg-green-100 transition-all dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/40 border border-green-500/10 hover:border-green-500/30">
                         <Camera size={16} /> Scan Image
                       </Link>
-                      <button className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40 border border-blue-500/10 hover:border-blue-500/30">
+                      <button onClick={() => setStageModal({isOpen: true, cropId: crop.id, cropName: crop.crop_name})} className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40 border border-blue-500/10 hover:border-blue-500/30">
                         Update Stage
                       </button>
                    </div>
                 </div>
              </motion.div>
            ))}
+        </div>
+      )}
+
+      {/* Update Stage / Analyze Modal */}
+      {stageModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-outfit font-black text-xl text-black dark:text-white">Update Stage: {stageModal.cropName}</h3>
+              <button onClick={() => { setStageModal({isOpen: false, cropId: "", cropName: ""}); setAnalysisResult(null); setManualStage(""); }} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-white transition-all">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Option 1: AI Camera Capture */}
+              <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-900/30 rounded-2xl p-5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 opacity-10">
+                  <Camera size={80} />
+                </div>
+                <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
+                  <Sprout size={18} /> Auto-Detect Stage
+                </h4>
+                <p className="text-sm text-blue-600/80 dark:text-blue-400/80 font-medium mb-4">
+                  Take a photo of your crop. Our AI will analyze its current growth stage and provide tailored recommendations.
+                </p>
+                <div className="relative">
+                  <input type="file" accept="image/*" capture="environment" onChange={handleCapturePhoto} disabled={isAnalyzing} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                  <button disabled={isAnalyzing} className="w-full btn-primary bg-blue-600 hover:bg-blue-700 border-blue-600 flex items-center justify-center gap-2 py-3 shadow-blue-500/20">
+                    {isAnalyzing ? (
+                      <><div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></div> Analyzing...</>
+                    ) : (
+                      <><Camera size={18} /> Capture Photo</>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Analysis Result */}
+              {analysisResult && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/30 rounded-2xl p-4">
+                  <div className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Detected Stage</div>
+                  <div className="font-black text-xl text-green-800 dark:text-green-300 capitalize mb-3">{analysisResult.stage}</div>
+                  <div className="text-sm text-green-700 dark:text-green-400 bg-white/50 dark:bg-black/20 p-3 rounded-xl border border-green-200 dark:border-green-900/50">
+                    <span className="font-bold">Recommendation:</span> {analysisResult.recommendation}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Option 2: Manual Update */}
+              {!analysisResult && (
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1"></div>
+                    <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">OR MANUAL UPDATE</div>
+                    <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1"></div>
+                  </div>
+                  <CustomSelect
+                    value={manualStage}
+                    onChange={setManualStage}
+                    options={[
+                      { value: "land_preparation", label: "Land Preparation" },
+                      { value: "sowing", label: "Sowing" },
+                      { value: "germination", label: "Germination" },
+                      { value: "vegetative", label: "Vegetative" },
+                      { value: "flowering", label: "Flowering" },
+                      { value: "fruiting", label: "Fruiting" },
+                      { value: "maturity", label: "Maturity" },
+                      { value: "harvest", label: "Harvest" },
+                    ]}
+                  />
+                  <button onClick={handleUpdateStage} disabled={!manualStage || isUpdating} className="w-full mt-3 btn-secondary py-3 flex items-center justify-center gap-2">
+                    {isUpdating ? (
+                      <><div className="w-4 h-4 rounded-full border-2 border-blue-600/30 border-t-blue-600 animate-spin"></div> Saving...</>
+                    ) : (
+                      <><Upload size={18} /> Save Manual Stage</>
+                    )}
+                  </button>
+                </div>
+              )}
+              
+              {analysisResult && (
+                <button onClick={() => { setStageModal({isOpen: false, cropId: "", cropName: ""}); setAnalysisResult(null); }} className="w-full btn-primary py-3">
+                  Done
+                </button>
+              )}
+            </div>
+          </motion.div>
         </div>
       )}
     </PageShell>

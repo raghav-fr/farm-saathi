@@ -63,14 +63,14 @@ export default function DashboardPage() {
 
 
   const primaryFarm = farms[0];
-  const weatherLat = deviceLat || primaryFarm?.latitude || 20.29;
-  const weatherLon = deviceLon || primaryFarm?.longitude || 85.82;
+  const weatherLat = primaryFarm?.latitude || deviceLat || 20.29;
+  const weatherLon = primaryFarm?.longitude || deviceLon || 85.82;
 
   const { data: weather } = useQuery<WeatherData>({
-    queryKey: ["weather", weatherLat, weatherLon],
+    queryKey: ["weather", weatherLat, weatherLon, profile?.language],
     queryFn: () =>
       weatherApi
-        .getCurrent(weatherLat, weatherLon)
+        .getCurrent(weatherLat, weatherLon, profile?.language || "en")
         .then((r) => r.data),
     enabled: true,
     staleTime: 30 * 60 * 1000,
@@ -105,14 +105,16 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between shrink-0">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="font-outfit font-bold" style={{ fontSize: "1.85rem", lineHeight: 1.2, color: "var(--text-primary)" }}>
-            {greet()},{" "}
+            <span>{greet()}</span>,{" "}
             <em style={{ color: "var(--text-muted)", fontStyle: "italic" }}>{firstName}</em>
           </h1>
           <p className="text-xs mt-0.5 flex items-center gap-1.5" style={{ color: "var(--text-muted)" }}>
-            <span suppressHydrationWarning>{time ? time.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "Loading..."}</span>
+            <span suppressHydrationWarning>
+              {time ? <span>{time.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span> : <span>Loading...</span>}
+            </span>
             {profile?.district && profile?.state && (
               <span className="flex items-center gap-1.5">
-                <span className="opacity-40">·</span><MapPin size={10} />{profile.district}, {profile.state}
+                <span className="opacity-40">·</span><MapPin size={10} /><span>{profile.district}, {profile.state}</span>
               </span>
             )}
           </p>
@@ -137,7 +139,9 @@ export default function DashboardPage() {
           style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}
         >
           <AlertTriangle size={14} className="flex-shrink-0" style={{ color: "#f59e0b" }} />
-          <span className="text-xs font-bold" style={{ color: "#92400e" }}>{alerts.length} alert{alerts.length > 1 ? "s" : ""}</span>
+          <span className="text-xs font-bold" style={{ color: "#92400e" }}>
+            <span>{alerts.length}</span> <span>alert{alerts.length === 1 ? "" : "s"}</span>
+          </span>
           <span className="text-xs truncate hidden sm:block flex-1" style={{ color: "var(--text-muted)" }}>{alerts[0]?.message}</span>
           <Link href="/dashboard/alerts" className="ml-auto text-xs font-bold flex items-center gap-1 flex-shrink-0" style={{ color: "#d97706" }}>
             View Details <ChevronRight size={12} />
@@ -165,21 +169,21 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between shrink-0">
               <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
                 <MapPin size={12} />
-                {weather?.location ? [weather.location.name, weather.location.region].filter(Boolean).join(", ") : profile?.district ? [profile.district, profile.state].filter(Boolean).join(", ") : "Your Location"}
+                {weather?.location ? <span>{[weather.location.name, weather.location.region].filter(Boolean).join(", ")}</span> : profile?.district ? <span>{[profile.district, profile.state].filter(Boolean).join(", ")}</span> : <span>Your Location</span>}
               </div>
-              <span className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }} suppressHydrationWarning>
-                {time ? time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "--:--"}
-              </span>
+              <div className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }} suppressHydrationWarning>
+                {time ? <span>{time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span> : <span>--:--</span>}
+              </div>
             </div>
 
             {/* Big temperature */}
             <div className="flex items-center justify-between mt-1 shrink-0">
               <div>
                 <div className="font-outfit font-black text-white leading-none" style={{ fontSize: "5rem", textShadow: "0 4px 24px rgba(0,0,0,0.2)" }}>
-                  {weather ? `${Math.round(weather.current.temperature_c)}°` : "—°"}
+                  {weather ? <span>{Math.round(weather.current.temperature_c)}°</span> : <span>—°</span>}
                 </div>
                 <div className="text-lg font-bold mt-1" style={{ color: "rgba(255,255,255,0.9)" }}>
-                  {weather?.current.condition || "Loading…"}
+                  {weather?.current.condition ? <span>{weather.current.condition}</span> : <span>Loading…</span>}
                 </div>
                 <div className="text-xs mt-0.5 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
                   Feels like {weather ? `${Math.round(weather.current.temperature_c - 2)}°C` : "—"}
@@ -203,10 +207,10 @@ export default function DashboardPage() {
             {/* Metrics strip */}
             <div className="grid grid-cols-4 gap-2 rounded-2xl p-4 shrink-0" style={{ background: "rgba(0,0,0,0.15)" }}>
               {[
-                { icon: Droplets, label: "Humidity", value: weather ? `${weather.current.humidity_pct}%` : "—" },
-                { icon: Wind, label: "Wind", value: weather ? `${Math.round(weather.current.wind_kph)} km/h` : "—" },
-                { icon: CloudRain, label: "Rain", value: weather ? `${weather.current.rainfall_mm}mm` : "—" },
-                { icon: Eye, label: "Visibility", value: "Good" },
+                { icon: Droplets, label: "Humidity", value: weather ? <span>{weather.current.humidity_pct}%</span> : <span>—</span> },
+                { icon: Wind, label: "Wind", value: weather ? <span>{Math.round(weather.current.wind_kph)} km/h</span> : <span>—</span> },
+                { icon: CloudRain, label: "Rain", value: weather ? <span>{weather.current.rainfall_mm}mm</span> : <span>—</span> },
+                { icon: Eye, label: "Visibility", value: <span>Good</span> },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col items-center gap-1 text-center">
                   <m.icon size={16} style={{ color: "rgba(255,255,255,0.55)" }} />
@@ -223,7 +227,7 @@ export default function DashboardPage() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-bold text-white truncate">{primaryFarm.name}</div>
                   <div className="text-[11px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>
-                    {primaryFarm.area_hectares} ha · {primaryFarm.soil_type} · {primaryFarm.has_irrigation ? "Irrigated" : "Rainfed"}
+                    <span>{primaryFarm.area_hectares} ha · {primaryFarm.soil_type} · {primaryFarm.has_irrigation ? "Irrigated" : "Rainfed"}</span>
                   </div>
                 </div>
               </div>
@@ -251,9 +255,11 @@ export default function DashboardPage() {
               {primaryFarm ? (
                 <div className="flex-1 space-y-1 min-h-0 overflow-hidden">
                   <div className="font-bold text-sm truncate" style={{ color: "var(--text-primary)" }}>{primaryFarm.name}</div>
-                  <div className="text-[11px] font-medium truncate" style={{ color: "var(--text-muted)" }}>{primaryFarm.area_hectares} ha · {primaryFarm.soil_type}</div>
+                  <div className="text-[11px] font-medium truncate" style={{ color: "var(--text-muted)" }}>
+                    {primaryFarm.area_hectares ? <span>{primaryFarm.area_hectares} ha · {primaryFarm.soil_type}</span> : <span>—</span>}
+                  </div>
                   <div className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 shrink-0" style={{ background: primaryFarm.has_irrigation ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)", color: primaryFarm.has_irrigation ? "#16a34a" : "#b45309" }}>
-                    {primaryFarm.has_irrigation ? "✓ Irrigated" : "Rainfed"}
+                    {primaryFarm.has_irrigation ? <span>✓ Irrigated</span> : <span>Rainfed</span>}
                   </div>
                 </div>
               ) : (
@@ -263,7 +269,7 @@ export default function DashboardPage() {
                 </div>
               )}
               <Link href={primaryFarm ? "/dashboard/farm" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
-                {primaryFarm ? "Manage Farm →" : "Add Farm →"}
+                {primaryFarm ? <span>Manage Farm →</span> : <span>Add Farm →</span>}
               </Link>
             </motion.div>
 

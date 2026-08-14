@@ -38,7 +38,7 @@ class WeatherService:
             logger.warning(f"Redis unavailable, fetching live weather: {e}")
 
         try:
-            async with httpx.AsyncClient(timeout=10) as client:
+            async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
                 url = "https://api.open-meteo.com/v1/forecast"
                 params = {
                     "latitude": lat,
@@ -147,7 +147,7 @@ class WeatherService:
         region_name = ""
         country_name = ""
         try:
-            async with httpx.AsyncClient(timeout=5) as client:
+            async with httpx.AsyncClient(timeout=5, follow_redirects=True) as client:
                 geo_resp = await client.get(
                     "https://api.bigdatacloud.net/data/reverse-geocode-client",
                     params={"latitude": lat, "longitude": lon, "localityLanguage": "en"}

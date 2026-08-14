@@ -40,9 +40,10 @@ export default function MarketPage() {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["marketRates", stateFilter, districtFilter],
     queryFn: async () => {
+      const dFilter = districtFilter && districtFilter.toLowerCase() !== "current location" ? districtFilter : undefined;
       const res = await marketApi.getRates({
         state: stateFilter || undefined,
-        district: districtFilter || undefined,
+        district: dFilter,
         limit: 50,
       });
       return res.data;

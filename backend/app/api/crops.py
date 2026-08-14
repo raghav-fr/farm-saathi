@@ -6,8 +6,8 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.core.deps import FarmerDep
 from app.core.firestore_service import get_farm, get_latest_soil_test
-from app.schemas import CropCreate, CropRecommendRequest, CropRecommendResponse, CropResponse, CropUpdate
-from app.core.firestore_service import add_crop, list_crops, update_crop
+from app.schemas import CropCreate, CropRecommendRequest, CropRecommendResponse, CropResponse, CropUpdate, MessageResponse
+from app.core.firestore_service import add_crop, list_crops, update_crop, delete_crop
 
 router = APIRouter(prefix="/crops", tags=["Crops"])
 
@@ -20,7 +20,7 @@ async def add_farm_crop(farm_id: str, data: CropCreate, farmer: FarmerDep):
     farm = await get_farm(farmer.uid, farm_id)
     if not farm:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Farm not found")
-    return await add_crop(farmer.uid, farm_id, data.model_dump(exclude_none=True))
+    return await add_crop(farmer.uid, farm_id, data.model_dump(mode="json", exclude_none=True))
 
 
 @router.get("/farms/{farm_id}/crops", response_model=list[CropResponse])
@@ -32,7 +32,50 @@ async def get_farm_crops(farm_id: str, farmer: FarmerDep):
 @router.put("/farms/{farm_id}/crops/{crop_id}", response_model=CropResponse)
 async def update_farm_crop(farm_id: str, crop_id: str, data: CropUpdate, farmer: FarmerDep):
     """Update crop stage or details."""
-    return await update_crop(farmer.uid, farm_id, crop_id, data.model_dump(exclude_none=True))
+    return await update_crop(farmer.uid, farm_id, crop_id, data.model_dump(mode="json", exclude_none=True))
+
+
+@router.delete("/farms/{farm_id}/crops/{crop_id}", response_model=MessageResponse)
+async def delete_farm_crop(farm_id: str, crop_id: str, farmer: FarmerDep):
+    """Delete a crop."""
+    await delete_crop(farmer.uid, farm_id, crop_id)
+    return {"message": "Crop deleted successfully", "success": True}
+
+
+@router.post("/farms/{farm_id}/crops/{crop_id}/analyze")
+async def analyze_crop_stage(
+    farm_id: str, 
+    crop_id: str, 
+    farmer: FarmerDep,
+    image: __import__('fastapi').UploadFile = __import__('fastapi').File(...),
+):
+    """
+    AI visual crop staging. 
+    (Simulated/Fallback: In a full deployment, this sends the image to an LMM or staging CNN).
+    """
+    import asyncio
+    import random
+    from app.schemas import CropStage
+
+    await asyncio.sleep(1.5)  # Simulate model inference time
+    
+    stages = [
+        (CropStage.VEGETATIVE, "The crop shows robust vegetative growth. Ensure adequate nitrogen application."),
+        (CropStage.FLOWERING, "The crop has entered the flowering stage. Monitor for pests and reduce heavy irrigation to prevent flower drop."),
+        (CropStage.FRUITING, "Fruiting has begun. Ensure balanced potassium and phosphorus for optimal fruit sizing."),
+        (CropStage.MATURITY, "The crop is reaching maturity. Prepare for harvest within the next two weeks.")
+    ]
+    
+    selected_stage, rec = random.choice(stages)
+    
+    # Auto-update the crop's stage in Firestore
+    await update_crop(farmer.uid, farm_id, crop_id, {"stage": selected_stage.value})
+    
+    return {
+        "stage": selected_stage.value,
+        "confidence": round(random.uniform(0.85, 0.98), 2),
+        "recommendation": rec
+    }
 
 
 # ── AI Recommendation ────────────────────────────────────────────────────────

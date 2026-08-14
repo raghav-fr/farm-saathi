@@ -25,7 +25,7 @@ async def onboard_farmer(data: FarmerProfileCreate, farmer: FarmerDep):
         {
             "uid": farmer.uid,
             "email": farmer.email,
-            **data.model_dump(exclude_none=True),
+            **data.model_dump(mode="json", exclude_none=True),
         },
     )
     return profile
@@ -54,6 +54,6 @@ async def update_my_profile(data: FarmerProfileUpdate, farmer: FarmerDep):
         )
     updated = await create_or_update_farmer_profile(
         farmer.uid,
-        data.model_dump(exclude_none=True),
+        data.model_dump(mode="json", exclude_none=True),
     )
     return updated

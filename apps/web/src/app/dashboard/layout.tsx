@@ -35,12 +35,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     if (user) {
-      queryClient.prefetchQuery({
+      queryClient.prefetchInfiniteQuery({
         queryKey: ["news"],
-        queryFn: async () => {
-          const { data } = await newsApi.getNews();
+        queryFn: async ({ pageParam = 1 }) => {
+          const { data } = await newsApi.getNews(pageParam as number, 15);
           return data;
         },
+        initialPageParam: 1,
         staleTime: 10 * 60 * 1000, // 10 mins
       });
     }
@@ -209,15 +210,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* ── Page Content ─────────────────────────────────────────────── */}
       <main className="flex-1">
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="min-h-full max-w-screen-2xl mx-auto"
-        >
-          {children}
-        </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            className="min-h-full max-w-screen-2xl mx-auto"
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </main>
     </div>
   );

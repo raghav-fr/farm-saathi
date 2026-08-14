@@ -29,7 +29,7 @@ router = APIRouter(prefix="/farms", tags=["Farms"])
 @router.post("", response_model=FarmResponse, status_code=status.HTTP_201_CREATED)
 async def create_new_farm(data: FarmCreate, farmer: FarmerDep):
     """Create a new farm for the authenticated farmer."""
-    farm = await create_farm(farmer.uid, data.model_dump())
+    farm = await create_farm(farmer.uid, data.model_dump(mode="json"))
     return farm
 
 
@@ -54,7 +54,7 @@ async def update_my_farm(farm_id: str, data: FarmUpdate, farmer: FarmerDep):
     farm = await get_farm(farmer.uid, farm_id)
     if not farm:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Farm not found")
-    return await update_farm(farmer.uid, farm_id, data.model_dump(exclude_none=True))
+    return await update_farm(farmer.uid, farm_id, data.model_dump(mode="json", exclude_none=True))
 
 
 @router.delete("/{farm_id}", response_model=MessageResponse)
@@ -73,7 +73,7 @@ async def submit_soil_test(farm_id: str, data: SoilTestCreate, farmer: FarmerDep
     farm = await get_farm(farmer.uid, farm_id)
     if not farm:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Farm not found")
-    return await add_soil_test(farmer.uid, farm_id, data.model_dump(exclude_none=True))
+    return await add_soil_test(farmer.uid, farm_id, data.model_dump(mode="json", exclude_none=True))
 
 
 @router.get("/{farm_id}/soil-test/latest", response_model=SoilTestResponse)
