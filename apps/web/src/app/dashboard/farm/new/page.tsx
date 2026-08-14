@@ -165,7 +165,7 @@ export default function AddFarmPage() {
                   style={{ background: latitude ? "rgba(195, 245, 60, 0.2)" : "rgba(0,0,0,0.03)", color: latitude ? "#65a30d" : "#000", border: latitude ? "1px solid #c3f53c" : "1px solid rgba(0,0,0,0.1)" }}
                 >
                   {isLocating ? <Loader2 size={16} className="animate-spin" /> : <MapPin size={16} />}
-                  {latitude ? "Location Acquired" : "Get Current Location"}
+                  {latitude ? <span key="acq">Location Acquired</span> : <span key="get">Get Current Location</span>}
                 </button>
                 {latitude && (
                   <div className="text-xs font-medium text-gray-500 min-w-[80px]">

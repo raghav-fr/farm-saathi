@@ -138,6 +138,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold text-white flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
+                  key={initials}
                 >
                   {initials}
                 </div>
@@ -146,8 +147,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {/* Dropdown */}
               <div className="absolute right-0 top-12 w-52 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-white border border-gray-100">
                 <div className="px-4 py-3 border-b border-gray-100">
-                  <div className="text-sm font-semibold text-gray-900">{profile?.name || user.displayName}</div>
-                  <div className="text-xs mt-0.5 truncate text-gray-500">{user.email}</div>
+                  <div className="text-sm font-semibold text-gray-900" key={profile?.name || user.displayName}>{profile?.name || user.displayName}</div>
+                  <div className="text-xs mt-0.5 truncate text-gray-500" key={user.email}>{user.email}</div>
                 </div>
                 <div className="py-1">
                   <Link href="/dashboard/farm" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">

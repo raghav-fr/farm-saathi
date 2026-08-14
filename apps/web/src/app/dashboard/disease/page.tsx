@@ -357,7 +357,7 @@ export default function DiseasePage() {
                       }}
                     >
                       {fb === "helpful" ? <ThumbsUp size={12} /> : <ThumbsDown size={12} />}
-                      {fb === "helpful" ? "Yes" : "No"}
+                      {fb === "helpful" ? <span key="yes">Yes</span> : <span key="no">No</span>}
                     </button>
                   ))}
                 </div>

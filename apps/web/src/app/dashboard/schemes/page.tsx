@@ -40,7 +40,7 @@ export default function SchemesPage() {
                      </div>
                      <div className={`badge ${scheme.eligible ? 'badge-success' : 'badge-warning'}`}>
                         {scheme.eligible ? <CheckCircle size={12} /> : <Info size={12} />}
-                        {scheme.eligible ? "Eligible" : "Check details"}
+                        {scheme.eligible ? <span key="elig">Eligible</span> : <span key="check">Check details</span>}
                      </div>
                   </div>
                   <div className="text-sm mt-3" style={{ color: "var(--text-primary)" }}>

@@ -207,7 +207,7 @@ export default function FarmPage() {
               )}
               <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
                 <button type="button" onClick={() => setEditingFarm(null)} className="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Cancel</button>
-                <button type="submit" disabled={isUpdating} className="btn-primary py-2 px-6 text-sm">{isUpdating ? "Saving..." : "Save Changes"}</button>
+                <button type="submit" disabled={isUpdating} className="btn-primary py-2 px-6 text-sm">{isUpdating ? <span key="saving">Saving...</span> : <span key="save">Save Changes</span>}</button>
               </div>
             </form>
           </motion.div>
