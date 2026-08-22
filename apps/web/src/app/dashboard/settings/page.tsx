@@ -49,9 +49,9 @@ export default function SettingsPage() {
              <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-white flex-shrink-0" style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}>
                 {name ? name[0].toUpperCase() : "F"}
              </div>
-             <div>
+             <div className="min-w-0 flex-1">
                 <div className="text-sm" style={{ color: "var(--text-muted)" }}>Email</div>
-                <div className="font-medium">{user?.email}</div>
+                <div className="font-medium truncate">{user?.email}</div>
              </div>
           </div>
 

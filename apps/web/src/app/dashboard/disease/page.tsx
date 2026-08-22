@@ -9,6 +9,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { diseaseApi, type DiseaseResult } from "@/lib/api";
 import { PageHeader, PageShell } from "@/components/PageHeader";
+import { FormattedText } from "@/components/FormattedText";
 import { uploadDiseaseScanImage } from "@/lib/firebase";
 
 const SEVERITY_COLORS = {
@@ -92,7 +93,7 @@ export default function DiseasePage() {
     <PageShell>
       <PageHeader title="Disease Detection" subtitle="Upload a clear leaf or plant photo for AI-powered diagnosis" icon="🔬" />
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* ── Upload panel ─────────────────────────────────────────── */}
         <div className="space-y-4">
           {/* Drop zone */}
@@ -298,7 +299,7 @@ export default function DiseasePage() {
                   style={{ background: "rgba(34,197,94,0.06)", border: "1px solid var(--border)" }}
                 >
                   <p className="font-medium gradient-text-green mb-1 text-xs">AI Explanation</p>
-                  {result.explanation}
+                  <FormattedText text={result.explanation} />
                 </div>
 
                 {/* Symptoms */}

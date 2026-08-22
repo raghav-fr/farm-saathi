@@ -82,45 +82,45 @@ export default function MarketPage() {
              onChange={(e) => setSearch(e.target.value)}
            />
          </div>
-         <div className="flex items-center gap-2">
-           <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-xl px-3 focus-within:ring-2 focus-within:ring-green-500/50 transition-all">
+         <div className="flex flex-wrap items-center gap-2">
+           <div className="flex-1 flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-xl px-3 focus-within:ring-2 focus-within:ring-green-500/50 transition-all">
              <SlidersHorizontal size={16} className="text-gray-400" />
              <input 
                type="text" 
                placeholder="State" 
-               className="bg-transparent border-none outline-none py-3 text-sm font-medium text-black dark:text-white w-24 md:w-32"
+               className="bg-transparent border-none outline-none py-3 text-sm font-medium text-black dark:text-white w-full md:w-32"
                value={stateFilter}
                onChange={(e) => setStateFilter(e.target.value)}
              />
            </div>
-           <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-xl px-3 focus-within:ring-2 focus-within:ring-green-500/50 transition-all">
+           <div className="flex-1 flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-xl px-3 focus-within:ring-2 focus-within:ring-green-500/50 transition-all">
              <input 
                type="text" 
                placeholder="District" 
-               className="bg-transparent border-none outline-none py-3 text-sm font-medium text-black dark:text-white w-24 md:w-32"
+               className="bg-transparent border-none outline-none py-3 text-sm font-medium text-black dark:text-white w-full md:w-32"
                value={districtFilter}
                onChange={(e) => setDistrictFilter(e.target.value)}
              />
            </div>
-           <button onClick={() => refetch()} className="btn-primary flex items-center justify-center w-12 h-11 shrink-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+           <button onClick={() => refetch()} className="btn-primary flex items-center justify-center w-full md:w-12 h-11 shrink-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
              <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
            </button>
          </div>
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
           <div className="w-12 h-12 rounded-full border-4 border-green-500/20 border-t-green-500 animate-spin"></div>
           <div className="text-sm font-bold text-gray-500">Fetching live mandi rates...</div>
         </div>
       ) : isError ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-3 text-red-500 bg-red-500/5 rounded-3xl border border-red-500/10">
+        <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-red-500 bg-red-500/5 rounded-3xl border border-red-500/10">
           <AlertCircle size={32} />
           <div className="font-bold">Failed to load market data</div>
           <div className="text-sm opacity-80">The data.gov.in service might be down. Please try again later.</div>
         </div>
       ) : filteredRecords.length === 0 ? (
-        <div className="text-center py-20 text-gray-500 bg-black/5 dark:bg-white/5 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700">
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-500 bg-black/5 dark:bg-white/5 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700">
           <div className="text-4xl mb-3">🏪</div>
           <div className="font-bold text-lg text-black dark:text-white">No market rates found</div>
           <div className="text-sm mt-1">Try adjusting your state or district filters.</div>

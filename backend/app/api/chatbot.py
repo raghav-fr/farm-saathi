@@ -40,14 +40,19 @@ async def chat(request: ChatRequest, farmer: FarmerDep):
         conv_id = conv["id"]
 
     # Save user message
+    user_msg_content = request.message
+    if request.image:
+        user_msg_content = request.message + "\n[Image Attached]"
+
     await add_message(
         farmer.uid,
         conv_id,
-        {"role": "user", "content": request.message, "language": request.language},
+        {"role": "user", "content": user_msg_content, "language": request.language},
     )
 
-    # Load farmer profile for context
+    # Load farmer profile and conversation history for context
     profile = await get_farmer_profile(farmer.uid)
+    chat_history = await list_messages(farmer.uid, conv_id)
 
     # Route and respond
     router_svc = QueryRouter()
@@ -57,6 +62,8 @@ async def chat(request: ChatRequest, farmer: FarmerDep):
         farm_id=request.farm_id,
         language=request.language,
         farmer_profile=profile,
+        chat_history=chat_history,
+        image_base64=request.image,
     )
 
     # Save assistant message
@@ -100,10 +107,4 @@ async def delete_conversation(conv_id: str, farmer: FarmerDep):
     from app.core.firebase import get_firestore_client
     db = get_firestore_client()
     from app.core.firestore_service import _now
-    await (
-        db.collection("farmers")
-        .document(farmer.uid)
-        .collection("conversations")
-        .document(conv_id)
-        .update({"deletedAt": _now()})
-    )
+    db.collection("farmers").document(farmer.uid).collection("conversations").document(conv_id).update({"deletedAt": _now()})

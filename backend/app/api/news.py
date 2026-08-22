@@ -87,6 +87,18 @@ def fetch_and_parse_feeds() -> List[Dict[str, str]]:
         
     return articles
 
+async def get_latest_news_internal(limit: int = 3) -> List[Dict[str, Any]]:
+    """Internal method to fetch cached news for the AI context."""
+    now = datetime.now()
+    if _NEWS_CACHE["last_fetched"] is None or now - _NEWS_CACHE["last_fetched"] > CACHE_TTL:
+        try:
+            articles = await asyncio.to_thread(fetch_and_parse_feeds)
+            _NEWS_CACHE["data"] = articles
+            _NEWS_CACHE["last_fetched"] = now
+        except Exception:
+            return []
+    return _NEWS_CACHE["data"][:limit]
+
 @router.get("/")
 async def get_news(page: int = 1, limit: int = 15):
     now = datetime.now()

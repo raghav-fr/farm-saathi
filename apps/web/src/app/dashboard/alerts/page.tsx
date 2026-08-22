@@ -22,12 +22,59 @@ export default function AlertsPage() {
 
   const markReadMutation = useMutation({
     mutationFn: (id: string) => alertApi.markRead(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["alerts"] }),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["alerts"] });
+      const previousAlerts = queryClient.getQueryData<Alert[]>(["alerts"]);
+      if (previousAlerts) {
+        queryClient.setQueryData<Alert[]>(["alerts"], previousAlerts.map(a => a.id === id ? { ...a, read: true } : a));
+      }
+      return { previousAlerts };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousAlerts) queryClient.setQueryData(["alerts"], context.previousAlerts);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      queryClient.invalidateQueries({ queryKey: ["alerts-unread"] });
+    },
   });
 
   const markAllReadMutation = useMutation({
     mutationFn: () => alertApi.markAllRead(),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["alerts"] }),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["alerts"] });
+      const previousAlerts = queryClient.getQueryData<Alert[]>(["alerts"]);
+      if (previousAlerts) {
+        queryClient.setQueryData<Alert[]>(["alerts"], previousAlerts.map(a => ({ ...a, read: true })));
+      }
+      return { previousAlerts };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousAlerts) queryClient.setQueryData(["alerts"], context.previousAlerts);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      queryClient.invalidateQueries({ queryKey: ["alerts-unread"] });
+    },
+  });
+
+  const deleteAlertMutation = useMutation({
+    mutationFn: (id: string) => alertApi.delete(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["alerts"] });
+      const previousAlerts = queryClient.getQueryData<Alert[]>(["alerts"]);
+      if (previousAlerts) {
+        queryClient.setQueryData<Alert[]>(["alerts"], previousAlerts.filter(a => a.id !== id));
+      }
+      return { previousAlerts };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousAlerts) queryClient.setQueryData(["alerts"], context.previousAlerts);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      queryClient.invalidateQueries({ queryKey: ["alerts-unread"] });
+    },
   });
 
   return (
@@ -41,10 +88,11 @@ export default function AlertsPage() {
             <button
               onClick={() => markAllReadMutation.mutate()}
               disabled={markAllReadMutation.isPending}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-80"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-80 disabled:opacity-50"
               style={{ background: "rgba(34,197,94,0.1)", color: "#16a34a" }}
             >
-              <Check size={14} /> Mark all as read
+              {markAllReadMutation.isPending ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />} 
+              {markAllReadMutation.isPending ? "Marking as read..." : "Mark all as read"}
             </button>
           ) : undefined
         }
@@ -81,15 +129,29 @@ export default function AlertsPage() {
                         <p className="text-sm mt-1" style={{ color: isUnread ? "var(--text-secondary)" : "var(--text-muted)" }}>{alert.message}</p>
                      </div>
                      
-                     {isUnread && (
+                     <div className="flex gap-2 items-center flex-shrink-0">
+                        {isUnread && (
+                           <button
+                              onClick={() => markReadMutation.mutate(alert.id)}
+                              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+                              title="Mark as read"
+                           >
+                              <Check size={16} style={{ color: "var(--brand-400)" }} />
+                           </button>
+                        )}
                         <button
-                           onClick={() => markReadMutation.mutate(alert.id)}
-                           className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-white/10 transition-colors"
-                           title="Mark as read"
+                           onClick={() => deleteAlertMutation.mutate(alert.id)}
+                           disabled={deleteAlertMutation.isPending && deleteAlertMutation.variables === alert.id}
+                           className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500/10 transition-colors text-gray-400 hover:text-red-500 disabled:opacity-50"
+                           title="Delete Alert"
                         >
-                           <Check size={16} style={{ color: "var(--brand-400)" }} />
+                           {deleteAlertMutation.isPending && deleteAlertMutation.variables === alert.id ? (
+                             <Loader2 size={16} className="animate-spin text-red-500" />
+                           ) : (
+                             <Trash2 size={16} />
+                           )}
                         </button>
-                     )}
+                     </div>
                   </div>
                );
             })}

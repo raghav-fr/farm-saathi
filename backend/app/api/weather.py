@@ -17,6 +17,7 @@ async def get_current_weather(
     lat: float = Query(..., ge=-90, le=90),
     lon: float = Query(..., ge=-180, le=180),
     language: str = Query("en"),
+    forceRefresh: bool = Query(False),
     farmer: FarmerDep = None,
 ):
     """
@@ -24,11 +25,11 @@ async def get_current_weather(
     for given GPS coordinates.
     """
     svc = WeatherService()
-    return await svc.get_weather_with_advisory(lat, lon, language=language)
+    return await svc.get_weather_with_advisory(lat, lon, language=language, force_refresh=forceRefresh)
 
 
 @router.get("/farm/{farm_id}", response_model=WeatherResponse)
-async def get_farm_weather(farm_id: str, farmer: FarmerDep):
+async def get_farm_weather(farm_id: str, farmer: FarmerDep, forceRefresh: bool = Query(False)):
     """
     Get weather for a specific farm (uses farm's stored GPS coordinates).
     """
@@ -44,4 +45,5 @@ async def get_farm_weather(farm_id: str, farmer: FarmerDep):
         farm["longitude"],
         language="en",
         crop_context=farm,
+        force_refresh=forceRefresh,
     )

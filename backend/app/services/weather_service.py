@@ -23,19 +23,20 @@ class WeatherService:
             self._redis = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
         return self._redis
 
-    async def get_raw_weather(self, lat: float, lon: float) -> dict:
+    async def get_raw_weather(self, lat: float, lon: float, force_refresh: bool = False) -> dict:
         """Fetch raw weather JSON from Open-Meteo API with Redis cache."""
         import asyncio
         
         cache_key = f"openmeteo_weather:{lat:.3f}:{lon:.3f}"
-        try:
-            r = await self._get_redis()
-            cached = await r.get(cache_key)
-            if cached:
-                logger.debug(f"Weather cache hit: {cache_key}")
-                return json.loads(cached)
-        except Exception as e:
-            logger.warning(f"Redis unavailable, fetching live weather: {e}")
+        if not force_refresh:
+            try:
+                r = await self._get_redis()
+                cached = await r.get(cache_key)
+                if cached:
+                    logger.debug(f"Weather cache hit: {cache_key}")
+                    return json.loads(cached)
+            except Exception as e:
+                logger.warning(f"Redis unavailable, fetching live weather: {e}")
 
         try:
             async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
@@ -53,7 +54,8 @@ class WeatherService:
         except Exception as e:
             logger.error(f"Weather API request failed: {e}")
             # Fallback data if Open-Meteo is completely down or times out
-            data = {
+            # Do NOT cache fallback data to ensure the 7-day forecast recovers immediately after network restores
+            return {
                 "current": {"temperature_2m": 25, "relative_humidity_2m": 50, "apparent_temperature": 25, "precipitation": 0, "weather_code": 0, "wind_speed_10m": 5, "is_day": 1},
                 "daily": {"time": [], "temperature_2m_max": [], "temperature_2m_min": [], "precipitation_sum": [], "precipitation_probability_max": [], "uv_index_max": [], "weather_code": []}
             }
@@ -89,6 +91,7 @@ class WeatherService:
         lon: float,
         language: str = "en",
         crop_context: Optional[dict] = None,
+        force_refresh: bool = False,
     ) -> dict:
         """Parse weather + generate agricultural advisory via LLM with full caching."""
         import json
@@ -97,16 +100,17 @@ class WeatherService:
         if crop_context:
             cache_key += f":{crop_context.get('crop_name', 'none')}"
             
-        try:
-            r = await self._get_redis()
-            cached = await r.get(cache_key)
-            if cached:
-                logger.debug(f"Weather advisory cache hit: {cache_key}")
-                return json.loads(cached)
-        except Exception:
-            pass
+        if not force_refresh:
+            try:
+                r = await self._get_redis()
+                cached = await r.get(cache_key)
+                if cached:
+                    logger.debug(f"Weather advisory cache hit: {cache_key}")
+                    return json.loads(cached)
+            except Exception:
+                pass
 
-        raw = await self.get_raw_weather(lat, lon)
+        raw = await self.get_raw_weather(lat, lon, force_refresh)
 
         curr = raw.get("current", {})
         daily = raw.get("daily", {})
@@ -171,7 +175,7 @@ class WeatherService:
             "current": current,
             "forecast": forecast,
             "agricultural_advisory": advisory,
-            "alerts": [],  # Google Weather doesn't natively include simple alerts string array in the same way, we can leave this empty or fetch alerts explicitly
+            "alerts": [],  # Alerts not natively included in basic Open-Meteo response
         }
 
         try:
@@ -213,9 +217,13 @@ Max temperature next 3 days: {max_temp_next_3:.1f}°C
 Generate a short, practical agricultural advisory (2-3 sentences) for the farmer.
 Focus on: irrigation needs, field operations timing, crop protection if needed.
 Respond in language: {language}
-Do not invent specific chemical recommendations. Keep it simple and actionable."""
+Do not invent specific chemical recommendations. Keep it simple and actionable.
+IMPORTANT: You MUST start your final advice with the exact phrase "FINAL ADVISORY:". Do not put anything else before it, or if you do, ensure your actual advice starts with "FINAL ADVISORY: "."""
 
-            return await llm.complete(prompt, max_tokens=200)
+            res = await llm.complete(prompt, max_tokens=500)
+            if "FINAL ADVISORY:" in res:
+                res = res.split("FINAL ADVISORY:")[-1].strip()
+            return res
         except Exception as e:
             logger.warning(f"LLM advisory failed, using fallback: {e}")
             return self._fallback_advisory(current, forecast)

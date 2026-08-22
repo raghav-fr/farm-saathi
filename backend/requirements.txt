@@ -5,6 +5,7 @@ pydantic-settings
 python-multipart
 python-dotenv
 httpx
+
 # Firebase Admin SDK
 firebase-admin
 
@@ -30,21 +31,6 @@ xgboost
 lightgbm
 joblib
 pillow
-onnxruntime
-torch
-torchvision
-timm
-
-# NLP / Embeddings
-sentence-transformers
-transformers
-tokenizers
-
-# RAG / Document processing
-pypdf
-langchain
-langchain-community
-langchain-core
 
 # Weather & external APIs
 pyowm
@@ -59,6 +45,5 @@ tenacity
 # Testing
 pytest
 pytest-asyncio
-httpx
 feedparser
 beautifulsoup4

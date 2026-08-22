@@ -10,7 +10,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1
 
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
-  timeout: 30000,
+  timeout: 90000, // Increased to 90s to support slow free-tier LLMs
   headers: { "Content-Type": "application/json" },
 });
 
@@ -179,10 +179,10 @@ export const diseaseApi = {
 };
 
 export const weatherApi = {
-  getCurrent: (lat: number, lon: number, language = "en") =>
-    api.get<WeatherData>("/weather/current", { params: { lat, lon, language } }),
-  getFarmWeather: (farmId: string) =>
-    api.get<WeatherData>(`/weather/farm/${farmId}`),
+  getCurrent: (lat: number, lon: number, language = "en", forceRefresh = false) =>
+    api.get<WeatherData>("/weather/current", { params: { lat, lon, language, forceRefresh } }),
+  getFarmWeather: (farmId: string, forceRefresh = false) =>
+    api.get<WeatherData>(`/weather/farm/${farmId}`, { params: { forceRefresh } }),
 };
 
 export const chatApi = {
@@ -191,12 +191,14 @@ export const chatApi = {
     conversation_id?: string;
     farm_id?: string;
     language?: string;
+    image?: string;
   }) => api.post<ChatResponse>("/chat", data),
   getConversations: () => api.get<Array<{ id: string; title: string; createdAt: string }>>("/chat/conversations"),
   getMessages: (convId: string) =>
-    api.get<Array<{ id: string; role: string; content: string; createdAt: string }>>(
+    api.get<Array<{ id: string; role: string; content: string; createdAt: string; image?: string; intent?: string; sources?: string[] }>>(
       `/chat/conversations/${convId}/messages`
     ),
+  deleteConversation: (convId: string) => api.delete(`/chat/conversations/${convId}`),
 };
 
 export const alertApi = {
@@ -204,6 +206,7 @@ export const alertApi = {
     api.get<Alert[]>("/alerts", { params: { unread_only: unreadOnly } }),
   markRead: (alertId: string) => api.put(`/alerts/${alertId}/read`),
   markAllRead: () => api.put("/alerts/read-all"),
+  delete: (alertId: string) => api.delete(`/alerts/${alertId}`),
 };
 
 export interface MarketRate {
@@ -252,6 +255,16 @@ export interface NewsResponse {
 
 export const newsApi = {
   getNews: (page = 1, limit = 15) => api.get<NewsResponse>("/news", { params: { page, limit } }),
+};
+
+export interface InsightResponse {
+  title: string;
+  severity: "low" | "medium" | "high";
+  insight: string;
+}
+
+export const insightsApi = {
+  getDaily: (forceRefresh = false) => api.get<InsightResponse>("/insights/daily", { params: { forceRefresh } }),
 };
 
 export default api;

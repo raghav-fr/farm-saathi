@@ -30,6 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const queryClient = useQueryClient();
 
@@ -59,6 +60,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     setMobileOpen(false);
+    setProfileOpen(false);
   }, [pathname]);
 
   if (loading) {
@@ -133,8 +135,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <span className="absolute top-2 right-2 w-[9px] h-[9px] bg-red-500 rounded-full border-[1.5px] border-white"></span>
             </Link>
             
-            <div className="relative group">
-              <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-black hover:bg-gray-50 transition-colors">
+            <div className="relative">
+              <button 
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-black hover:bg-gray-50 transition-colors"
+                onClick={() => setProfileOpen(!profileOpen)}
+              >
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold text-white flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
@@ -145,7 +150,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
               
               {/* Dropdown */}
-              <div className="absolute right-0 top-12 w-52 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-white border border-gray-100">
+              <div className={`absolute right-0 top-12 w-52 rounded-2xl shadow-xl py-2 transition-all duration-200 z-50 bg-white border border-gray-100 ${profileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <div className="px-4 py-3 border-b border-gray-100">
                   <div className="text-sm font-semibold text-gray-900" key={profile?.name || user.displayName}>{profile?.name || user.displayName}</div>
                   <div className="text-xs mt-0.5 truncate text-gray-500" key={user.email}>{user.email}</div>

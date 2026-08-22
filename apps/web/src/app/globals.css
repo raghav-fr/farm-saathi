@@ -88,6 +88,14 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb { background: var(--brand-700); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--brand-500); }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* ─── Glass morphism card ────────────────────────────────────────────────── */
 .glass-card {
   background: #ffffff;

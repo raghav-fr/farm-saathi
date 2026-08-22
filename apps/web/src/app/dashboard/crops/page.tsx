@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
 import { PageHeader, PageShell } from "@/components/PageHeader";
 import { CustomSelect } from "@/components/CustomSelect";
+import { FormattedText } from "@/components/FormattedText";
 import Link from "next/link";
 
 export default function CropsPage() {
@@ -34,10 +35,15 @@ export default function CropsPage() {
 
   const handleRecommend = async () => {
     if (!selectedFarmId) return;
+    const farm = farms.find(f => f.id === selectedFarmId);
+    if (!farm) return;
+    
     setIsRecommending(true);
     try {
       const { data } = await cropApi.recommend({
         farm_id: selectedFarmId,
+        latitude: farm.latitude || 20.0, // fallback for safety
+        longitude: farm.longitude || 85.0,
         language: profile?.language || "en",
         season: "kharif", // Hardcoded for demo, could be dynamic
       });
@@ -150,7 +156,7 @@ export default function CropsPage() {
                  <div className="flex items-center gap-2 mb-2">
                    <div className="badge badge-success">AI Advice</div>
                  </div>
-                 <p className="text-sm leading-relaxed">{recommendationResult.explanation}</p>
+                 <FormattedText text={recommendationResult.explanation} className="text-sm leading-relaxed" />
               </div>
 
               {/* Missing Data Warnings */}

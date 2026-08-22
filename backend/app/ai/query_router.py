@@ -86,26 +86,50 @@ class QueryRouter:
         farm_id: Optional[str],
         language: str,
         farmer_profile: Optional[dict] = None,
+        chat_history: Optional[list[dict]] = None,
+        image_base64: Optional[str] = None,
     ) -> dict:
         """Route message to correct service and return verified response."""
         intent = self.classify_intent(message)
         logger.info(f"Intent classified: {intent} for message: {message[:50]}")
 
         try:
-            if intent == INTENT_WEATHER:
-                return await self._handle_weather(message, farmer_uid, farm_id, language, farmer_profile)
-            elif intent == INTENT_CROP:
-                return await self._handle_crop_recommendation(message, farmer_uid, farm_id, language, farmer_profile)
-            elif intent == INTENT_MARKET:
-                return await self._handle_market(message, farmer_uid, language, farmer_profile)
-            elif intent == INTENT_SCHEME:
-                return await self._handle_schemes(message, farmer_uid, language, farmer_profile)
-            elif intent in (INTENT_SOIL, INTENT_FERTILIZER):
-                return await self._handle_soil(message, farmer_uid, farm_id, language)
-            elif intent in (INTENT_DISEASE, INTENT_PEST):
+            # 1. Gather Universal Context
+            universal_context = await self._gather_global_context(farmer_uid, farm_id, farmer_profile)
+            
+            # 2. Handle DISEASE explicitly if they didn't upload a photo but asked
+            if intent == INTENT_DISEASE and not image_base64 and len(message.split()) < 4:
                 return await self._handle_disease_text(message, farmer_uid, language)
-            else:
-                return await self._handle_general(message, farmer_uid, language, farmer_profile)
+
+            # 3. Add baseline schemes if intent is SCHEME
+            if intent == INTENT_SCHEME:
+                universal_context["schemes"] = "PM-KISAN: Income support of ₹6,000/year. PM Fasal Bima Yojana: Crop insurance. Kisan Credit Card: Credit up to ₹3 lakh at 4%."
+
+            # 4. Use LLM with Universal Context
+            from app.ai.llm_service import LLMService
+            llm = LLMService()
+            
+            answer = await llm.answer_with_universal_context(
+                question=message,
+                intent=intent,
+                universal_context=universal_context,
+                language=language,
+                chat_history=chat_history,
+                image_base64=image_base64,
+            )
+
+            # 5. Extract sources for UI
+            sources = []
+            if intent == INTENT_WEATHER: sources.append("Open-Meteo Weather API")
+            if intent == INTENT_MARKET: sources.append("AgMarkNet")
+            if intent == INTENT_SCHEME: sources.append("PM-KISAN Portal")
+            if intent == INTENT_CROP: sources.append("Crop AI Model")
+
+            return {
+                "intent": intent,
+                "answer": answer,
+                "sources": sources,
+            }
         except Exception as e:
             logger.error(f"Router error for intent {intent}: {e}")
             return {
@@ -117,135 +141,81 @@ class QueryRouter:
                 "sources": [],
             }
 
-    async def _handle_weather(self, message, uid, farm_id, language, profile):
+    async def _gather_global_context(self, uid: str, farm_id: Optional[str], profile: Optional[dict]) -> dict:
+        import asyncio
         from app.services.weather_service import WeatherService
-        from app.core.firestore_service import get_farm, list_farms
-
-        # Try to get farm location
-        lat, lon = 20.5937, 78.9629  # default: center of India
-        if farm_id:
-            farm = await get_farm(uid, farm_id)
-            if farm:
-                lat, lon = farm["latitude"], farm["longitude"]
-        elif profile:
-            farms = await list_farms(uid)
-            if farms:
-                lat, lon = farms[0]["latitude"], farms[0]["longitude"]
-
-        svc = WeatherService()
-        weather = await svc.get_weather_with_advisory(lat, lon, language=language)
-
-        answer = weather["agricultural_advisory"]
-        current = weather["current"]
-        answer = (
-            f"**Weather Update:**\n"
-            f"🌡️ {current['temperature_c']}°C | 💧 {current['humidity_pct']}% humidity | "
-            f"🌧️ {current['rainfall_mm']} mm rainfall\n"
-            f"Condition: {current['condition']}\n\n"
-            f"**Advisory:** {answer}"
-        )
-
-        return {"intent": INTENT_WEATHER, "answer": answer, "sources": ["Google Weather API"]}
-
-    async def _handle_crop_recommendation(self, message, uid, farm_id, language, profile):
-        from app.ai.crop_engine import CropEngine
-        from app.services.weather_service import WeatherService
+        from app.services.market_service import market_service
+        from app.api.news import get_latest_news_internal
         from app.core.firestore_service import get_farm, list_farms, get_latest_soil_test
-
+        
+        ctx = {
+            "profile": profile or {},
+            "farm": {},
+            "soil": {},
+            "weather": {},
+            "market": [],
+            "news": []
+        }
+        
         lat, lon = 20.5937, 78.9629
-        farm_context = {}
-        soil_context = {}
-
+        
+        # 1. Fetch Farm and Soil
         if farm_id:
             farm = await get_farm(uid, farm_id)
             if farm:
-                farm_context = farm
-                lat, lon = farm["latitude"], farm["longitude"]
+                ctx["farm"] = farm
+                lat, lon = farm.get("latitude", lat), farm.get("longitude", lon)
                 soil_test = await get_latest_soil_test(uid, farm_id)
                 if soil_test:
-                    soil_context = soil_test
+                    ctx["soil"] = soil_test
         elif profile:
             farms = await list_farms(uid)
             if farms:
-                farm_context = farms[0]
-                lat, lon = farms[0]["latitude"], farms[0]["longitude"]
+                ctx["farm"] = farms[0]
+                lat, lon = farms[0].get("latitude", lat), farms[0].get("longitude", lon)
+                soil_test = await get_latest_soil_test(uid, farms[0]["id"])
+                if soil_test:
+                    ctx["soil"] = soil_test
 
-        weather_raw = await WeatherService().get_raw_weather(lat, lon)
-        current = weather_raw.get("current", {})
+        # 2. Concurrently fetch Weather, Market, News
+        state = ctx["profile"].get("state") or "Odisha"
+        district = ctx["profile"].get("district") or "Khurda"
+        commodity = ctx["farm"].get("crop_name")
+        
+        async def fetch_weather():
+            try:
+                svc = WeatherService()
+                return await svc.get_weather_with_advisory(lat, lon, language="en")
+            except Exception:
+                return {}
+                
+        async def fetch_market():
+            try:
+                if not state or not district:
+                    return []
+                # Fetch recent market rates for the entire district to give LLM rich context
+                res = await market_service.get_market_rates(state=state, district=district, limit=30)
+                if res and "records" in res:
+                    return res["records"]
+                return []
+            except Exception:
+                return []
+                
+        async def fetch_news():
+            return await get_latest_news_internal(limit=3)
 
-        engine = CropEngine()
-        result = await engine.recommend(
-            soil={
-                "soil_type": farm_context.get("soil_type", "loamy"),
-                "ph": soil_context.get("ph"),
-                "nitrogen": soil_context.get("nitrogen_kg_ha"),
-                "phosphorus": soil_context.get("phosphorus_kg_ha"),
-                "potassium": soil_context.get("potassium_kg_ha"),
-            },
-            weather=current,
-            has_irrigation=farm_context.get("has_irrigation", False),
-            language=language,
+        weather_res, market_res, news_res = await asyncio.gather(
+            fetch_weather(),
+            fetch_market(),
+            fetch_news(),
+            return_exceptions=True
         )
-
-        top = result["recommendations"][:3]
-        crops_list = "\n".join(
-            f"{i+1}. **{r['crop'].title()}** — {r['score']:.0%} match"
-            for i, r in enumerate(top)
-        )
-
-        answer = f"**Crop Recommendations:**\n{crops_list}\n\n{result['explanation']}"
-
-        return {"intent": INTENT_CROP, "answer": answer, "sources": ["Crop AI Model"]}
-
-    async def _handle_market(self, message, uid, language, profile):
-        # Placeholder — market service in Phase 12
-        answer = (
-            "For current mandi prices, please check the **AgMarkNet** portal (agmarknet.gov.in) "
-            "or your local APMC mandi. Real-time market integration is coming soon in FarmSaathi."
-        )
-        return {"intent": INTENT_MARKET, "answer": answer, "sources": ["AgMarkNet"]}
-
-    async def _handle_schemes(self, message, uid, language, profile):
-        from app.ai.llm_service import LLMService
-        # RAG-based scheme lookup (simplified — full RAG in Phase 12)
-        rag_context = """
-PM-KISAN: Income support of ₹6,000/year to all land-holding farmer families.
-Eligibility: Land-owning farmers. Exclusion: Income tax payers, govt employees, constitutional post holders.
-
-PM Fasal Bima Yojana: Crop insurance scheme. Premium: 2% for Kharif, 1.5% for Rabi.
-Eligibility: All farmers growing notified crops.
-
-Kisan Credit Card (KCC): Provides credit up to ₹3 lakh at 4% interest.
-Eligibility: All farmers, including tenant farmers and sharecroppers.
-"""
-        state = profile.get("state", "") if profile else ""
-        context_with_state = f"Farmer state: {state}\n\n{rag_context}"
-
-        llm = LLMService()
-        answer = await llm.answer_general_question(message, context_with_state, profile, language)
-        return {"intent": INTENT_SCHEME, "answer": answer, "sources": ["PM-KISAN Portal", "PMFBY"]}
-
-    async def _handle_soil(self, message, uid, farm_id, language):
-        from app.ai.llm_service import LLMService
-        from app.core.firestore_service import get_latest_soil_test
-
-        context = "General soil health guidance:\n"
-        if farm_id:
-            soil_test = await get_latest_soil_test(uid, farm_id)
-            if soil_test:
-                context = f"Your soil test results: pH={soil_test.get('ph')}, N={soil_test.get('nitrogen_kg_ha')} kg/ha, P={soil_test.get('phosphorus_kg_ha')} kg/ha, K={soil_test.get('potassium_kg_ha')} kg/ha\n"
-
-        context += """
-For soil health: pH 6-7 is ideal for most crops.
-Low nitrogen: Apply well-decomposed FYM or green manure.
-Low phosphorus: Apply single super phosphate (SSP) as per soil test.
-Low potassium: Apply muriate of potash (MOP) as per soil test.
-Always consult your local Krishi Vigyan Kendra for specific fertilizer dose recommendations.
-"""
-
-        llm = LLMService()
-        answer = await llm.answer_general_question(message, context, None, language)
-        return {"intent": INTENT_SOIL, "answer": answer, "sources": ["ICAR Guidelines"]}
+        
+        if not isinstance(weather_res, Exception): ctx["weather"] = weather_res
+        if not isinstance(market_res, Exception): ctx["market"] = market_res
+        if not isinstance(news_res, Exception): ctx["news"] = news_res
+        
+        return ctx
 
     async def _handle_disease_text(self, message, uid, language):
         answer = (
@@ -254,19 +224,3 @@ Always consult your local Krishi Vigyan Kendra for specific fertilizer dose reco
             "For immediate concerns, consult your local agricultural officer."
         )
         return {"intent": INTENT_DISEASE, "answer": answer, "sources": []}
-
-    async def _handle_general(self, message, uid, language, profile):
-        from app.ai.llm_service import LLMService
-        # General RAG query (simplified — full Qdrant RAG in Phase 12)
-        general_context = """
-FarmSaathi AI can help with:
-- Crop recommendations based on your soil and weather
-- Plant disease detection from photos
-- Weather forecasts and farming advisories
-- Government scheme eligibility checking
-- Market price information
-- Soil health guidance
-"""
-        llm = LLMService()
-        answer = await llm.answer_general_question(message, general_context, profile, language)
-        return {"intent": INTENT_GENERAL, "answer": answer, "sources": []}

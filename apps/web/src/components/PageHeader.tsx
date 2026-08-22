@@ -13,7 +13,7 @@ interface PageHeaderProps {
  */
 export function PageHeader({ title, subtitle, action, icon }: PageHeaderProps) {
   return (
-    <div className="flex items-start justify-between mb-6 pb-4 border-b" style={{ borderColor: "rgba(34,197,94,0.12)" }}>
+    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-2 mb-6 pb-4 border-b" style={{ borderColor: "rgba(34,197,94,0.12)" }}>
       <div className="flex items-center gap-3">
         {icon && (
           <div

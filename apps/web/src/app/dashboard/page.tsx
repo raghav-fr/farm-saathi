@@ -6,11 +6,12 @@ import { motion } from "framer-motion";
 import {
   CloudRain, Droplets, Wind, Sprout, AlertTriangle,
   TrendingUp, Shield, Plus, ChevronRight, ArrowRight,
-  MapPin, Newspaper, Eye, CheckCircle2, AlertCircle, Brain
+  MapPin, Newspaper, Eye, CheckCircle2, AlertCircle, Brain, RefreshCw
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { weatherApi, alertApi, type Alert, type WeatherData } from "@/lib/api";
+import { weatherApi, alertApi, insightsApi, type Alert, type WeatherData, type InsightResponse } from "@/lib/api";
+import { FormattedText } from "@/components/FormattedText";
 import { db, farmsCol, getDocs } from "@/lib/firebase";
 
 function conditionEmoji(c?: string) {
@@ -66,7 +67,7 @@ export default function DashboardPage() {
   const weatherLat = primaryFarm?.latitude || deviceLat || 20.29;
   const weatherLon = primaryFarm?.longitude || deviceLon || 85.82;
 
-  const { data: weather } = useQuery<WeatherData>({
+  const { data: weather, refetch: refetchWeather, isFetching: isFetchingWeather } = useQuery<WeatherData>({
     queryKey: ["weather", weatherLat, weatherLon, profile?.language],
     queryFn: () =>
       weatherApi
@@ -81,6 +82,28 @@ export default function DashboardPage() {
     queryFn: () => alertApi.list(true).then((r) => r.data),
     staleTime: 5 * 60 * 1000,
   });
+
+  const { data: insight, refetch: refetchInsight, isFetching: isFetchingInsight } = useQuery<InsightResponse>({
+    queryKey: ["insight", "daily"],
+    queryFn: () => insightsApi.getDaily(true).then((r) => r.data),
+    enabled: !!user,
+    staleTime: 60 * 60 * 1000,
+  });
+
+  const [isForceRefreshingWeather, setIsForceRefreshingWeather] = useState(false);
+
+  const handleRefreshWeather = async () => {
+    if (!weatherLat || !weatherLon) return;
+    setIsForceRefreshingWeather(true);
+    try {
+      await weatherApi.getCurrent(weatherLat, weatherLon, profile?.language, true);
+      await refetchWeather();
+    } catch (error) {
+      console.error("Failed to refresh weather", error);
+    } finally {
+      setIsForceRefreshingWeather(false);
+    }
+  };
 
   const firstName = profile?.name?.split(" ")[0] || user?.displayName?.split(" ")[0] || "Farmer";
 
@@ -99,10 +122,10 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="px-5 pb-4 pt-2 space-y-4 flex flex-col max-w-[1400px] mx-auto h-[calc(100vh-90px)]">
+    <div className="px-5 pb-4 pt-2 space-y-4 flex flex-col max-w-[1400px] mx-auto min-h-[calc(100vh-90px)] overflow-y-auto">
 
       {/* ── Greeting ─────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between shrink-0">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 shrink-0">
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="font-outfit font-bold" style={{ fontSize: "1.85rem", lineHeight: 1.2, color: "var(--text-primary)" }}>
             <span>{greet()}</span>,{" "}
@@ -150,14 +173,14 @@ export default function DashboardPage() {
       )}
 
       {/* ── Two-Column Layout ─────────────────────────────────────────── */}
-      <div className="grid gap-4 flex-1 min-h-0" style={{ gridTemplateColumns: "minmax(0, 1fr) 380px" }}>
+      <div className="flex flex-col xl:grid gap-4 flex-1 min-h-[600px] xl:grid-cols-[minmax(0,1fr)_380px]">
 
         {/* LEFT: Weather panel */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
-          className="relative overflow-hidden rounded-3xl flex flex-col h-full shadow-lg"
+          className="relative overflow-hidden rounded-3xl flex flex-col min-h-[350px] xl:h-full shadow-lg"
           style={{ background: "linear-gradient(145deg,#14532d 0%,#166534 45%,#15803d 100%)" }}
         >
           <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full opacity-15 pointer-events-none" style={{ background: "radial-gradient(circle,#a3e635,transparent)" }} />
@@ -165,14 +188,24 @@ export default function DashboardPage() {
 
           <div className="relative z-10 p-6 flex flex-col h-full gap-3">
 
-            {/* Location + time */}
+            {/* Weather Header */}
             <div className="flex items-center justify-between shrink-0">
               <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
                 <MapPin size={12} />
                 {weather?.location ? <span key="loaded">{[weather.location.name, weather.location.region].filter(Boolean).join(", ")}</span> : profile?.district ? <span key="profile">{[profile.district, profile.state].filter(Boolean).join(", ")}</span> : <span key="loading">Your Location</span>}
               </div>
-              <div className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }} suppressHydrationWarning>
-                {time ? <span key="loaded">{time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span> : <span key="loading">--:--</span>}
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={handleRefreshWeather} 
+                  disabled={isFetchingWeather || isForceRefreshingWeather}
+                  className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
+                  style={{ color: "rgba(255,255,255,0.6)" }}
+                >
+                  <RefreshCw size={14} className={(isFetchingWeather || isForceRefreshingWeather) ? "animate-spin" : ""} />
+                </button>
+                <div className="text-xs font-bold tabular-nums" style={{ color: "rgba(255,255,255,0.6)" }} suppressHydrationWarning>
+                  {time ? <span key="loaded">{time.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span> : <span key="loading">--:--</span>}
+                </div>
               </div>
             </div>
 
@@ -205,7 +238,7 @@ export default function DashboardPage() {
             <div className="flex-1" />
 
             {/* Metrics strip */}
-            <div className="grid grid-cols-4 gap-2 rounded-2xl p-4 shrink-0" style={{ background: "rgba(0,0,0,0.15)" }}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 rounded-2xl p-4 shrink-0" style={{ background: "rgba(0,0,0,0.15)" }}>
               {[
                 { icon: Droplets, label: "Humidity", value: weather ? <span key="loaded">{weather.current.humidity_pct}%</span> : <span key="loading">—</span> },
                 { icon: Wind, label: "Wind", value: weather ? <span key="loaded">{Math.round(weather.current.wind_kph)} km/h</span> : <span key="loading">—</span> },
@@ -234,7 +267,7 @@ export default function DashboardPage() {
             )}
 
             {/* CTAs */}
-            <div className="grid grid-cols-2 gap-3 shrink-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 shrink-0">
               <Link href="/dashboard/weather" className="flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs font-bold hover:opacity-80 transition-all" style={{ background: "rgba(255,255,255,0.1)", color: "white", border: "1px solid rgba(255,255,255,0.15)" }}>
                 <CloudRain size={14} /> 7-Day Forecast
               </Link>
@@ -249,7 +282,7 @@ export default function DashboardPage() {
         <div className="flex flex-col gap-3 h-full min-h-0">
 
           {/* Farm + Alerts */}
-          <div className="grid grid-cols-2 gap-3 flex-1 min-h-0 shrink-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 min-h-0 shrink-0">
             <motion.div {...f(0.1)} className="glass-card p-4 flex flex-col h-full hover:shadow-md transition-all overflow-hidden">
               <div className="text-[9px] font-black tracking-widest mb-2 shrink-0" style={{ color: "var(--text-dim)" }}>MY FARM</div>
               {primaryFarm ? (
@@ -268,7 +301,7 @@ export default function DashboardPage() {
                   <span className="text-[11px] font-medium" style={{ color: "var(--text-muted)" }}>No farm added</span>
                 </div>
               )}
-              <Link href={primaryFarm ? "/dashboard/farm" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2 rounded-lg text-[11px] font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
+              <Link href={primaryFarm ? "/dashboard/farm" : "/dashboard/farm/new"} className="mt-2 shrink-0 w-full text-center py-2.5 rounded-lg text-xs font-bold transition-all hover:bg-green-100" style={{ background: "rgba(34,197,94,0.09)", color: "#16a34a" }}>
                 {primaryFarm ? <span key="manage">Manage Farm →</span> : <span key="add">Add Farm →</span>}
               </Link>
             </motion.div>
@@ -302,23 +335,29 @@ export default function DashboardPage() {
             <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-30 pointer-events-none" style={{ background: "radial-gradient(circle,#86efac,transparent)" }} />
             <div className="relative z-10 flex flex-col h-full min-h-0">
               <div className="flex items-center justify-between mb-3 shrink-0">
-                <span className="text-xs font-black flex items-center gap-1.5" style={{ color: "#14532d" }}><Brain size={14} className="text-green-600"/> AI Insights</span>
+                <span className="text-xs font-black flex items-center gap-1.5" style={{ color: "#14532d" }}>
+                  <Brain size={14} className="text-green-600"/> 
+                  AI Insights
+                  <button onClick={() => refetchInsight()} disabled={isFetchingInsight} className="ml-1 p-1 rounded-full hover:bg-green-100 transition-colors">
+                    <RefreshCw size={12} className={isFetchingInsight ? "animate-spin text-green-700" : "text-green-700"} />
+                  </button>
+                </span>
                 <Link href="/dashboard/chat" className="text-[10px] font-bold flex items-center gap-1 hover:underline shrink-0" style={{ color: "#16a34a" }}>
                   Ask AI <ArrowRight size={10} />
                 </Link>
               </div>
-              {weather?.agricultural_advisory ? (
-                <div className="rounded-xl px-4 py-3 text-sm font-medium leading-relaxed shadow-sm bg-white/70 backdrop-blur-sm flex-1 overflow-hidden min-h-0" style={{ color: "#14532d" }}>
-                  <div className="line-clamp-4">{weather.agricultural_advisory}</div>
+              {insight ? (
+                <div className="rounded-xl px-4 py-3 text-sm font-medium leading-relaxed shadow-sm bg-white/70 backdrop-blur-sm flex-1 overflow-hidden min-h-0 flex flex-col" style={{ color: "#14532d" }}>
+                  <div className="flex items-center gap-2 mb-2 shrink-0">
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: insight.severity === 'high' ? '#ef4444' : insight.severity === 'medium' ? '#eab308' : '#22c55e' }} />
+                    <span className="text-xs font-bold truncate">{insight.title}</span>
+                  </div>
+                  <FormattedText text={insight.insight} className="line-clamp-4 text-xs overflow-y-auto" />
                 </div>
               ) : (
-                <div className="flex-1 flex flex-col justify-end gap-2 min-h-0">
-                  <div className="rounded-xl px-3 py-2.5 text-xs font-medium shadow-sm bg-white/60 shrink-0 line-clamp-2" style={{ color: "#166534" }}>
-                    💡 Apply <strong className="text-green-800">5 kg urea</strong> before next rainfall.
-                  </div>
-                  <Link href="/dashboard/crops" className="flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold group shadow-sm bg-white/80 hover:bg-white transition-colors shrink-0" style={{ color: "#14532d" }}>
-                    <span className="truncate">Get crop recommendation</span> <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform shrink-0 ml-1" />
-                  </Link>
+                <div className="flex-1 flex flex-col justify-center items-center">
+                  <RefreshCw size={20} className="animate-spin text-green-600/50 mb-2" />
+                  <span className="text-xs font-medium text-green-800/60">Analyzing live farm data...</span>
                 </div>
               )}
             </div>

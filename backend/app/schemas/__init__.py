@@ -403,6 +403,7 @@ class ChatRequest(BaseModel):
     conversation_id: Optional[str] = None
     farm_id: Optional[str] = None
     language: Language = Language.EN
+    image: Optional[str] = None
 
 
 class ChatResponse(BaseModel):

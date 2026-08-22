@@ -104,15 +104,12 @@ class CropEngine:
 
         try:
             import pandas as pd
-            feature_order = ["N", "P", "K", "temperature", "humidity", "rainfall", "ph"]
+            feature_order = ["Temperature", "Humidity", "pH", "Rainfall"]
             row = [
-                features.get("nitrogen", 50),
-                features.get("phosphorus", 50),
-                features.get("potassium", 50),
                 features.get("temperature", 25),
                 features.get("humidity", 65),
-                features.get("rainfall", 100),
                 features.get("ph", 6.5),
+                features.get("rainfall", 100),
             ]
             X = pd.DataFrame([row], columns=feature_order)
             probs = self._model.predict_proba(X)[0]

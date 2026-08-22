@@ -283,6 +283,15 @@ async def mark_alert_read(uid: str, alert_id: str) -> None:
         .update({"read": True, "readAt": _now()})
     )
 
+async def delete_alert(uid: str, alert_id: str) -> None:
+    db = _db()
+    await (
+        db.collection("farmers")
+        .document(uid)
+        .collection("alerts")
+        .document(alert_id)
+        .delete()
+    )
 
 # ──────────────────────────────────────────────────────────────────────────────
 # CONVERSATIONS / CHAT HISTORY
@@ -309,7 +318,12 @@ async def list_conversations(uid: str) -> list[dict]:
         .limit(20)
         .stream()
     )
-    return [s.to_dict() async for s in snaps]
+    result = []
+    async for s in snaps:
+        d = s.to_dict()
+        if "deletedAt" not in d:
+            result.append(d)
+    return result
 
 
 async def add_message(uid: str, conv_id: str, data: dict) -> dict:

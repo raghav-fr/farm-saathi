@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, Bot, User, Mic, Plus, MessageSquare,
-  Sprout, CloudRain, TrendingUp, Shield, Camera, Leaf
+  Sprout, CloudRain, TrendingUp, Shield, Camera, Leaf, Trash2, Menu, X, PanelLeft, PanelLeftClose
 } from "lucide-react";
+import { CustomSelect } from "@/components/CustomSelect";
+import { FormattedText } from "@/components/FormattedText";
 import { useAuth } from "@/context/AuthContext";
 import { chatApi, type ChatResponse } from "@/lib/api";
 
@@ -16,6 +18,7 @@ interface Message {
   intent?: string;
   sources?: string[];
   timestamp: Date;
+  image?: string;
 }
 
 const QUICK_QUESTIONS = [
@@ -43,8 +46,107 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [convId, setConvId] = useState<string | undefined>();
+  const [conversations, setConversations] = useState<{ id: string; title: string; createdAt: string }[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchConversations();
+    if (window.innerWidth < 768) setSidebarOpen(false);
+  }, []);
+
+  const fetchConversations = async () => {
+    try {
+      const { data } = await chatApi.getConversations();
+      setConversations(data);
+    } catch (e) {
+      console.error("Failed to load conversations", e);
+    }
+  };
+
+  const loadConversation = async (id: string) => {
+    if (convId === id) return;
+    setConvId(id);
+    setIsLoading(true);
+    setMessages([]);
+    try {
+      const { data } = await chatApi.getMessages(id);
+      const formatted: Message[] = data.map(m => ({
+        id: m.id,
+        role: m.role as "user" | "assistant",
+        content: m.content,
+        timestamp: new Date(m.createdAt),
+        image: m.image,
+        intent: m.intent,
+        sources: m.sources,
+      }));
+      setMessages(formatted.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()));
+      if (window.innerWidth < 768) setSidebarOpen(false);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteConversation = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (deletingId) return;
+    setDeletingId(id);
+    try {
+      await chatApi.deleteConversation(id);
+      if (convId === id) startNewConversation();
+      await fetchConversations();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeletingId(null);
+    }
+  };
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_SIZE = 512;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          }
+        } else {
+          if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+        setSelectedImage(dataUrl);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+    
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   // Auto-scroll on new message
   useEffect(() => {
@@ -52,23 +154,28 @@ export default function ChatPage() {
   }, [messages]);
 
   const sendMessage = async (text: string) => {
-    if (!text.trim() || isLoading) return;
+    if ((!text.trim() && !selectedImage) || isLoading) return;
 
+    const currentImage = selectedImage;
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: text,
+      content: text || "What is in this image?",
       timestamp: new Date(),
+      image: currentImage || undefined,
     };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setSelectedImage(null);
     setIsLoading(true);
 
     try {
+      const base64Image = currentImage ? currentImage.split(',')[1] : undefined;
       const { data } = await chatApi.send({
-        message: text,
+        message: text || "What is in this image?",
         conversation_id: convId,
         language: profile?.language || "en",
+        image: base64Image,
       });
 
       if (!convId) setConvId(data.conversation_id);
@@ -82,6 +189,9 @@ export default function ChatPage() {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMsg]);
+      
+      // Refresh sidebar if it's a new conversation
+      if (!convId) fetchConversations();
     } catch (err) {
       const errMsg: Message = {
         id: Date.now().toString() + "_err",
@@ -111,12 +221,79 @@ export default function ChatPage() {
   const startNewConversation = () => {
     setMessages([]);
     setConvId(undefined);
+    if (window.innerWidth < 768) setSidebarOpen(false);
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)]">
+    <div className="flex h-[calc(100vh-80px)] w-full overflow-hidden bg-[var(--bg-primary)] p-4 md:p-6 gap-4 md:gap-6">
+      {/* ── Sidebar ───────────────────────────────────────────────── */}
+      <div 
+        className={`${sidebarOpen ? 'w-72 border border-gray-200/60 shadow-xl' : 'w-0 border-0 shadow-none'} flex flex-col bg-[var(--bg-primary)] rounded-3xl transition-all duration-300 overflow-hidden shrink-0 absolute md:relative z-30 h-full`}
+      >
+        <div className="p-4 flex items-center justify-between border-b border-gray-200/60 shrink-0">
+          <button 
+            onClick={startNewConversation}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-black text-[#c3f53c] font-semibold rounded-xl hover:bg-gray-800 transition-colors shadow-sm"
+          >
+            <Plus size={18} strokeWidth={2.5} /> New Chat
+          </button>
+          <button onClick={() => setSidebarOpen(false)} className="ml-3 p-2 bg-white/50 hover:bg-white rounded-xl text-gray-500 shadow-sm border border-transparent hover:border-gray-200 transition-all hidden md:block" title="Close Sidebar">
+            <PanelLeftClose size={18} strokeWidth={2.5} />
+          </button>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden ml-3 p-2 bg-white/50 hover:bg-white rounded-xl text-gray-500 shadow-sm border border-transparent">
+            <X size={20} strokeWidth={2.5} />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-3 space-y-1">
+          {conversations.length === 0 && (
+            <div className="text-center text-xs text-gray-400 mt-4 font-medium">No previous chats</div>
+          )}
+          {conversations.map(c => (
+            <div 
+              key={c.id} 
+              onClick={() => loadConversation(c.id)}
+              className={`group flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-colors ${convId === c.id ? 'bg-gray-100 shadow-inner' : 'hover:bg-gray-50'}`}
+            >
+              <div className="flex items-center gap-3 overflow-hidden">
+                <MessageSquare size={15} className={`${convId === c.id ? 'text-black' : 'text-gray-400'} shrink-0`} />
+                <span className={`text-sm font-medium truncate ${convId === c.id ? 'text-black' : 'text-gray-700'}`}>{c.title}</span>
+              </div>
+              <button 
+                onClick={(e) => handleDeleteConversation(e, c.id)}
+                disabled={deletingId === c.id}
+                className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all disabled:opacity-100"
+                title="Delete Chat"
+              >
+                {deletingId === c.id ? <Loader2 size={14} className="animate-spin text-red-500" /> : <Trash2 size={14} />}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Main Chat Area ───────────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col min-w-0 relative h-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden z-20">
+        {/* Mobile overlay */}
+        {sidebarOpen && (
+          <div 
+            className="md:hidden fixed inset-0 bg-black/20 z-10"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        
+        {/* Toggle Sidebar Button */}
+        {!sidebarOpen && (
+          <button 
+            onClick={() => setSidebarOpen(true)}
+            className="absolute top-4 left-4 z-10 p-2.5 bg-white shadow-md border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors text-gray-600 hover:text-black"
+            title="Open History"
+          >
+            <PanelLeft size={18} strokeWidth={2.5} />
+          </button>
+        )}
+
       {/* ── Messages ───────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
+      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 pt-16 md:pt-6 no-scrollbar">
         {messages.length === 0 ? (
           /* Welcome screen */
           <div className="max-w-2xl mx-auto mt-8">
@@ -183,14 +360,16 @@ export default function ChatPage() {
                     )}
 
                     {/* Content — supports markdown-like bold */}
-                    <div
-                      className="text-sm leading-relaxed whitespace-pre-wrap"
-                      dangerouslySetInnerHTML={{
-                        __html: msg.content
-                          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                          .replace(/\n/g, "<br/>"),
-                      }}
+                    <FormattedText 
+                      text={msg.content} 
+                      className="text-sm leading-relaxed whitespace-pre-wrap" 
                     />
+                    
+                    {msg.image && (
+                      <div className="mt-2">
+                        <img src={msg.image} alt="User upload" className="rounded-xl border max-w-[200px]" />
+                      </div>
+                    )}
 
                     {/* Sources */}
                     {msg.sources && msg.sources.length > 0 && (
@@ -236,51 +415,64 @@ export default function ChatPage() {
       </div>
 
       {/* ── Input ──────────────────────────────────────────────────── */}
-      <div className="px-6 py-6 pb-8">
+      <div className="px-4 md:px-6 py-4 pb-6">
         <div className="max-w-3xl mx-auto">
           <form
             onSubmit={handleSubmit}
-            className="flex items-end gap-3 p-2 pl-2 rounded-full bg-white shadow-xl shadow-gray-200/50 border border-gray-100 transition-shadow focus-within:shadow-2xl focus-within:border-gray-200"
+            className="flex flex-col p-2 pl-2 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 transition-shadow focus-within:shadow-2xl focus-within:border-gray-200"
           >
-            {messages.length > 0 && (
-              <button
-                type="button"
-                onClick={startNewConversation}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-red-50 text-gray-500 hover:text-red-500 flex-shrink-0 mb-1 ml-1"
-                title="Clear Chat"
-              >
-                <Plus size={18} strokeWidth={2.5} className="rotate-45" />
-              </button>
+            {selectedImage && (
+              <div className="relative inline-block m-2 self-start">
+                <img src={selectedImage} alt="Preview" className="h-20 rounded-xl object-cover border" />
+                <button
+                  type="button"
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute -top-2 -right-2 bg-black text-white rounded-full p-1 shadow hover:bg-gray-800 transition-colors"
+                >
+                  <Plus size={14} className="rotate-45" />
+                </button>
+              </div>
             )}
-            <textarea
-              id="chat-input"
-              ref={inputRef}
-              rows={1}
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                e.target.style.height = "auto";
-                e.target.style.height = Math.min(e.target.scrollHeight, 120) + "px";
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="Ask anything about farming... (English, हिंदी, ଓଡ଼ିଆ)"
-              disabled={isLoading}
-              className={`flex-1 bg-transparent outline-none resize-none text-[15px] font-medium leading-relaxed py-3 text-black placeholder:text-gray-400 ${messages.length === 0 ? 'pl-4' : 'pl-1'}`}
-              style={{ maxHeight: "120px", minHeight: "24px" }}
-            />
-            <div className="flex items-center gap-2 flex-shrink-0 mb-1 mr-1">
-              <button
-                type="button"
-                id="voice-btn"
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-black"
-                title="Voice input (coming soon)"
-              >
-                <Mic size={18} strokeWidth={2.5} />
-              </button>
-              <button
-                id="send-btn"
-                type="submit"
-                disabled={!input.trim() || isLoading}
+            
+            <div className="flex items-end gap-3">
+              <textarea
+                id="chat-input"
+                ref={inputRef}
+                rows={1}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = Math.min(e.target.scrollHeight, 120) + "px";
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Message FarmSaathi..."
+                disabled={isLoading}
+                className={`flex-1 min-w-0 w-full overflow-x-hidden bg-transparent outline-none resize-none text-[15px] font-medium leading-relaxed py-3 text-black placeholder:text-gray-400 ${messages.length === 0 ? 'pl-4' : 'pl-1'}`}
+                style={{ maxHeight: "120px", minHeight: "24px" }}
+              />
+              <div className="flex items-center gap-1 flex-shrink-0 mb-1 mr-1">
+                <input type="file" accept="image/*" hidden ref={fileInputRef} onChange={handleImageSelect} />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-black"
+                  title="Attach Photo"
+                >
+                  <Camera size={18} strokeWidth={2.5} />
+                </button>
+                <button
+                  type="button"
+                  id="voice-btn"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-50 hover:bg-gray-100 text-gray-500 hover:text-black"
+                  title="Voice input (coming soon)"
+                >
+                  <Mic size={18} strokeWidth={2.5} />
+                </button>
+                <button
+                  id="send-btn"
+                  type="submit"
+                  disabled={(!input.trim() && !selectedImage) || isLoading}
                 className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-black hover:bg-gray-800 text-[#c3f53c]"
               >
                 {isLoading ? (
@@ -290,12 +482,14 @@ export default function ChatPage() {
                 )}
               </button>
             </div>
-          </form>
-          <p className="text-center text-xs mt-4 text-gray-400 font-medium">
-            AI decisions are based on verified agricultural data. Always consult local experts for critical decisions.
-          </p>
-        </div>
+          </div>
+        </form>
+        <p className="text-center text-xs mt-4 text-gray-400 font-medium">
+          AI decisions are based on verified agricultural data. Always consult local experts for critical decisions.
+        </p>
       </div>
     </div>
+  </div>
+</div>
   );
 }

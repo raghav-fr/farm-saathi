@@ -5,7 +5,7 @@ Farmer alert feed (weather risk, disease risk, market, scheme notifications).
 from fastapi import APIRouter, status
 
 from app.core.deps import FarmerDep
-from app.core.firestore_service import list_alerts, mark_alert_read
+from app.core.firestore_service import list_alerts, mark_alert_read, delete_alert
 from app.schemas import AlertResponse
 
 router = APIRouter(prefix="/alerts", tags=["Alerts"])
@@ -29,3 +29,9 @@ async def read_all_alerts(farmer: FarmerDep):
     alerts = await list_alerts(farmer.uid, unread_only=True)
     for alert in alerts:
         await mark_alert_read(farmer.uid, alert["id"])
+
+
+@router.delete("/{alert_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def remove_alert(alert_id: str, farmer: FarmerDep):
+    """Delete an alert."""
+    await delete_alert(farmer.uid, alert_id)
