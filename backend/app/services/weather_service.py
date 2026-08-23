@@ -144,7 +144,7 @@ class WeatherService:
                 })
 
         # Generate agricultural advisory
-        advisory = await self._generate_advisory(current, forecast, crop_context, language)
+        advisory, is_success = await self._generate_advisory(current, forecast, crop_context, language)
 
         # Reverse geocode for accurate location name
         location_name = "Current Location"
@@ -178,11 +178,12 @@ class WeatherService:
             "alerts": [],  # Alerts not natively included in basic Open-Meteo response
         }
 
-        try:
-            r = await self._get_redis()
-            await r.setex(cache_key, self.CACHE_TTL, json.dumps(result))
-        except Exception:
-            pass
+        if is_success:
+            try:
+                r = await self._get_redis()
+                await r.setex(cache_key, self.CACHE_TTL, json.dumps(result))
+            except Exception:
+                pass
 
         return result
 
@@ -192,7 +193,7 @@ class WeatherService:
         forecast: list,
         crop_context: Optional[dict],
         language: str,
-    ) -> str:
+    ) -> tuple[str, bool]:
         """Use local LLM to generate weather-based agricultural advisory."""
         try:
             from app.ai.llm_service import LLMService
@@ -224,14 +225,14 @@ IMPORTANT: You MUST start your final advice with the exact phrase "FINAL ADVISOR
             
             # If the LLM failed and gave its generic fallback, use our weather-specific fallback instead
             if "I'm having trouble connecting" in res:
-                return self._fallback_advisory(current, forecast)
+                return self._fallback_advisory(current, forecast), False
                 
             if "FINAL ADVISORY:" in res:
                 res = res.split("FINAL ADVISORY:")[-1].strip()
-            return res
+            return res, True
         except Exception as e:
             logger.warning(f"LLM advisory failed, using fallback: {e}")
-            return self._fallback_advisory(current, forecast)
+            return self._fallback_advisory(current, forecast), False
 
     def _fallback_advisory(self, current: dict, forecast: list) -> str:
         rain_total = sum(d.get("total_rainfall_mm", 0) for d in forecast[:3])
