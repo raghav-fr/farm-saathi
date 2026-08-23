@@ -3,7 +3,6 @@
 
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
-  getAuth,
   GoogleAuthProvider,
   PhoneAuthProvider,
   signInWithPopup,
@@ -13,6 +12,9 @@ import {
   signOut,
   updateProfile,
   onAuthStateChanged,
+  initializeAuth,
+  browserLocalPersistence,
+  browserSessionPersistence,
   type User,
   type RecaptchaVerifier,
 } from "firebase/auth";
@@ -59,7 +61,9 @@ export const isFirebaseConfigured = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 // ─── Services ────────────────────────────────────────────────────────────────
-export const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+  persistence: [browserLocalPersistence, browserSessionPersistence]
+});
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
