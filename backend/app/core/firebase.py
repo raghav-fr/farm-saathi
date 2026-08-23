@@ -33,7 +33,15 @@ def initialize_firebase() -> firebase_admin.App:
         # Fallback: try environment variable (for CI/CD)
         sa_json = os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON")
         if sa_json:
-            cred = credentials.Certificate(json.loads(sa_json))
+            cred_dict = json.loads(sa_json)
+            cred = credentials.Certificate(cred_dict)
+            
+            # Write to /tmp/ for Google Application Default Credentials (needed by AsyncClient)
+            tmp_path = "/tmp/firebase-service-account.json"
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(cred_dict, f)
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp_path
+            
             logger.info("Firebase: loading credentials from FIREBASE_SERVICE_ACCOUNT_JSON env var")
         else:
             raise RuntimeError(
