@@ -79,23 +79,23 @@ class CropEngine:
         if self._model_loaded:
             return
 
-        import xgboost as xgb
-        import json
+        try:
+            import xgboost as xgb
+            import json
 
-        model_path = Path(settings.CROP_MODEL_PATH)
-        encoder_path = Path(settings.CROP_ENCODER_PATH)
+            model_path = Path(settings.CROP_MODEL_PATH)
+            encoder_path = Path(settings.CROP_ENCODER_PATH)
 
-        if model_path.exists() and encoder_path.exists():
-            self._model = xgb.XGBClassifier()
-            self._model.load_model(str(model_path))
-            with open(encoder_path, "r") as f:
-                self._encoder_classes = json.load(f)
-            logger.info("Crop model loaded successfully")
-        else:
-            logger.warning(
-                f"Crop model not found at {model_path}. "
-                "Using agronomic scoring only. Train the model first."
-            )
+            if model_path.exists() and encoder_path.exists():
+                self._model = xgb.XGBClassifier()
+                self._model.load_model(str(model_path))
+                with open(encoder_path, "r") as f:
+                    self._encoder_classes = json.load(f)
+                logger.info("Crop model loaded successfully")
+            else:
+                logger.warning("Crop model files not found. Using agronomic scoring only.")
+        except ImportError:
+            logger.warning("XGBoost is not installed. Using agronomic scoring only.")
 
         self._model_loaded = True
 

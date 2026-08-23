@@ -1,5 +1,5 @@
 fastapi
-uvicorn[standard]
+uvicorn
 pydantic
 pydantic-settings
 python-multipart
@@ -14,7 +14,7 @@ sqlalchemy[asyncio]
 asyncpg
 alembic
 geoalchemy2
-psycopg2-binary
+
 
 # Redis + Scheduler
 redis
@@ -24,8 +24,6 @@ apscheduler
 qdrant-client
 
 # ML / AI
-numpy
-xgboost
 pillow
 
 # Weather & external APIs
@@ -39,7 +37,3 @@ loguru
 tenacity
 
 # Testing
-pytest
-pytest-asyncio
-feedparser
-beautifulsoup4
