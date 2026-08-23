@@ -25,7 +25,7 @@ def initialize_firebase() -> firebase_admin.App:
 
     sa_path = Path(settings.FIREBASE_SERVICE_ACCOUNT_PATH)
 
-    if sa_path.exists():
+    if sa_path.is_file():
         cred = credentials.Certificate(str(sa_path))
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(sa_path.resolve())
         logger.info(f"Firebase: loading credentials from {sa_path}")
