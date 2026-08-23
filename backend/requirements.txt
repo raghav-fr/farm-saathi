@@ -36,4 +36,6 @@ aiofiles
 loguru
 tenacity
 
-# Testing
+# News/Web
+feedparser
+beautifulsoup4
