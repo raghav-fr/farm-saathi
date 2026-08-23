@@ -25,8 +25,8 @@ class LLMService:
         self.base_url = "https://openrouter.ai/api/v1/chat/completions"
         self.model = "google/gemma-4-31b-it:free"
         # Load keys from environment, splitting by comma
-        keys_str = getattr(settings, "OPENROUTER_API_KEYS", "")
-        self.api_keys = [k.strip() for k in keys_str.split(",")] if keys_str else []
+        keys_str = getattr(settings, "OPENROUTER_API_KEYS", "").strip('"').strip("'")
+        self.api_keys = [k.strip().strip('"').strip("'") for k in keys_str.split(",")] if keys_str else []
         self.current_key_idx = 0
 
     async def complete(
