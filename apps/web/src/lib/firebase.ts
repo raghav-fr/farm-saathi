@@ -12,7 +12,8 @@ import {
   signOut,
   updateProfile,
   onAuthStateChanged,
-  initializeAuth,
+  getAuth,
+  setPersistence,
   browserLocalPersistence,
   browserSessionPersistence,
   type User,
@@ -61,9 +62,10 @@ export const isFirebaseConfigured = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 // ─── Services ────────────────────────────────────────────────────────────────
-export const auth = initializeAuth(app, {
-  persistence: [browserLocalPersistence, browserSessionPersistence]
-});
+export const auth = getAuth(app);
+if (typeof window !== "undefined") {
+  setPersistence(auth, browserLocalPersistence).catch(console.error);
+}
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
