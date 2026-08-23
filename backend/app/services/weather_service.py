@@ -221,6 +221,11 @@ Do not invent specific chemical recommendations. Keep it simple and actionable.
 IMPORTANT: You MUST start your final advice with the exact phrase "FINAL ADVISORY:". Do not put anything else before it, or if you do, ensure your actual advice starts with "FINAL ADVISORY: "."""
 
             res = await llm.complete(prompt, max_tokens=500)
+            
+            # If the LLM failed and gave its generic fallback, use our weather-specific fallback instead
+            if "I'm having trouble connecting" in res:
+                return self._fallback_advisory(current, forecast)
+                
             if "FINAL ADVISORY:" in res:
                 res = res.split("FINAL ADVISORY:")[-1].strip()
             return res
