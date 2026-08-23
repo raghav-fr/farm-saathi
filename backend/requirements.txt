@@ -25,11 +25,7 @@ qdrant-client
 
 # ML / AI
 numpy
-pandas
-scikit-learn
 xgboost
-lightgbm
-joblib
 pillow
 
 # Weather & external APIs

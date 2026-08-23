@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "507667439115",
+    "project_id": "farm-saathi-7859d",
+    "storage_bucket": "farm-saathi-7859d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507667439115:android:a87f3e50721015520c710e",
+        "android_client_info": {
+          "package_name": "com.example.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507667439115-e9i0ekbfqmauab4kfdhijj1jr3cmcbs9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobile",
+            "certificate_hash": "b8f58bf4a2cca6adba52acd51db73aaacfce2304"
+          }
+        },
+        {
+          "client_id": "507667439115-k67kcrnc1shcpqh9389h267p4253iul5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQywqFd0YMN-uQ8q9uzFXcKykgx4nwvJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507667439115-k67kcrnc1shcpqh9389h267p4253iul5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

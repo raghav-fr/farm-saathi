@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     FIREBASE_STORAGE_BUCKET: str = ""
 
     # ── ML Model paths ───────────────────────────────────────────────────────
-    CROP_MODEL_PATH: str = "./ml/crop_recommendation/models/crop_model.pkl"
-    CROP_ENCODER_PATH: str = "./ml/crop_recommendation/models/crop_encoder.pkl"
+    CROP_MODEL_PATH: str = "./ml/crop_recommendation/models/crop_model.json"
+    CROP_ENCODER_PATH: str = "./ml/crop_recommendation/models/crop_encoder.json"
     DISEASE_MODEL_PATH: str = "./ml/disease_detection/mobilenetv4_best.pth"
     DISEASE_CLASSES_PATH: str = "./ml/disease_detection/models/classes.json"
     SOIL_MODEL_PATH: str = "./ml/soil_classification/models/soil_model.onnx"

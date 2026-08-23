@@ -1,0 +1,4071 @@
+{
+  "tomato___early_blight": {
+    "crop": "Tomato",
+    "disease": "Early Blight",
+    "pathogen": "Alternaria solani",
+    "symptoms": [
+      "Dark brown concentric ring lesions on older/lower leaves",
+      "Lesions surrounded by yellow halo",
+      "Premature leaf drop",
+      "Stem lesions with dark brown sunken areas"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures (24–29°C)",
+      "High humidity (>80%)",
+      "Wet leaf surfaces",
+      "Plant stress from nutrient deficiency"
+    ],
+    "management": [
+      "Remove and destroy severely affected leaves immediately",
+      "Avoid overhead irrigation; use drip irrigation",
+      "Improve air circulation by proper spacing",
+      "Maintain field sanitation — remove crop debris",
+      "Ensure balanced nutrition, especially nitrogen",
+      "Consult local agricultural expert for approved fungicide options"
+    ],
+    "prevention": [
+      "Use certified disease-free seeds",
+      "Practice crop rotation (avoid solanaceous crops)",
+      "Select resistant varieties where available"
+    ],
+    "source": "ICAR-IIHR Disease Management Guidelines"
+  },
+  "tomato___late_blight": {
+    "crop": "Tomato",
+    "disease": "Late Blight",
+    "pathogen": "Phytophthora infestans",
+    "symptoms": [
+      "Water-soaked pale green lesions on leaves",
+      "White cottony growth on undersides of leaves",
+      "Brown lesions on stems",
+      "Rapid fruit rot"
+    ],
+    "favorable_conditions": [
+      "Cool temperatures (10–25°C)",
+      "High relative humidity (>90%)",
+      "Prolonged wet weather"
+    ],
+    "management": [
+      "Remove and destroy infected plant parts",
+      "Avoid working in fields when wet",
+      "Improve drainage in fields",
+      "Avoid overhead irrigation",
+      "Consult local Krishi Kendra for approved protective measures"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Apply preventive protective measures before disease onset in high-risk weather"
+    ],
+    "source": "ICAR Disease Management Guidelines"
+  },
+  "potato___late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "pathogen": "Phytophthora infestans",
+    "symptoms": [
+      "Dark water-soaked lesions on leaf margins",
+      "White fungal growth on leaf undersides",
+      "Brown rot on tubers"
+    ],
+    "favorable_conditions": [
+      "Cool, wet weather",
+      "Temperatures 10–20°C with high humidity"
+    ],
+    "management": [
+      "Remove infected haulms before harvest",
+      "Ensure proper field drainage",
+      "Store tubers in cool, dry, ventilated conditions",
+      "Use certified seed tubers",
+      "Consult local agricultural expert for protective management"
+    ],
+    "source": "CPRI Potato Disease Management"
+  },
+  "rice___bacterial_leaf_blight": {
+    "crop": "Rice",
+    "disease": "Bacterial Leaf Blight",
+    "pathogen": "Xanthomonas oryzae pv. oryzae",
+    "symptoms": [
+      "Yellow to white lesions along leaf margins",
+      "Lesions with wavy margins",
+      "Wilting of seedlings (kresek phase)",
+      "Milky or opaque exudate from cut ends of affected leaves"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures (25–30°C)",
+      "High humidity",
+      "Heavy rainfall and strong winds",
+      "Excess nitrogen application"
+    ],
+    "management": [
+      "Drain the field and allow it to dry",
+      "Avoid excess nitrogen fertilization",
+      "Remove and destroy infected plants",
+      "Ensure proper field drainage",
+      "Consult local agricultural extension office for management options"
+    ],
+    "prevention": [
+      "Use certified disease-free seeds",
+      "Plant resistant varieties",
+      "Practice balanced fertilization"
+    ],
+    "source": "ICAR-CRRI Rice Disease Management"
+  },
+  "rice___leaf_blast": {
+    "crop": "Rice",
+    "disease": "Leaf Blast",
+    "pathogen": "Magnaporthe oryzae",
+    "symptoms": [
+      "Diamond-shaped lesions with grey center and brown margins",
+      "Lesions may coalesce to kill entire leaf",
+      "Collar rot at leaf base",
+      "Node blast — black/rotted nodes"
+    ],
+    "favorable_conditions": [
+      "Cool temperatures (20–25°C)",
+      "High humidity and dew",
+      "Heavy nitrogen application",
+      "Cloudy weather"
+    ],
+    "management": [
+      "Avoid excess nitrogen fertilizer application",
+      "Drain field intermittently",
+      "Remove infected plant debris",
+      "Consult local Krishi Vigyan Kendra for approved management"
+    ],
+    "source": "ICAR-CRRI Blast Management Guidelines"
+  },
+  "maize___common_rust": {
+    "crop": "Maize",
+    "disease": "Common Rust",
+    "pathogen": "Puccinia sorghi",
+    "symptoms": [
+      "Small, circular to elongated pustules on both leaf surfaces",
+      "Pustules brick-red in color",
+      "Pustules turn dark brown/black at maturity",
+      "Severe infection causes leaf yellowing"
+    ],
+    "favorable_conditions": [
+      "Cool temperatures (16–23°C)",
+      "High humidity",
+      "Heavy dew formation"
+    ],
+    "management": [
+      "Plant resistant hybrid varieties",
+      "Early sowing to avoid peak disease period",
+      "Remove volunteer maize plants",
+      "Consult local agricultural expert for management recommendations"
+    ],
+    "source": "ICAR-IIMR Maize Disease Guide"
+  },
+  "grape___black_rot": {
+    "crop": "Grape",
+    "disease": "Black Rot",
+    "pathogen": "Guignardia bidwellii",
+    "symptoms": [
+      "Circular tan spots with dark borders on leaves",
+      "Mummified berries — black and shriveled",
+      "Lesions on shoots and tendrils"
+    ],
+    "favorable_conditions": [
+      "Warm, wet spring and summer",
+      "Temperatures 20–30°C with frequent rain"
+    ],
+    "management": [
+      "Remove and destroy mummified fruit",
+      "Prune to improve air circulation",
+      "Remove infected canes during dormancy",
+      "Consult local horticulture expert for protective measures"
+    ],
+    "source": "NHB Grape Disease Management"
+  },
+  "apple___apple_scab": {
+    "crop": "Apple",
+    "disease": "Apple Scab",
+    "pathogen": "Venturia inaequalis",
+    "symptoms": [
+      "Olive-green to black lesions on leaves",
+      "Lesions on fruit with corky, rough texture",
+      "Premature leaf and fruit drop",
+      "Distorted fruit growth"
+    ],
+    "favorable_conditions": [
+      "Cool, wet spring weather",
+      "Temperatures 18–24°C with prolonged leaf wetness"
+    ],
+    "management": [
+      "Rake and destroy fallen leaves",
+      "Prune for air circulation",
+      "Plant resistant varieties where possible",
+      "Consult local horticulture department for approved protective measures"
+    ],
+    "source": "CITH Apple Disease Management Guidelines"
+  },
+  "pearl_millet___bacterial_leaf_streak": {
+    "crop": "Pearl Millet",
+    "disease": "Bacterial leaf streak",
+    "pathogen": "Xanthomonas oryzae pv. oryzicola",
+    "symptoms": [
+      "Yellowish streaks on leaves",
+      "Water-soaked lesions",
+      "Leaf chlorosis",
+      "Leaf wilting"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High humidity",
+      "Wet conditions"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid water stress",
+      "Apply copper-based bactericides",
+      "Maintain field sanitation"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Avoid planting in same area consecutively",
+      "Proper irrigation management"
+    ],
+    "source": "ICAR"
+  },
+  "pearl_millet___root_rot": {
+    "crop": "Pearl Millet",
+    "disease": "Root rot",
+    "pathogen": "Fusarium oxysporum f. sp. penniseti",
+    "symptoms": [
+      "Stunted growth",
+      "Wilting",
+      "Brown, rotted roots",
+      "Yellowing leaves"
+    ],
+    "favorable_conditions": [
+      "Warm soil >20°C",
+      "High moisture",
+      "Poorly drained soils"
+    ],
+    "management": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "pearl_millet___leaf_spot": {
+    "crop": "Pearl Millet",
+    "disease": "Leaf spot",
+    "pathogen": "Cercospora subglabra",
+    "symptoms": [
+      "Circular brown spots with yellow halo",
+      "Leaf margin necrosis",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Moderate rainfall"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid over-fertilization",
+      "Apply fungicides such as mancozeb",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid excessive nitrogen",
+      "Proper spacing"
+    ],
+    "source": "ICAR"
+  },
+  "finger_millet___bacterial_leaf_streak": {
+    "crop": "Finger Millet",
+    "disease": "Bacterial leaf streak",
+    "pathogen": "Xanthomonas oryzae pv. oryzicola",
+    "symptoms": [
+      "Yellowish streaks on leaves",
+      "Water-soaked lesions",
+      "Leaf chlorosis",
+      "Leaf wilting"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High humidity",
+      "Wet conditions"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid water stress",
+      "Apply copper-based bactericides",
+      "Maintain field sanitation"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Avoid planting in same area consecutively",
+      "Proper irrigation management"
+    ],
+    "source": "ICAR"
+  },
+  "finger_millet___root_rot": {
+    "crop": "Finger Millet",
+    "disease": "Root rot",
+    "pathogen": "Fusarium oxysporum f. sp. eleae",
+    "symptoms": [
+      "Stunted growth",
+      "Wilting",
+      "Brown, rotted roots",
+      "Yellowing leaves"
+    ],
+    "favorable_conditions": [
+      "Warm soil >20°C",
+      "High moisture",
+      "Poorly drained soils"
+    ],
+    "management": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "finger_millet___leaf_spot": {
+    "crop": "Finger Millet",
+    "disease": "Leaf spot",
+    "pathogen": "Cercospora subglabra",
+    "symptoms": [
+      "Circular brown spots with yellow halo",
+      "Leaf margin necrosis",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Moderate rainfall"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid over-fertilization",
+      "Apply fungicides such as mancozeb",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid excessive nitrogen",
+      "Proper spacing"
+    ],
+    "source": "ICAR"
+  },
+  "oats___leaf_rust": {
+    "crop": "Oats",
+    "disease": "Leaf rust",
+    "pathogen": "Puccinia coronata f. sp. avenae",
+    "symptoms": [
+      "Orange pustules on leaf underside",
+      "Yellowing of leaves",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "Cool to moderate temperatures 15-20°C",
+      "High humidity",
+      "Wetness"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply fungicides such as azoxystrobin",
+      "Crop rotation",
+      "Avoid late planting",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid late planting",
+      "Proper spacing"
+    ],
+    "source": "FAO"
+  },
+  "oats___powdery_mildew": {
+    "crop": "Oats",
+    "disease": "Powdery mildew",
+    "pathogen": "Blumeria graminis f. sp. avenae",
+    "symptoms": [
+      "White powdery patches on leaves",
+      "Leaf distortion",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "Dry, high humidity",
+      "Poor airflow"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply fungicides such as myclobutanil",
+      "Improve airflow",
+      "Avoid overhead irrigation",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Improve airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "oats___stem_rot": {
+    "crop": "Oats",
+    "disease": "Stem rot",
+    "pathogen": "Rhizoctonia solani",
+    "symptoms": [
+      "White fungal growth on stem",
+      "Soft rot",
+      "Stunted growth",
+      "Wilting"
+    ],
+    "favorable_conditions": [
+      "Warm, wet soils",
+      "High humidity"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Avoid overwatering"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Improve drainage",
+      "Avoid overwatering"
+    ],
+    "source": "FAO"
+  },
+  "chickpea___ascochyta_blight": {
+    "crop": "Chickpea",
+    "disease": "Ascochyta blight",
+    "pathogen": "Ascochyta rabiei",
+    "symptoms": [
+      "Circular brown lesions on pods",
+      "Pod rot",
+      "Leaf spots"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Wet soil"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Apply fungicides such as chlorothalonil",
+      "Avoid late planting",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Avoid late planting",
+      "Proper spacing"
+    ],
+    "source": "ICAR"
+  },
+  "chickpea___bacterial_blight": {
+    "crop": "Chickpea",
+    "disease": "Bacterial blight",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions",
+      "Leaf yellowing",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Wet conditions"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Apply copper bactericides",
+      "Avoid water stress",
+      "Maintain sanitation"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Apply copper sprays",
+      "Avoid water stress"
+    ],
+    "source": "ICAR"
+  },
+  "chickpea___root_rot": {
+    "crop": "Chickpea",
+    "disease": "Root rot",
+    "pathogen": "Fusarium oxysporum f. sp. ciceris",
+    "symptoms": [
+      "Stunted growth",
+      "Wilting",
+      "Brown, rotted roots",
+      "Yellowing leaves"
+    ],
+    "favorable_conditions": [
+      "Warm soil >20°C",
+      "High moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "pigeon_pea___bacterial_leaf_spot": {
+    "crop": "Pigeon Pea",
+    "disease": "Bacterial leaf spot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions",
+      "Leaf yellowing",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Wet conditions"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Apply copper bactericides",
+      "Avoid water stress",
+      "Maintain sanitation"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Crop rotation",
+      "Apply copper sprays",
+      "Avoid water stress"
+    ],
+    "source": "ICAR"
+  },
+  "pigeon_pea___root_rot": {
+    "crop": "Pigeon Pea",
+    "disease": "Root rot",
+    "pathogen": "Fusarium oxysporum f. sp. cajanus",
+    "symptoms": [
+      "Stunted growth",
+      "Wilting",
+      "Brown, rotted roots",
+      "Yellowing leaves"
+    ],
+    "favorable_conditions": [
+      "Warm soil >20°C",
+      "High moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Use disease-free seed",
+      "Crop rotation",
+      "Improve drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "pigeon_pea___mildew": {
+    "crop": "Pigeon Pea",
+    "disease": "Mildew",
+    "pathogen": "Alternaria alternata",
+    "symptoms": [
+      "White to grayish patches",
+      "Leaf distortion",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures",
+      "High humidity",
+      "Poor ventilation"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply fungicides such as chlorothalonil",
+      "Improve airflow",
+      "Avoid overhead irrigation",
+      "Maintain proper spacing"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Improve airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "lentil___ascochyta_blight": {
+    "crop": "Lentil",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta lentis",
+    "symptoms": [
+      "yellowish brown pustules on leaves",
+      "chlorosis of leaf tissue",
+      "stem lesions",
+      "deformed pods"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "moderate temperatures (20-25°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-legumes for 2 years",
+      "use of resistant cultivars",
+      "seed treatment with fungicide (e.g., chlorothalonil)",
+      "foliar spray of systemic fungicides (e.g., azoxystrobin)",
+      "prune infected leaves"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain proper spacing for airflow",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "lentil___fusarium_wilt": {
+    "crop": "Lentil",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. lentis",
+    "symptoms": [
+      "yellowing of lower leaves",
+      "stunted growth",
+      "wilting during dry periods",
+      "brown vascular discoloration"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "dry soil conditions",
+      "poor drainage"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 3 years",
+      "use of resistant varieties",
+      "soil solarization before planting",
+      "seed treatment with fungicide (e.g., carbendazim)",
+      "apply potassium to improve plant vigor"
+    ],
+    "prevention": [
+      "plant in well-drained soils",
+      "avoid overwatering",
+      "use disease-free seed"
+    ],
+    "source": "FAO"
+  },
+  "lentil___sclerotinia_stem_rot": {
+    "crop": "Lentil",
+    "disease": "Sclerotinia Stem Rot",
+    "pathogen": "Sclerotinia minor",
+    "symptoms": [
+      "brown to black lesions on stems",
+      "soft, water-soaked stems",
+      "stem collapse",
+      "white sclerotia on soil surface"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "cool temperatures (15-20°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-legumes for 2 years",
+      "remove and destroy infected debris",
+      "apply fungicide (e.g., mancozeb) at seedling stage",
+      "use resistant varieties"
+    ],
+    "prevention": [
+      "avoid waterlogging",
+      "maintain good field drainage",
+      "use certified seed"
+    ],
+    "source": "ICAR"
+  },
+  "blackgram___ascochyta_blight": {
+    "crop": "Black Gram",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta phaseoli",
+    "symptoms": [
+      "brown pustules on leaves",
+      "chlorosis",
+      "stem lesions",
+      "pod rot"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "moderate temperatures (20-25°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "seed treatment with fungicide (e.g., chlorothalonil)",
+      "foliar spray of systemic fungicides (e.g., azoxystrobin)",
+      "prune infected leaves"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain proper spacing for airflow",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "blackgram___bacterial_blight": {
+    "crop": "Black Gram",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. phaseoli",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "yellowing streaks",
+      "stem cankers",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "apply copper-based bactericides (e.g., copper hydroxide)",
+      "prune infected stems",
+      "apply systemic bactericides (e.g., streptomycin)"
+    ],
+    "prevention": [
+      "use certified seed",
+      "avoid water splashing on foliage",
+      "maintain proper spacing"
+    ],
+    "source": "FAO"
+  },
+  "blackgram___fusarium_wilt": {
+    "crop": "Black Gram",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. phaseoli",
+    "symptoms": [
+      "yellowing of lower leaves",
+      "stunted growth",
+      "wilting during dry periods",
+      "brown vascular discoloration"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "dry soil conditions",
+      "poor drainage"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 3 years",
+      "use resistant varieties",
+      "soil solarization before planting",
+      "seed treatment with fungicide (e.g., carbendazim)",
+      "apply potassium to improve plant vigor"
+    ],
+    "prevention": [
+      "plant in well-drained soils",
+      "avoid overwatering",
+      "use disease-free seed"
+    ],
+    "source": "ICAR"
+  },
+  "greengram___ascochyta_blight": {
+    "crop": "Green Gram",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta phaseoli",
+    "symptoms": [
+      "brown pustules on leaves",
+      "chlorosis",
+      "stem lesions",
+      "pod rot"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "moderate temperatures (20-25°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "seed treatment with fungicide (e.g., chlorothalonil)",
+      "foliar spray of systemic fungicides (e.g., azoxystrobin)",
+      "prune infected leaves"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain proper spacing for airflow",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "greengram___bacterial_blight": {
+    "crop": "Green Gram",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. phaseoli",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "yellowing streaks",
+      "stem cankers",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "apply copper-based bactericides (e.g., copper hydroxide)",
+      "prune infected stems",
+      "apply systemic bactericides (e.g., streptomycin)"
+    ],
+    "prevention": [
+      "use certified seed",
+      "avoid water splashing on foliage",
+      "maintain proper spacing"
+    ],
+    "source": "FAO"
+  },
+  "greengram___fusarium_wilt": {
+    "crop": "Green Gram",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. phaseoli",
+    "symptoms": [
+      "yellowing of lower leaves",
+      "stunted growth",
+      "wilting during dry periods",
+      "brown vascular discoloration"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "dry soil conditions",
+      "poor drainage"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 3 years",
+      "use resistant varieties",
+      "soil solarization before planting",
+      "seed treatment with fungicide (e.g., carbendazim)",
+      "apply potassium to improve plant vigor"
+    ],
+    "prevention": [
+      "plant in well-drained soils",
+      "avoid overwatering",
+      "use disease-free seed"
+    ],
+    "source": "ICAR"
+  },
+  "cowpea___ascochyta_blight": {
+    "crop": "Cowpea",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta fabae",
+    "symptoms": [
+      "brown pustules on leaves",
+      "chlorosis",
+      "stem lesions",
+      "pod rot"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "moderate temperatures (20-25°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "seed treatment with fungicide (e.g., chlorothalonil)",
+      "foliar spray of systemic fungicides (e.g., azoxystrobin)",
+      "prune infected leaves"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain proper spacing for airflow",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "cowpea___bacterial_blight": {
+    "crop": "Cowpea",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "yellowing streaks",
+      "stem cankers",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "apply copper-based bactericides (e.g., copper hydroxide)",
+      "prune infected stems",
+      "apply systemic bactericides (e.g., streptomycin)"
+    ],
+    "prevention": [
+      "use certified seed",
+      "avoid water splashing on foliage",
+      "maintain proper spacing"
+    ],
+    "source": "FAO"
+  },
+  "cowpea___fusarium_wilt": {
+    "crop": "Cowpea",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. fabae",
+    "symptoms": [
+      "yellowing of lower leaves",
+      "stunted growth",
+      "wilting during dry periods",
+      "brown vascular discoloration"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "dry soil conditions",
+      "poor drainage"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 3 years",
+      "use resistant varieties",
+      "soil solarization before planting",
+      "seed treatment with fungicide (e.g., carbendazim)",
+      "apply potassium to improve plant vigor"
+    ],
+    "prevention": [
+      "plant in well-drained soils",
+      "avoid overwatering",
+      "use disease-free seed"
+    ],
+    "source": "ICAR"
+  },
+  "peas___ascochyta_blight": {
+    "crop": "Peas",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta pisi",
+    "symptoms": [
+      "brown pustules on leaves",
+      "chlorosis",
+      "stem lesions",
+      "pod rot"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "moderate temperatures (20-25°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "seed treatment with fungicide (e.g., chlorothalonil)",
+      "foliar spray of systemic fungicides (e.g., azoxystrobin)",
+      "prune infected leaves"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain proper spacing for airflow",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "peas___bacterial_blight": {
+    "crop": "Peas",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "yellowing streaks",
+      "stem cankers",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "wet soil"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 2 years",
+      "use resistant varieties",
+      "apply copper-based bactericides (e.g., copper hydroxide)",
+      "prune infected stems",
+      "apply systemic bactericides (e.g., streptomycin)"
+    ],
+    "prevention": [
+      "use certified seed",
+      "avoid water splashing on foliage",
+      "maintain proper spacing"
+    ],
+    "source": "FAO"
+  },
+  "peas___fusarium_wilt": {
+    "crop": "Peas",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. pisi",
+    "symptoms": [
+      "yellowing of lower leaves",
+      "stunted growth",
+      "wilting during dry periods",
+      "brown vascular discoloration"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "dry soil conditions",
+      "poor drainage"
+    ],
+    "management": [
+      "crop rotation with non-host crops for 3 years",
+      "use resistant varieties",
+      "soil solarization before planting",
+      "seed treatment with fungicide (e.g., carbendazim)",
+      "apply potassium to improve plant vigor"
+    ],
+    "prevention": [
+      "plant in well-drained soils",
+      "avoid overwatering",
+      "use disease-free seed"
+    ],
+    "source": "ICAR"
+  },
+  "kidneybean___bacterial_blight": {
+    "crop": "Kidney Bean",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. phaseoli",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellowing and chlorosis around lesions",
+      "Leaf drop and wilting",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 25-30°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Apply copper-based bactericides at the first sign of disease",
+      "Practice crop rotation with non-host crops",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected plant debris"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Avoid overwatering and maintain good drainage",
+      "Use clean irrigation water"
+    ],
+    "source": "ICAR"
+  },
+  "kidneybean___ascochyta_blight": {
+    "crop": "Kidney Bean",
+    "disease": "Ascochyta Blight",
+    "pathogen": "Ascochyta phaseoli",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Leaf margin necrosis",
+      "Stunted growth",
+      "Reduced pod set"
+    ],
+    "favorable_conditions": [
+      "Cool, moist weather",
+      "Leaf wetness lasting more than 12 hours",
+      "High humidity"
+    ],
+    "management": [
+      "Apply fungicides containing mancozeb or chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected leaves",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-legumes",
+      "Avoid planting in the same field consecutively"
+    ],
+    "source": "ICAR"
+  },
+  "kidneybean___cercospora_leaf_spot": {
+    "crop": "Kidney Bean",
+    "disease": "Cercospora Leaf Spot",
+    "pathogen": "Cercospora kikuchii",
+    "symptoms": [
+      "Small, circular brown spots with grayish centers",
+      "Leaf yellowing and chlorosis",
+      "Premature leaf drop",
+      "Reduced photosynthetic area"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-28°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as azoxystrobin or trifloxystrobin",
+      "Use resistant cultivars",
+      "Ensure adequate spacing for airflow",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "groundnut___peanut_rust": {
+    "crop": "Groundnut",
+    "disease": "Peanut Rust",
+    "pathogen": "Uromyces vignae",
+    "symptoms": [
+      "Yellow pustules on leaf undersides",
+      "Leaf yellowing and necrosis",
+      "Reduced pod yield",
+      "Stunted plant growth"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 25-30°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as mancozeb or chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected leaves",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "groundnut___peanut_leaf_spot": {
+    "crop": "Groundnut",
+    "disease": "Peanut Leaf Spot",
+    "pathogen": "Alternaria alternata",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Leaf margin necrosis",
+      "Premature leaf drop",
+      "Reduced photosynthetic area"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-28°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as mancozeb or chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "groundnut___aphanomyces_root_rot": {
+    "crop": "Groundnut",
+    "disease": "Aphanomyces Root Rot",
+    "pathogen": "Aphanomyces euteiches",
+    "symptoms": [
+      "Stunted growth",
+      "Yellowing of leaves",
+      "Root rot and blackening",
+      "Reduced pod yield"
+    ],
+    "favorable_conditions": [
+      "Waterlogged soils",
+      "High soil temperatures",
+      "Low soil pH"
+    ],
+    "management": [
+      "Improve drainage and avoid waterlogging",
+      "Use resistant varieties",
+      "Apply fungicides such as metalaxyl",
+      "Ensure proper spacing",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "mustard___blackleg": {
+    "crop": "Mustard",
+    "disease": "Blackleg",
+    "pathogen": "Leptosphaeria maculans",
+    "symptoms": [
+      "Water-soaked lesions on stems",
+      "Brown to black necrotic spots on leaves",
+      "Stunted growth",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-25°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Apply fungicides such as azoxystrobin",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected debris",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "mustard___sclerotinia_stem_rot": {
+    "crop": "Mustard",
+    "disease": "Sclerotinia Stem Rot",
+    "pathogen": "Sclerotinia sclerotiorum",
+    "symptoms": [
+      "White, cottony mycelium on stems",
+      "Brown to black lesions on stems and leaves",
+      "Stunted growth",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 15-25°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected debris",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "mustard___powdery_mildew": {
+    "crop": "Mustard",
+    "disease": "Powdery Mildew",
+    "pathogen": "Erysiphe cruciferarum",
+    "symptoms": [
+      "White powdery spots on leaves",
+      "Leaf distortion and yellowing",
+      "Premature leaf drop",
+      "Reduced photosynthetic area"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-25°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as mancozeb or chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "soybean___soybean_cyst_nematode": {
+    "crop": "Soybean",
+    "disease": "Soybean Cyst Nematode",
+    "pathogen": "Heterodera glycines",
+    "symptoms": [
+      "Stunted growth",
+      "Yellowing of leaves",
+      "Root galls and cysts",
+      "Reduced pod yield"
+    ],
+    "favorable_conditions": [
+      "Warm soils (25-30°C)",
+      "High soil moisture",
+      "Low soil pH"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Apply nematicides such as oxamyl",
+      "Implement crop rotation with non-host crops",
+      "Ensure proper spacing for airflow",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "soybean___soybean_mosaic_virus": {
+    "crop": "Soybean",
+    "disease": "Soybean Mosaic Virus",
+    "pathogen": "Soybean mosaic virus",
+    "symptoms": [
+      "Yellow mosaic patterns on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-30°C",
+      "Presence of aphids"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Control aphid populations with insecticides",
+      "Remove infected plants promptly",
+      "Ensure proper spacing for airflow",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Control aphid vectors"
+    ],
+    "source": "ICAR"
+  },
+  "soybean___phytophthora_root_rot": {
+    "crop": "Soybean",
+    "disease": "Phytophthora Root Rot",
+    "pathogen": "Phytophthora sojae",
+    "symptoms": [
+      "Root rot and blackening",
+      "Stunted growth",
+      "Yellowing of leaves",
+      "Reduced pod yield"
+    ],
+    "favorable_conditions": [
+      "Waterlogged soils",
+      "High soil temperatures",
+      "Low soil pH"
+    ],
+    "management": [
+      "Improve drainage and avoid waterlogging",
+      "Use resistant cultivars",
+      "Apply fungicides such as metalaxyl",
+      "Ensure proper spacing for airflow",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "soybean___cercospora_leaf_spot": {
+    "crop": "Soybean",
+    "disease": "Cercospora Leaf Spot",
+    "pathogen": "Cercospora kikuchii",
+    "symptoms": [
+      "Circular brown spots with grayish centers",
+      "Leaf yellowing and chlorosis",
+      "Premature leaf drop",
+      "Reduced photosynthetic area"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-28°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as azoxystrobin or trifloxystrobin",
+      "Use resistant cultivars",
+      "Ensure adequate spacing for airflow",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "sunflower___sclerotinia_stem_rot": {
+    "crop": "Sunflower",
+    "disease": "Sclerotinia Stem Rot",
+    "pathogen": "Sclerotinia sclerotiorum",
+    "symptoms": [
+      "White, cottony mycelium on stems",
+      "Brown to black lesions on stems and leaves",
+      "Stunted growth",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 15-25°C",
+      "Leaf wetness"
+    ],
+    "management": [
+      "Apply fungicides such as chlorothalonil",
+      "Use resistant varieties",
+      "Ensure proper spacing for airflow",
+      "Remove and destroy infected debris",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "sunflower___sunflower_mosaic_virus": {
+    "crop": "Sunflower",
+    "disease": "Sunflower Mosaic Virus",
+    "pathogen": "Sunflower mosaic virus",
+    "symptoms": [
+      "Yellow mosaic patterns on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures between 20-30°C",
+      "Presence of aphids"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Control aphid populations with insecticides",
+      "Remove infected plants promptly",
+      "Ensure proper spacing for airflow",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation",
+      "Control aphid vectors"
+    ],
+    "source": "ICAR"
+  },
+  "sunflower___fusarium_wilt": {
+    "crop": "Sunflower",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f. sp. helianthi",
+    "symptoms": [
+      "Yellowing of lower leaves",
+      "Wilting of stems",
+      "Stunted growth",
+      "Reduced seed set"
+    ],
+    "favorable_conditions": [
+      "High soil moisture",
+      "Temperatures between 25-30°C",
+      "Low soil pH"
+    ],
+    "management": [
+      "Use resistant cultivars",
+      "Improve drainage",
+      "Apply fungicides such as carbendazim",
+      "Ensure proper spacing for airflow",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Plant disease-free seeds",
+      "Use crop rotation with non-host crops",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "safflower___leaf_spot": {
+    "crop": "Safflower",
+    "disease": "Leaf Spot",
+    "pathogen": "Colletotrichum sp.",
+    "symptoms": [
+      "Circular brown lesions with concentric rings",
+      "Lesions coalesce forming large necrotic patches",
+      "Yellowing of surrounding leaf tissue",
+      "Leaf drop in severe cases"
+    ],
+    "favorable_conditions": [
+      "High humidity (>80%)",
+      "Warm temperatures (25–30°C)",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil at recommended rate",
+      "Remove and destroy infected leaves",
+      "Ensure proper spacing for airflow",
+      "Rotate crops to reduce inoculum"
+    ],
+    "prevention": [
+      "Use disease-resistant varieties",
+      "Practice crop rotation with non-host crops",
+      "Apply balanced fertilizer to avoid excessive leaf growth"
+    ],
+    "source": "ICAR"
+  },
+  "safflower___rust": {
+    "crop": "Safflower",
+    "disease": "Rust",
+    "pathogen": "Puccinia sp.",
+    "symptoms": [
+      "Yellow-orange pustules on leaf underside",
+      "Leaf yellowing and chlorosis",
+      "Stunted growth",
+      "Reduced seed yield"
+    ],
+    "favorable_conditions": [
+      "Cool, moist conditions (20–25°C with high humidity)",
+      "Long wet periods",
+      "Dense canopy"
+    ],
+    "management": [
+      "Apply systemic fungicide such as azoxystrobin or carbendazim",
+      "Prune infected parts",
+      "Use resistant cultivars if available",
+      "Apply calcium to strengthen cell walls"
+    ],
+    "prevention": [
+      "Plant at optimal spacing",
+      "Avoid planting in recently infested fields",
+      "Use certified disease-free seed"
+    ],
+    "source": "FAO"
+  },
+  "safflower___mosaic_virus": {
+    "crop": "Safflower",
+    "disease": "Mosaic Virus",
+    "pathogen": "Safflower mosaic virus",
+    "symptoms": [
+      "Yellow mottling on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced seed size"
+    ],
+    "favorable_conditions": [
+      "Presence of aphid vectors",
+      "Warm temperatures (25–30°C)",
+      "High humidity"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Apply insecticides to control aphids",
+      "Remove infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement aphid monitoring and control",
+      "Avoid planting near infected fields"
+    ],
+    "source": "ICAR"
+  },
+  "sesame___leaf_spot": {
+    "crop": "Sesame",
+    "disease": "Leaf Spot",
+    "pathogen": "Colletotrichum sesamum",
+    "symptoms": [
+      "Brown circular lesions on leaves",
+      "Lesions with concentric rings",
+      "Leaf yellowing",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or copper sulfate",
+      "Remove infected leaves",
+      "Ensure proper spacing",
+      "Use disease-resistant varieties"
+    ],
+    "prevention": [
+      "Use clean seed",
+      "Rotate crops",
+      "Apply balanced fertilizer"
+    ],
+    "source": "ICAR"
+  },
+  "sesame___rust": {
+    "crop": "Sesame",
+    "disease": "Rust",
+    "pathogen": "Puccinia sesami",
+    "symptoms": [
+      "Orange pustules on leaf underside",
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Cool, moist conditions (20–25°C)",
+      "High humidity",
+      "Dense canopy"
+    ],
+    "management": [
+      "Apply systemic fungicide such as azoxystrobin",
+      "Prune infected parts",
+      "Use resistant cultivars",
+      "Maintain good air circulation"
+    ],
+    "prevention": [
+      "Plant at optimal spacing",
+      "Avoid planting in recently infested fields",
+      "Use certified disease-free seed"
+    ],
+    "source": "FAO"
+  },
+  "sesame___mosaic_virus": {
+    "crop": "Sesame",
+    "disease": "Mosaic Virus",
+    "pathogen": "Sesame mosaic virus",
+    "symptoms": [
+      "Yellow mottling on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced seed size"
+    ],
+    "favorable_conditions": [
+      "Presence of aphid vectors",
+      "Warm temperatures (25–30°C)",
+      "High humidity"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Apply insecticides to control aphids",
+      "Remove infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement aphid monitoring and control",
+      "Avoid planting near infected fields"
+    ],
+    "source": "ICAR"
+  },
+  "castor___blight": {
+    "crop": "Castor",
+    "disease": "Blight",
+    "pathogen": "Phytophthora nicotianae",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellowing and wilting",
+      "Leaf drop",
+      "Root rot"
+    ],
+    "favorable_conditions": [
+      "High soil moisture",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or phosphite",
+      "Improve drainage",
+      "Remove infected plant parts",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant in well-drained soils",
+      "Avoid overwatering",
+      "Use disease-free seed"
+    ],
+    "source": "ICAR"
+  },
+  "castor___mosaic_virus": {
+    "crop": "Castor",
+    "disease": "Mosaic Virus",
+    "pathogen": "Castor bean mosaic virus",
+    "symptoms": [
+      "Yellow mottling on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced seed yield"
+    ],
+    "favorable_conditions": [
+      "Presence of aphid vectors",
+      "Warm temperatures (25–30°C)",
+      "High humidity"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Apply insecticides to control aphids",
+      "Remove infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement aphid monitoring and control",
+      "Avoid planting near infected fields"
+    ],
+    "source": "FAO"
+  },
+  "castor___leaf_spot": {
+    "crop": "Castor",
+    "disease": "Leaf Spot",
+    "pathogen": "Cercospora sp.",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Lesions with concentric rings",
+      "Leaf yellowing",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or copper sulfate",
+      "Remove infected leaves",
+      "Ensure proper spacing",
+      "Use disease-resistant varieties"
+    ],
+    "prevention": [
+      "Use clean seed",
+      "Rotate crops",
+      "Apply balanced fertilizer"
+    ],
+    "source": "ICAR"
+  },
+  "linseed___leaf_spot": {
+    "crop": "Linseed",
+    "disease": "Leaf Spot",
+    "pathogen": "Colletotrichum lindemuthianum",
+    "symptoms": [
+      "Brown circular lesions on leaves",
+      "Lesions with concentric rings",
+      "Leaf yellowing",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or copper sulfate",
+      "Remove infected leaves",
+      "Ensure proper spacing",
+      "Use disease-resistant varieties"
+    ],
+    "prevention": [
+      "Use clean seed",
+      "Rotate crops",
+      "Apply balanced fertilizer"
+    ],
+    "source": "ICAR"
+  },
+  "linseed___rust": {
+    "crop": "Linseed",
+    "disease": "Rust",
+    "pathogen": "Puccinia linseed",
+    "symptoms": [
+      "Orange pustules on leaf underside",
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Cool, moist conditions (20–25°C)",
+      "High humidity",
+      "Dense canopy"
+    ],
+    "management": [
+      "Apply systemic fungicide such as azoxystrobin",
+      "Prune infected parts",
+      "Use resistant cultivars",
+      "Maintain good air circulation"
+    ],
+    "prevention": [
+      "Plant at optimal spacing",
+      "Avoid planting in recently infested fields",
+      "Use certified disease-free seed"
+    ],
+    "source": "FAO"
+  },
+  "linseed___mosaic_virus": {
+    "crop": "Linseed",
+    "disease": "Mosaic Virus",
+    "pathogen": "Linseed mosaic virus",
+    "symptoms": [
+      "Yellow mottling on leaves",
+      "Stunted growth",
+      "Leaf distortion",
+      "Reduced seed size"
+    ],
+    "favorable_conditions": [
+      "Presence of aphid vectors",
+      "Warm temperatures (25–30°C)",
+      "High humidity"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Apply insecticides to control aphids",
+      "Remove infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement aphid monitoring and control",
+      "Avoid planting near infected fields"
+    ],
+    "source": "ICAR"
+  },
+  "cotton___leaf_curl_disease": {
+    "crop": "Cotton",
+    "disease": "Leaf Curl Disease",
+    "pathogen": "Begomovirus (Cotton leaf curl virus)",
+    "symptoms": [
+      "Yellowing and curling of leaves",
+      "Stunted growth",
+      "Reduced fiber quality",
+      "Yield loss"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures (25–30°C)",
+      "High humidity",
+      "Presence of whitefly vectors"
+    ],
+    "management": [
+      "Use insecticide to control whiteflies",
+      "Apply systemic fungicide such as imidacloprid",
+      "Use resistant varieties",
+      "Apply balanced fertilizer"
+    ],
+    "prevention": [
+      "Plant certified disease-free seed",
+      "Use whitefly-resistant varieties",
+      "Implement whitefly monitoring and control"
+    ],
+    "source": "ICAR"
+  },
+  "cotton___boll_rot": {
+    "crop": "Cotton",
+    "disease": "Boll Rot",
+    "pathogen": "Macrophomina phaseolina",
+    "symptoms": [
+      "Brownish-black lesions on bolls",
+      "Boll shriveling",
+      "Yield loss",
+      "Reduced fiber quality"
+    ],
+    "favorable_conditions": [
+      "High temperatures (30–35°C)",
+      "Low humidity",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as azoxystrobin or carbendazim",
+      "Remove infected bolls",
+      "Improve drainage",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant in well-drained soils",
+      "Avoid overwatering",
+      "Use disease-free seed"
+    ],
+    "source": "FAO"
+  },
+  "cotton___leaf_spot": {
+    "crop": "Cotton",
+    "disease": "Leaf Spot",
+    "pathogen": "Cercospora spp.",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Lesions with concentric rings",
+      "Leaf yellowing",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or copper sulfate",
+      "Remove infected leaves",
+      "Ensure proper spacing",
+      "Use disease-resistant varieties"
+    ],
+    "prevention": [
+      "Use clean seed",
+      "Rotate crops",
+      "Apply balanced fertilizer"
+    ],
+    "source": "ICAR"
+  },
+  "rubber___leaf_blight": {
+    "crop": "Rubber",
+    "disease": "Leaf Blight",
+    "pathogen": "Phytophthora palmivora",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellowing and necrotic patches",
+      "Leaf drop and defoliation",
+      "Stunted growth of shoots"
+    ],
+    "favorable_conditions": [
+      "High humidity above 80%",
+      "Warm temperatures between 25–30°C",
+      "Poor drainage leading to waterlogging"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil at recommended rates",
+      "Ensure proper spacing and pruning for airflow",
+      "Remove and destroy infected leaves and debris",
+      "Use resistant clones where available",
+      "Implement soil drainage improvements"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Maintain adequate spacing and pruning",
+      "Avoid over‑watering and improve drainage"
+    ],
+    "source": "ICAR"
+  },
+  "rubber___canker_disease": {
+    "crop": "Rubber",
+    "disease": "Canker Disease",
+    "pathogen": "Ceratocystis fimbriata",
+    "symptoms": [
+      "Water-soaked lesions on stems and branches",
+      "Brown to black cankers with sunken edges",
+      "Dieback of branches",
+      "Exudation of sap from infected sites"
+    ],
+    "favorable_conditions": [
+      "High rainfall and humidity",
+      "Temperatures between 20–28°C",
+      "Injuries or wounds on bark"
+    ],
+    "management": [
+      "Apply systemic fungicide such as carbendazim or thiophanate-methyl",
+      "Prune out infected branches and destroy them",
+      "Sanitize pruning tools between cuts",
+      "Avoid mechanical injuries to bark",
+      "Use resistant clones"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Avoid wounding of bark",
+      "Maintain proper spacing for airflow"
+    ],
+    "source": "ICAR"
+  },
+  "rubber___rust": {
+    "crop": "Rubber",
+    "disease": "Rust",
+    "pathogen": "Puccinia meilingii",
+    "symptoms": [
+      "Orange pustules on leaf undersides",
+      "Yellowing of leaves",
+      "Leaf drop and reduced photosynthesis",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity above 70%",
+      "Temperatures between 20–25°C",
+      "Poor ventilation"
+    ],
+    "management": [
+      "Apply fungicide such as azoxystrobin or pyraclostrobin",
+      "Remove and destroy infected leaves",
+      "Ensure adequate spacing and pruning",
+      "Use resistant clones",
+      "Apply calcium sprays to strengthen leaf tissue"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Maintain good airflow and spacing",
+      "Avoid over‑fertilization with nitrogen"
+    ],
+    "source": "ICAR"
+  },
+  "coconut___lethal_yellowing": {
+    "crop": "Coconut",
+    "disease": "Lethal Yellowing",
+    "pathogen": "Coconut lethal yellowing virus",
+    "symptoms": [
+      "Yellowing of leaves starting from the top",
+      "Stunted growth and reduced fruit size",
+      "Leaf abscission",
+      "Reduced oil yield"
+    ],
+    "favorable_conditions": [
+      "High temperatures above 30°C",
+      "High humidity",
+      "Presence of whiteflies as vectors"
+    ],
+    "management": [
+      "Use virus‑free planting material",
+      "Control whitefly populations with insecticides or biological agents",
+      "Remove and destroy infected palms",
+      "Apply systemic fungicides to reduce vector damage",
+      "Implement quarantine measures"
+    ],
+    "prevention": [
+      "Use certified disease‑free seedlings",
+      "Control whitefly populations",
+      "Avoid planting in previously infected fields"
+    ],
+    "source": "FAO"
+  },
+  "coconut___taro_leaf_blight": {
+    "crop": "Coconut",
+    "disease": "Taro Leaf Blight",
+    "pathogen": "Phytophthora colocasiae",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellowing and necrotic patches",
+      "Leaf drop",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity above 80%",
+      "Warm temperatures 25–30°C",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected leaves and debris",
+      "Improve drainage and reduce standing water",
+      "Use resistant varieties",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Ensure adequate spacing and airflow",
+      "Avoid over‑watering"
+    ],
+    "source": "ICAR"
+  },
+  "coconut___wilt": {
+    "crop": "Coconut",
+    "disease": "Coconut Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. citricola",
+    "symptoms": [
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Wilting of fronds",
+      "Reduced fruit yield"
+    ],
+    "favorable_conditions": [
+      "High temperatures above 30°C",
+      "High humidity",
+      "Waterlogged soils"
+    ],
+    "management": [
+      "Apply systemic fungicide such as carbendazim",
+      "Improve drainage and avoid over‑watering",
+      "Remove and destroy infected palms",
+      "Use resistant varieties",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Ensure proper drainage",
+      "Avoid planting in contaminated soils"
+    ],
+    "source": "ICAR"
+  },
+  "mango___anthracnose": {
+    "crop": "Mango",
+    "disease": "Anthracnose",
+    "pathogen": "Colletotrichum gloeosporioides",
+    "symptoms": [
+      "Dark brown to black lesions on fruit and leaves",
+      "Water-soaked spots before darkening",
+      "Leaf drop",
+      "Fruit rot"
+    ],
+    "favorable_conditions": [
+      "High humidity above 70%",
+      "Temperatures 25–30°C",
+      "Rainfall or mist"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove and destroy infected fruit and leaves",
+      "Prune for better airflow",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant resistant varieties",
+      "Maintain good orchard hygiene",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "source": "ICAR"
+  },
+  "mango___black_spot": {
+    "crop": "Mango",
+    "disease": "Black Spot",
+    "pathogen": "Phytophthora citricola",
+    "symptoms": [
+      "Dark brown to black lesions on fruit and leaves",
+      "Leaf drop",
+      "Fruit rot",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity above 80%",
+      "Warm temperatures 25–30°C",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected fruit and leaves",
+      "Improve drainage and reduce standing water",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Ensure adequate spacing and airflow",
+      "Avoid over‑watering"
+    ],
+    "source": "ICAR"
+  },
+  "mango___bacterial_leaf_spot": {
+    "crop": "Mango",
+    "disease": "Bacterial Leaf Spot",
+    "pathogen": "Xanthomonas campestris pv. mangiferae",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellow halos around spots",
+      "Leaf drop",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity above 70%",
+      "Temperatures 25–30°C",
+      "Rainfall or mist"
+    ],
+    "management": [
+      "Apply copper-based bactericide such as copper hydroxide",
+      "Remove and destroy infected leaves",
+      "Prune for better airflow",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Maintain orchard hygiene",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "source": "ICAR"
+  },
+  "banana___black_sigatoka": {
+    "crop": "Banana",
+    "disease": "Black Sigatoka",
+    "pathogen": "Mycosphaerella fijiensis",
+    "symptoms": [
+      "Grayish-green lesions on leaf undersides",
+      "Yellowing and necrosis of leaves",
+      "Leaf drop",
+      "Reduced fruit yield"
+    ],
+    "favorable_conditions": [
+      "High humidity above 80%",
+      "Temperatures 25–30°C",
+      "Rainfall or mist"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove and destroy infected leaves",
+      "Prune for better airflow",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Ensure adequate spacing and airflow",
+      "Avoid over‑watering"
+    ],
+    "source": "IRRI"
+  },
+  "banana___wilt": {
+    "crop": "Banana",
+    "disease": "Banana Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. cubense",
+    "symptoms": [
+      "Yellowing of leaves",
+      "Wilting of fronds",
+      "Stunted growth",
+      "Reduced fruit yield"
+    ],
+    "favorable_conditions": [
+      "High temperatures above 30°C",
+      "High humidity",
+      "Waterlogged soils"
+    ],
+    "management": [
+      "Apply systemic fungicide such as carbendazim",
+      "Improve drainage and avoid over‑watering",
+      "Remove and destroy infected plants",
+      "Use resistant varieties",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Ensure proper drainage",
+      "Avoid planting in contaminated soils"
+    ],
+    "source": "ICAR"
+  },
+  "banana___streak_virus": {
+    "crop": "Banana",
+    "disease": "Banana Streak Virus",
+    "pathogen": "Banana streak virus",
+    "symptoms": [
+      "Yellow streaks on leaves",
+      "Leaf distortion and curling",
+      "Reduced fruit size",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High temperatures above 30°C",
+      "High humidity",
+      "Presence of aphids as vectors"
+    ],
+    "management": [
+      "Use virus‑free planting material",
+      "Control aphid populations with insecticides or biological agents",
+      "Remove and destroy infected plants",
+      "Apply systemic fungicides to reduce vector damage",
+      "Implement quarantine measures"
+    ],
+    "prevention": [
+      "Use certified disease‑free seedlings",
+      "Control aphid populations",
+      "Avoid planting in previously infected fields"
+    ],
+    "source": "FAO"
+  },
+  "citrus___canker": {
+    "crop": "Citrus",
+    "disease": "Citrus Canker",
+    "pathogen": "Xanthomonas citri subsp. citri",
+    "symptoms": [
+      "Water-soaked lesions on leaves and fruits",
+      "Yellow halos around lesions",
+      "Leaf drop",
+      "Reduced fruit quality"
+    ],
+    "favorable_conditions": [
+      "High humidity above 70%",
+      "Temperatures 25–30°C",
+      "Rainfall or mist"
+    ],
+    "management": [
+      "Apply copper-based bactericide such as copper hydroxide",
+      "Remove and destroy infected leaves and fruits",
+      "Prune for better airflow",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Maintain orchard hygiene",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "source": "ICAR"
+  },
+  "citrus___greening": {
+    "crop": "Citrus",
+    "disease": "Citrus Greening",
+    "pathogen": "Candidatus Liberibacter asiaticus",
+    "symptoms": [
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Fruit drop",
+      "Reduced fruit size"
+    ],
+    "favorable_conditions": [
+      "High temperatures above 30°C",
+      "High humidity",
+      "Presence of psyllids as vectors"
+    ],
+    "management": [
+      "Use insecticides to control psyllids",
+      "Remove and destroy infected trees",
+      "Plant disease‑free seedlings",
+      "Apply systemic bactericides where approved",
+      "Implement quarantine measures"
+    ],
+    "prevention": [
+      "Use certified disease‑free planting material",
+      "Control psyllid populations",
+      "Avoid planting in previously infected areas"
+    ],
+    "source": "FAO"
+  },
+  "citrus___black_spot": {
+    "crop": "Citrus",
+    "disease": "Citrus Black Spot",
+    "pathogen": "Phytophthora citricola",
+    "symptoms": [
+      "Dark brown to black lesions on leaves and fruits",
+      "Leaf drop",
+      "Fruit rot",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "High humidity above 80%",
+      "Warm temperatures 25–30°C",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected leaves and fruits",
+      "Improve drainage and reduce standing water",
+      "Use resistant cultivars",
+      "Apply calcium sprays"
+    ],
+    "prevention": [
+      "Plant disease‑resistant varieties",
+      "Ensure adequate spacing and airflow",
+      "Avoid over‑watering"
+    ],
+    "source": "ICAR"
+  },
+  "pomegranate___fruit_rot": {
+    "crop": "Pomegranate",
+    "disease": "Fruit Rot",
+    "pathogen": "Phytophthora cactorum",
+    "symptoms": [
+      "soft, water-soaked lesions on fruit",
+      "brownish discoloration",
+      "moldy appearance on surface"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "poor drainage"
+    ],
+    "management": [
+      "prune infected branches",
+      "remove fallen fruit promptly",
+      "apply recommended fungicide after rain"
+    ],
+    "prevention": [
+      "use disease-free seed or grafted material",
+      "ensure adequate spacing for airflow",
+      "avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "pomegranate___bacterial_spot": {
+    "crop": "Pomegranate",
+    "disease": "Bacterial Spot",
+    "pathogen": "Xanthomonas campestris pv. punicae",
+    "symptoms": [
+      "yellowish-brown spots on leaves",
+      "necrotic lesions on fruit",
+      "stunted growth"
+    ],
+    "favorable_conditions": [
+      "warm, humid weather",
+      "high leaf wetness",
+      "dense canopy"
+    ],
+    "management": [
+      "remove and destroy infected leaves",
+      "apply copper-based bactericide as per local guidelines",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant cultivars",
+      "maintain proper spacing",
+      "prune to reduce humidity"
+    ],
+    "source": "FAO"
+  },
+  "pomegranate___anthracnose": {
+    "crop": "Pomegranate",
+    "disease": "Anthracnose",
+    "pathogen": "Colletotrichum acutatum",
+    "symptoms": [
+      "black, sunken lesions on fruit",
+      "brown streaks on leaves",
+      "fruit drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-28°C)",
+      "wet foliage"
+    ],
+    "management": [
+      "remove infected fruit",
+      "apply fungicide at recommended intervals",
+      "prune to improve light penetration"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain good orchard hygiene",
+      "avoid overhead irrigation"
+    ],
+    "source": "University Extension"
+  },
+  "sapota___fruit_rot": {
+    "crop": "Sapota",
+    "disease": "Fruit Rot",
+    "pathogen": "Colletotrichum gloeosporioides",
+    "symptoms": [
+      "soft, mushy fruit",
+      "brownish lesions",
+      "mold growth on surface"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "poor drainage"
+    ],
+    "management": [
+      "remove fallen fruit",
+      "apply fungicide after rain",
+      "prune infected branches"
+    ],
+    "prevention": [
+      "use disease-free seed or grafted material",
+      "ensure proper spacing",
+      "avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "sapota___leaf_spot": {
+    "crop": "Sapota",
+    "disease": "Leaf Spot",
+    "pathogen": "Alternaria alternata",
+    "symptoms": [
+      "brownish spots with concentric rings on leaves",
+      "yellowing of leaf margins",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-25°C)",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply fungicide at first sign of disease",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant varieties",
+      "maintain proper spacing",
+      "avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "sapota___bacterial_blight": {
+    "crop": "Sapota",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "brown streaks on fruit",
+      "wilting"
+    ],
+    "favorable_conditions": [
+      "warm, humid weather",
+      "high leaf wetness",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply copper-based bactericide",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use disease-free seed",
+      "maintain proper spacing",
+      "prune to reduce humidity"
+    ],
+    "source": "University Extension"
+  },
+  "litchi___leaf_spot": {
+    "crop": "Litchi",
+    "disease": "Leaf Spot",
+    "pathogen": "Colletotrichum acutatum",
+    "symptoms": [
+      "brownish lesions on leaves",
+      "yellowing of leaf margins",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply fungicide after rain",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant varieties",
+      "maintain proper spacing",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "litchi___fruit_rot": {
+    "crop": "Litchi",
+    "disease": "Fruit Rot",
+    "pathogen": "Fusarium oxysporum f. sp. litchii",
+    "symptoms": [
+      "soft, water-soaked fruit",
+      "brownish lesions",
+      "mold growth"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (25-30°C)",
+      "poor drainage"
+    ],
+    "management": [
+      "remove fallen fruit",
+      "apply fungicide after rain",
+      "prune infected branches"
+    ],
+    "prevention": [
+      "use disease-free seed",
+      "ensure adequate spacing",
+      "avoid overwatering"
+    ],
+    "source": "FAO"
+  },
+  "litchi___bacterial_blight": {
+    "crop": "Litchi",
+    "disease": "Bacterial Blight",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "water-soaked lesions on leaves",
+      "brown streaks on fruit",
+      "wilting"
+    ],
+    "favorable_conditions": [
+      "warm, humid weather",
+      "high leaf wetness",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply copper-based bactericide",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use disease-free seed",
+      "maintain proper spacing",
+      "prune to reduce humidity"
+    ],
+    "source": "University Extension"
+  },
+  "watermelon___powdery_mildew": {
+    "crop": "Watermelon",
+    "disease": "Powdery Mildew",
+    "pathogen": "Erysiphe polygoni",
+    "symptoms": [
+      "white powdery patches on leaves and fruit",
+      "yellowing of leaves",
+      "stunted growth"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-25°C)",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply fungicide at first sign of disease",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant varieties",
+      "maintain proper spacing",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "watermelon___bacterial_wilt": {
+    "crop": "Watermelon",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Erwinia tracheiphila",
+    "symptoms": [
+      "wilting of vines",
+      "brown streaks in stems",
+      "yellowing of leaves"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "high humidity",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected vines",
+      "apply copper-based bactericide",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use disease-free seed",
+      "maintain proper spacing",
+      "prune to reduce humidity"
+    ],
+    "source": "FAO"
+  },
+  "watermelon___anthracnose": {
+    "crop": "Watermelon",
+    "disease": "Anthracnose",
+    "pathogen": "Colletotrichum gloeosporioides",
+    "symptoms": [
+      "black, sunken lesions on fruit",
+      "brown streaks on leaves",
+      "fruit drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-28°C)",
+      "wet foliage"
+    ],
+    "management": [
+      "remove infected fruit",
+      "apply fungicide at first sign of disease",
+      "prune to improve light penetration"
+    ],
+    "prevention": [
+      "use certified disease-free seed",
+      "maintain good orchard hygiene",
+      "avoid overhead irrigation"
+    ],
+    "source": "University Extension"
+  },
+  "muskmelon___downy_mildew": {
+    "crop": "Muskmelon",
+    "disease": "Downy Mildew",
+    "pathogen": "Peronospora cubensis",
+    "symptoms": [
+      "yellowish spots on upper leaf surface",
+      "white fuzzy growth on underside",
+      "leaf distortion"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-25°C)",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply fungicide after rain",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant varieties",
+      "maintain proper spacing",
+      "avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "muskmelon___leaf_spot": {
+    "crop": "Muskmelon",
+    "disease": "Leaf Spot",
+    "pathogen": "Alternaria alternata",
+    "symptoms": [
+      "brownish spots with concentric rings on leaves",
+      "yellowing of leaf margins",
+      "leaf drop"
+    ],
+    "favorable_conditions": [
+      "high humidity",
+      "warm temperatures (20-25°C)",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected leaves",
+      "apply fungicide at first sign of disease",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use resistant varieties",
+      "maintain proper spacing",
+      "avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "muskmelon___bacterial_wilt": {
+    "crop": "Muskmelon",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Erwinia tracheiphila",
+    "symptoms": [
+      "wilting of vines",
+      "brown streaks in stems",
+      "yellowing of leaves"
+    ],
+    "favorable_conditions": [
+      "warm temperatures (25-30°C)",
+      "high humidity",
+      "dense canopy"
+    ],
+    "management": [
+      "remove infected vines",
+      "apply copper-based bactericide",
+      "prune to improve airflow"
+    ],
+    "prevention": [
+      "use disease-free seed",
+      "maintain proper spacing",
+      "prune to reduce humidity"
+    ],
+    "source": "University Extension"
+  },
+  "cucumber___powdery_mildew": {
+    "crop": "Cucumber",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii",
+    "symptoms": [
+      "White powdery patches on leaves and fruit",
+      "Leaf distortion and yellowing",
+      "Reduced fruit size",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 20-25°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur or potassium bicarbonate spray",
+      "Use resistant varieties",
+      "Ensure proper spacing and pruning",
+      "Apply fungicide every 7-10 days during infection period",
+      "Remove and destroy infected leaves"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good field hygiene",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "cucumber___cucumber_mosaic_virus": {
+    "crop": "Cucumber",
+    "disease": "Cucumber Mosaic Virus",
+    "pathogen": "Cucumber mosaic virus (CMV)",
+    "symptoms": [
+      "Mosaic or mottled leaf patterns",
+      "Yellowing and stunting of plants",
+      "Distorted fruit shape",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High insect vector activity",
+      "Poor sanitation"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Control aphid vectors with insecticides or natural predators",
+      "Remove and destroy infected plants",
+      "Rotate crops with non-host species",
+      "Apply systemic protectants if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement vector control measures",
+      "Practice crop rotation"
+    ],
+    "source": "FAO"
+  },
+  "cucumber___downy_mildew": {
+    "crop": "Cucumber",
+    "disease": "Downy Mildew",
+    "pathogen": "Peronospora cubensis",
+    "symptoms": [
+      "Grayish-white downy growth on leaf underside",
+      "Yellowing and wilting of leaves",
+      "Leaf distortion and premature drop",
+      "Reduced fruit quality"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 18-24°C",
+      "Overcast weather"
+    ],
+    "management": [
+      "Apply metalaxyl or azoxystrobin fungicide",
+      "Ensure adequate spacing and pruning",
+      "Use resistant varieties",
+      "Avoid overhead irrigation",
+      "Remove infected leaves promptly"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good air circulation",
+      "Avoid excessive fertilizer that promotes lush growth"
+    ],
+    "source": "ICAR"
+  },
+  "bottle_gourd___bacterial_wilt": {
+    "crop": "Bottle Gourd",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Ralstonia solanacearum",
+    "symptoms": [
+      "Wilting of leaves despite adequate moisture",
+      "Yellowing and drying of foliage",
+      "White or yellowish ooze from stem cut",
+      "Sudden plant death"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High soil moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use certified disease-free seed",
+      "Apply copper-based bactericides",
+      "Improve drainage and avoid waterlogging",
+      "Remove and destroy infected plants",
+      "Rotate with non-host crops"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Practice crop rotation",
+      "Ensure proper field sanitation"
+    ],
+    "source": "ICAR"
+  },
+  "bottle_gourd___powdery_mildew": {
+    "crop": "Bottle Gourd",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii",
+    "symptoms": [
+      "White powdery patches on leaves and fruit",
+      "Leaf distortion and yellowing",
+      "Reduced fruit size",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 20-25°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur or potassium bicarbonate spray",
+      "Use resistant varieties",
+      "Ensure proper spacing and pruning",
+      "Apply fungicide every 7-10 days during infection period",
+      "Remove and destroy infected leaves"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good field hygiene",
+      "Avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "bottle_gourd___gummy_stem_blight": {
+    "crop": "Bottle Gourd",
+    "disease": "Gummy Stem Blight",
+    "pathogen": "Didymella bryoniae",
+    "symptoms": [
+      "Water-soaked lesions on stems and leaves",
+      "Gummy exudate from lesions",
+      "Leaf spots turning brown and necrotic",
+      "Stunted growth and fruit deformation"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 25-30°C",
+      "Overcast days"
+    ],
+    "management": [
+      "Apply fungicide such as chlorothalonil or mancozeb",
+      "Remove and destroy infected plant parts",
+      "Ensure adequate spacing and pruning",
+      "Use resistant varieties if available",
+      "Avoid excessive nitrogen fertilizer"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good air circulation",
+      "Practice crop rotation"
+    ],
+    "source": "ICAR"
+  },
+  "bitter_gourd___bacterial_wilt": {
+    "crop": "Bitter Gourd",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Ralstonia solanacearum",
+    "symptoms": [
+      "Wilting of leaves despite adequate moisture",
+      "Yellowing and drying of foliage",
+      "White or yellowish ooze from stem cut",
+      "Sudden plant death"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High soil moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use certified disease-free seed",
+      "Apply copper-based bactericides",
+      "Improve drainage and avoid waterlogging",
+      "Remove and destroy infected plants",
+      "Rotate with non-host crops"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Practice crop rotation",
+      "Ensure proper field sanitation"
+    ],
+    "source": "ICAR"
+  },
+  "bitter_gourd___cucumber_mosaic_virus": {
+    "crop": "Bitter Gourd",
+    "disease": "Cucumber Mosaic Virus",
+    "pathogen": "Cucumber mosaic virus (CMV)",
+    "symptoms": [
+      "Mosaic or mottled leaf patterns",
+      "Yellowing and stunting of plants",
+      "Distorted fruit shape",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High insect vector activity",
+      "Poor sanitation"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Control aphid vectors with insecticides or natural predators",
+      "Remove and destroy infected plants",
+      "Rotate crops with non-host species",
+      "Apply systemic protectants if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement vector control measures",
+      "Practice crop rotation"
+    ],
+    "source": "FAO"
+  },
+  "bitter_gourd___powdery_mildew": {
+    "crop": "Bitter Gourd",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii",
+    "symptoms": [
+      "White powdery patches on leaves and fruit",
+      "Leaf distortion and yellowing",
+      "Reduced fruit size",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 20-25°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur or potassium bicarbonate spray",
+      "Use resistant varieties",
+      "Ensure proper spacing and pruning",
+      "Apply fungicide every 7-10 days during infection period",
+      "Remove and destroy infected leaves"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good field hygiene",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "ridge_gourd___bacterial_wilt": {
+    "crop": "Ridge Gourd",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Ralstonia solanacearum",
+    "symptoms": [
+      "Wilting of leaves despite adequate moisture",
+      "Yellowing and drying of foliage",
+      "White or yellowish ooze from stem cut",
+      "Sudden plant death"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High soil moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use certified disease-free seed",
+      "Apply copper-based bactericides",
+      "Improve drainage and avoid waterlogging",
+      "Remove and destroy infected plants",
+      "Rotate with non-host crops"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Practice crop rotation",
+      "Ensure proper field sanitation"
+    ],
+    "source": "ICAR"
+  },
+  "ridge_gourd___powdery_mildew": {
+    "crop": "Ridge Gourd",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii",
+    "symptoms": [
+      "White powdery patches on leaves and fruit",
+      "Leaf distortion and yellowing",
+      "Reduced fruit size",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 20-25°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur or potassium bicarbonate spray",
+      "Use resistant varieties",
+      "Ensure proper spacing and pruning",
+      "Apply fungicide every 7-10 days during infection period",
+      "Remove and destroy infected leaves"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good field hygiene",
+      "Avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "ridge_gourd___downy_mildew": {
+    "crop": "Ridge Gourd",
+    "disease": "Downy Mildew",
+    "pathogen": "Peronospora cubensis",
+    "symptoms": [
+      "Grayish-white downy growth on leaf underside",
+      "Yellowing and wilting of leaves",
+      "Leaf distortion and premature drop",
+      "Reduced fruit quality"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 18-24°C",
+      "Overcast weather"
+    ],
+    "management": [
+      "Apply metalaxyl or azoxystrobin fungicide",
+      "Ensure adequate spacing and pruning",
+      "Use resistant varieties",
+      "Avoid overhead irrigation",
+      "Remove infected leaves promptly"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good air circulation",
+      "Avoid excessive fertilizer that promotes lush growth"
+    ],
+    "source": "ICAR"
+  },
+  "pumpkin___powdery_mildew": {
+    "crop": "Pumpkin",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii",
+    "symptoms": [
+      "White powdery patches on leaves and fruit",
+      "Leaf distortion and yellowing",
+      "Reduced fruit size",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 20-25°C",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur or potassium bicarbonate spray",
+      "Use resistant varieties",
+      "Ensure proper spacing and pruning",
+      "Apply fungicide every 7-10 days during infection period",
+      "Remove and destroy infected leaves"
+    ],
+    "prevention": [
+      "Plant disease-free seed",
+      "Maintain good field hygiene",
+      "Avoid overhead irrigation"
+    ],
+    "source": "FAO"
+  },
+  "pumpkin___cucumber_mosaic_virus": {
+    "crop": "Pumpkin",
+    "disease": "Cucumber Mosaic Virus",
+    "pathogen": "Cucumber mosaic virus (CMV)",
+    "symptoms": [
+      "Mosaic or mottled leaf patterns",
+      "Yellowing and stunting of plants",
+      "Distorted fruit shape",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High insect vector activity",
+      "Poor sanitation"
+    ],
+    "management": [
+      "Use virus-free seed",
+      "Control aphid vectors with insecticides or natural predators",
+      "Remove and destroy infected plants",
+      "Rotate crops with non-host species",
+      "Apply systemic protectants if available"
+    ],
+    "prevention": [
+      "Use certified virus-free seed",
+      "Implement vector control measures",
+      "Practice crop rotation"
+    ],
+    "source": "ICAR"
+  },
+  "pumpkin___bacterial_wilt": {
+    "crop": "Pumpkin",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Ralstonia solanacearum",
+    "symptoms": [
+      "Wilting of leaves despite adequate moisture",
+      "Yellowing and drying of foliage",
+      "White or yellowish ooze from stem cut",
+      "Sudden plant death"
+    ],
+    "favorable_conditions": [
+      "Warm temperatures 25-30°C",
+      "High soil moisture",
+      "Poor drainage"
+    ],
+    "management": [
+      "Use certified disease-free seed",
+      "Apply copper-based bactericides",
+      "Improve drainage and avoid waterlogging",
+      "Remove and destroy infected plants",
+      "Rotate with non-host crops"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Practice crop rotation",
+      "Ensure proper field sanitation"
+    ],
+    "source": "FAO"
+  },
+  "sponge_gourd___bacterial_wilt": {
+    "crop": "Sponge Gourd",
+    "disease": "Bacterial Wilt",
+    "pathogen": "Ralstonia solanacearum",
+    "symptoms": [
+      "Wilting of leaves despite adequate moisture",
+      "Yellowing and drying of lower leaves",
+      "Stunted growth and eventual plant collapse",
+      "Brown discoloration of vascular tissue"
+    ],
+    "favorable_conditions": [
+      "High soil moisture and temperatures above 25°C",
+      "Poor drainage and saturated soils",
+      "Dense plant spacing leading to humid microclimate"
+    ],
+    "management": [
+      "Apply copper-based bactericides (e.g., copper hydroxide) at recommended rates",
+      "Use hot water irrigation (55–60°C) to kill bacteria in soil",
+      "Sanitize tools and avoid using infected plant material",
+      "Implement crop rotation with non-host crops for 2–3 years",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage and avoid waterlogging",
+      "Maintain adequate spacing to reduce humidity"
+    ],
+    "source": "ICAR"
+  },
+  "sponge_gourd___powdery_mildew": {
+    "crop": "Sponge Gourd",
+    "disease": "Powdery Mildew",
+    "pathogen": "Oidium luffae",
+    "symptoms": [
+      "White powdery patches on leaf surfaces",
+      "Leaf distortion and curling",
+      "Stunted growth and reduced fruit size",
+      "Yellowing of leaves near infection sites"
+    ],
+    "favorable_conditions": [
+      "Temperatures between 20–25°C",
+      "High relative humidity above 70%",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply sulfur-based fungicides or neem oil sprays",
+      "Use systemic fungicides such as azoxystrobin at recommended intervals",
+      "Remove and destroy infected leaves",
+      "Improve air circulation by thinning plants",
+      "Use resistant cultivars if available"
+    ],
+    "prevention": [
+      "Plant in well-ventilated areas",
+      "Avoid overhead irrigation",
+      "Use disease-resistant varieties"
+    ],
+    "source": "FAO"
+  },
+  "sponge_gourd___fusarium_wilt": {
+    "crop": "Sponge Gourd",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. luffae",
+    "symptoms": [
+      "Yellowing of lower leaves",
+      "Wilting that does not improve with watering",
+      "Stunted growth",
+      "Brown discoloration of vascular tissue"
+    ],
+    "favorable_conditions": [
+      "Soil temperatures above 25°C",
+      "High soil moisture",
+      "Soil pH 5.5–7.5"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply soil solarization to reduce pathogen load",
+      "Apply fungicides such as carbendazim or azoxystrobin",
+      "Implement crop rotation with non-host crops",
+      "Remove and destroy infected plant debris"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "cabbage___black_rot": {
+    "crop": "Cabbage",
+    "disease": "Black Rot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions on leaves that turn black",
+      "Leaf spots coalesce into large necrotic areas",
+      "Stunted growth and reduced yield",
+      "Yellowing of leaves near infection sites"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity above 70%",
+      "Dense planting leading to poor airflow"
+    ],
+    "management": [
+      "Apply copper-based bactericides (e.g., copper hydroxide) at recommended rates",
+      "Use systemic bactericides such as streptomycin or oxytetracycline",
+      "Practice crop rotation with non-host crops for 3 years",
+      "Remove and destroy infected leaves",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "cabbage___downy_mildew": {
+    "crop": "Cabbage",
+    "disease": "Downy Mildew",
+    "pathogen": "Peronospora rapae",
+    "symptoms": [
+      "Grayish-white downy growth on underside of leaves",
+      "Yellowing and distortion of leaves",
+      "Leaf spots that turn brown and dry",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Temperatures 15–20°C",
+      "High humidity above 80%",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply fungicides such as metalaxyl or azoxystrobin",
+      "Use systemic fungicides like chlorothalonil",
+      "Remove and destroy infected leaves",
+      "Improve air circulation by thinning plants",
+      "Avoid overhead irrigation"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Use resistant varieties"
+    ],
+    "source": "FAO"
+  },
+  "cabbage___cabbage_mosaic_virus": {
+    "crop": "Cabbage",
+    "disease": "Cabbage Mosaic Virus",
+    "pathogen": "Cabbage mosaic virus (CaMV)",
+    "symptoms": [
+      "Mosaic pattern of light and dark green on leaves",
+      "Stunted growth and leaf distortion",
+      "Yellowing of leaves",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity",
+      "Presence of aphid vectors"
+    ],
+    "management": [
+      "Use virus-free seed or transplants",
+      "Control aphid populations with insecticides or natural predators",
+      "Remove and destroy infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Plant virus-free seed or transplants",
+      "Control aphid vectors with sticky traps or insecticides",
+      "Use resistant varieties"
+    ],
+    "source": "ICAR"
+  },
+  "cauliflower___clubroot": {
+    "crop": "Cauliflower",
+    "disease": "Clubroot",
+    "pathogen": "Plasmodiophora brassicae",
+    "symptoms": [
+      "Swollen, distorted roots",
+      "Stunted growth and yellowing of leaves",
+      "Root discoloration and clubbing",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Soil temperatures 10–15°C",
+      "High soil moisture",
+      "Soil pH 6.5–7.5"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply soil solarization to reduce pathogen load",
+      "Apply lime to raise soil pH above 7.0",
+      "Implement crop rotation with non-host crops for 3 years",
+      "Use fungicides such as metalaxyl or mefenpyrad"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage",
+      "Avoid planting in previously infected fields"
+    ],
+    "source": "FAO"
+  },
+  "cauliflower___bacterial_spot": {
+    "crop": "Cauliflower",
+    "disease": "Bacterial Spot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions on leaves that turn brown",
+      "Leaf spots coalesce into large necrotic areas",
+      "Stunted growth and reduced yield",
+      "Yellowing of leaves near infection sites"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity above 70%",
+      "Dense planting leading to poor airflow"
+    ],
+    "management": [
+      "Apply copper-based bactericides (e.g., copper hydroxide) at recommended rates",
+      "Use systemic bactericides such as streptomycin or oxytetracycline",
+      "Practice crop rotation with non-host crops for 3 years",
+      "Remove and destroy infected leaves",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "cauliflower___fusarium_wilt": {
+    "crop": "Cauliflower",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. brassicae",
+    "symptoms": [
+      "Yellowing of lower leaves",
+      "Wilting that does not improve with watering",
+      "Stunted growth",
+      "Brown discoloration of vascular tissue"
+    ],
+    "favorable_conditions": [
+      "Soil temperatures above 25°C",
+      "High soil moisture",
+      "Soil pH 5.5–7.5"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply soil solarization to reduce pathogen load",
+      "Apply fungicides such as carbendazim or azoxystrobin",
+      "Implement crop rotation with non-host crops",
+      "Remove and destroy infected plant debris"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "broccoli___downy_mildew": {
+    "crop": "Broccoli",
+    "disease": "Downy Mildew",
+    "pathogen": "Peronospora rapae",
+    "symptoms": [
+      "Grayish-white downy growth on underside of leaves",
+      "Yellowing and distortion of leaves",
+      "Leaf spots that turn brown and dry",
+      "Stunted growth"
+    ],
+    "favorable_conditions": [
+      "Temperatures 15–20°C",
+      "High humidity above 80%",
+      "Poor air circulation"
+    ],
+    "management": [
+      "Apply fungicides such as metalaxyl or azoxystrobin",
+      "Use systemic fungicides like chlorothalonil",
+      "Remove and destroy infected leaves",
+      "Improve air circulation by thinning plants",
+      "Avoid overhead irrigation"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Use resistant varieties"
+    ],
+    "source": "FAO"
+  },
+  "broccoli___bacterial_leaf_spot": {
+    "crop": "Broccoli",
+    "disease": "Bacterial Leaf Spot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions on leaves that turn brown",
+      "Leaf spots coalesce into large necrotic areas",
+      "Stunted growth and reduced yield",
+      "Yellowing of leaves near infection sites"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity above 70%",
+      "Dense planting leading to poor airflow"
+    ],
+    "management": [
+      "Apply copper-based bactericides (e.g., copper hydroxide) at recommended rates",
+      "Use systemic bactericides such as streptomycin or oxytetracycline",
+      "Practice crop rotation with non-host crops for 3 years",
+      "Remove and destroy infected leaves",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "broccoli___fusarium_wilt": {
+    "crop": "Broccoli",
+    "disease": "Fusarium Wilt",
+    "pathogen": "Fusarium oxysporum f.sp. brassicae",
+    "symptoms": [
+      "Yellowing of lower leaves",
+      "Wilting that does not improve with watering",
+      "Stunted growth",
+      "Brown discoloration of vascular tissue"
+    ],
+    "favorable_conditions": [
+      "Soil temperatures above 25°C",
+      "High soil moisture",
+      "Soil pH 5.5–7.5"
+    ],
+    "management": [
+      "Use resistant varieties",
+      "Apply soil solarization to reduce pathogen load",
+      "Apply fungicides such as carbendazim or azoxystrobin",
+      "Implement crop rotation with non-host crops",
+      "Remove and destroy infected plant debris"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "radish___root_rot": {
+    "crop": "Radish",
+    "disease": "Root Rot",
+    "pathogen": "Rhizoctonia solani",
+    "symptoms": [
+      "Stunted growth and yellowing of leaves",
+      "Root discoloration and softening",
+      "Water-soaked lesions on roots",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "High soil moisture",
+      "Soil temperatures 20–25°C",
+      "Poor drainage"
+    ],
+    "management": [
+      "Apply fungicides such as chlorothalonil or carbendazim",
+      "Use resistant varieties",
+      "Implement crop rotation with non-host crops for 2–3 years",
+      "Improve drainage and avoid waterlogging",
+      "Remove and destroy infected plant debris"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper drainage",
+      "Avoid overwatering"
+    ],
+    "source": "ICAR"
+  },
+  "radish___black_rot": {
+    "crop": "Radish",
+    "disease": "Black Rot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions on leaves that turn black",
+      "Leaf spots coalesce into large necrotic areas",
+      "Stunted growth and reduced yield",
+      "Yellowing of leaves near infection sites"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity above 70%",
+      "Dense planting leading to poor airflow"
+    ],
+    "management": [
+      "Apply copper-based bactericides (e.g., copper hydroxide) at recommended rates",
+      "Use systemic bactericides such as streptomycin or oxytetracycline",
+      "Practice crop rotation with non-host crops for 3 years",
+      "Remove and destroy infected leaves",
+      "Use resistant varieties"
+    ],
+    "prevention": [
+      "Plant disease-free seed or transplants",
+      "Ensure proper spacing and airflow",
+      "Avoid overhead irrigation"
+    ],
+    "source": "ICAR"
+  },
+  "radish___viral_leaf_spot": {
+    "crop": "Radish",
+    "disease": "Viral Leaf Spot",
+    "pathogen": "Cucumber mosaic virus",
+    "symptoms": [
+      "Mosaic pattern of light and dark green on leaves",
+      "Stunted growth and leaf distortion",
+      "Yellowing of leaves",
+      "Reduced yield"
+    ],
+    "favorable_conditions": [
+      "Temperatures 20–25°C",
+      "High humidity",
+      "Presence of aphid vectors"
+    ],
+    "management": [
+      "Use virus-free seed or transplants",
+      "Control aphid populations with insecticides or natural predators",
+      "Remove and destroy infected plants",
+      "Use resistant varieties if available"
+    ],
+    "prevention": [
+      "Plant virus-free seed or transplants",
+      "Control aphid vectors with sticky traps or insecticides",
+      "Use resistant varieties"
+    ],
+    "source": "FAO"
+  },
+  "neem___leaf_blight": {
+    "crop": "Neem",
+    "disease": "Leaf Blight",
+    "pathogen": "Phytophthora cambivora",
+    "symptoms": [
+      "Water-soaked lesions on leaves",
+      "Yellowing and wilting of affected foliage",
+      "Brown necrotic patches with a grayish spore mass",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>80%)",
+      "Warm temperatures (25–30°C)",
+      "Poor drainage leading to waterlogged soil"
+    ],
+    "management": [
+      "Improve air circulation by spacing plants adequately",
+      "Apply fungicide such as mancozeb or chlorothalonil at recommended intervals",
+      "Remove and destroy infected leaves to reduce inoculum",
+      "Use well-drained soil and avoid overwatering"
+    ],
+    "prevention": [
+      "Plant disease-resistant neem varieties if available",
+      "Practice crop rotation with non-host crops",
+      "Sanitize tools and equipment to prevent spread"
+    ],
+    "source": "ICAR"
+  },
+  "neem___wilting_disease": {
+    "crop": "Neem",
+    "disease": "Wilt Disease",
+    "pathogen": "Phytophthora cambivora",
+    "symptoms": [
+      "Rapid wilting of leaves and stems",
+      "Yellowing of foliage",
+      "Stunted growth",
+      "Root rot with blackened, waterlogged roots"
+    ],
+    "favorable_conditions": [
+      "Saturated soil conditions",
+      "Low soil aeration",
+      "Temperatures above 20°C"
+    ],
+    "management": [
+      "Ensure proper drainage and avoid standing water",
+      "Apply fungicide such as metalaxyl or mefenoxam following label instructions",
+      "Remove and destroy infected plant material",
+      "Use soil amendments to improve aeration"
+    ],
+    "prevention": [
+      "Plant in well-drained sites",
+      "Use disease-free planting material",
+      "Implement drip irrigation to reduce leaf wetness"
+    ],
+    "source": "FAO"
+  },
+  "neem___leaf_spot": {
+    "crop": "Neem",
+    "disease": "Leaf Spot",
+    "pathogen": "Cercospora sp.",
+    "symptoms": [
+      "Small, circular brown spots on leaves",
+      "Spots coalesce into larger necrotic areas",
+      "Yellow halo around lesions",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Warm temperatures (20–28°C)",
+      "Dense canopy with poor airflow"
+    ],
+    "management": [
+      "Prune to improve airflow",
+      "Apply fungicide such as chlorothalonil or mancozeb",
+      "Remove fallen leaves and debris",
+      "Avoid overhead watering"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Maintain proper spacing",
+      "Sanitize tools between plants"
+    ],
+    "source": "ICAR"
+  },
+  "ashwagandha___leaf_spot": {
+    "crop": "Ashwagandha",
+    "disease": "Leaf Spot",
+    "pathogen": "Diaporthe sp.",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Lesions with concentric rings",
+      "Yellowing of surrounding tissue",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Temperatures 20–25°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Improve air circulation by pruning",
+      "Apply fungicide such as mancozeb or thiophanate-methyl",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "prevention": [
+      "Plant disease-resistant varieties",
+      "Use clean seed or cuttings",
+      "Rotate with non-host crops"
+    ],
+    "source": "ICAR"
+  },
+  "ashwagandha___root_rot": {
+    "crop": "Ashwagandha",
+    "disease": "Root Rot",
+    "pathogen": "Fusarium oxysporum f. sp. ashwagandhae",
+    "symptoms": [
+      "Wilting of plants despite adequate watering",
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Blackened, rotted roots"
+    ],
+    "favorable_conditions": [
+      "Waterlogged or poorly drained soils",
+      "High soil moisture",
+      "Temperatures above 25°C"
+    ],
+    "management": [
+      "Improve drainage and avoid overwatering",
+      "Apply fungicide such as carbendazim or mefenoxam",
+      "Remove and destroy infected root material",
+      "Use soil amendments to improve aeration"
+    ],
+    "prevention": [
+      "Plant in well-drained sites",
+      "Use disease-free planting material",
+      "Implement crop rotation with non-hosts"
+    ],
+    "source": "FAO"
+  },
+  "ashwagandha___powdery_mildew": {
+    "crop": "Ashwagandha",
+    "disease": "Powdery Mildew",
+    "pathogen": "Erysiphe sp.",
+    "symptoms": [
+      "White powdery patches on leaves and stems",
+      "Leaf distortion and curling",
+      "Yellowing of affected areas",
+      "Reduced plant vigor"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 15–25°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Improve airflow by pruning",
+      "Apply fungicide such as sulfur or mancozeb",
+      "Remove heavily infected leaves",
+      "Avoid overhead irrigation"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Maintain proper spacing",
+      "Sanitize tools"
+    ],
+    "source": "ICAR"
+  },
+  "aloe_vera___leaf_spot": {
+    "crop": "Aloe Vera",
+    "disease": "Leaf Spot",
+    "pathogen": "Pseudocercospora sp.",
+    "symptoms": [
+      "Small brown spots on leaves",
+      "Lesions coalesce into larger necrotic patches",
+      "Yellow halo around spots",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Temperatures 20–30°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Prune to improve airflow",
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected leaves",
+      "Avoid overhead watering"
+    ],
+    "prevention": [
+      "Use disease-free planting material",
+      "Plant in well-drained soil",
+      "Maintain proper spacing"
+    ],
+    "source": "ICAR"
+  },
+  "aloe_vera___anthracnose": {
+    "crop": "Aloe Vera",
+    "disease": "Anthracnose",
+    "pathogen": "Colletotrichum sp.",
+    "symptoms": [
+      "Dark brown to black lesions on leaves",
+      "Water-soaked appearance before drying",
+      "Leaf wilting and collapse",
+      "Fruit or leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 25–35°C",
+      "Waterlogged soil"
+    ],
+    "management": [
+      "Improve drainage",
+      "Apply fungicide such as mancozeb or carbendazim",
+      "Remove infected plant parts",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Plant in well-drained sites",
+      "Rotate crops"
+    ],
+    "source": "FAO"
+  },
+  "aloe_vera___root_rot": {
+    "crop": "Aloe Vera",
+    "disease": "Root Rot",
+    "pathogen": "Pythium aphanidermatum",
+    "symptoms": [
+      "Wilting despite adequate watering",
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Blackened, rotted roots"
+    ],
+    "favorable_conditions": [
+      "Waterlogged or poorly drained soils",
+      "High soil moisture",
+      "Temperatures above 25°C"
+    ],
+    "management": [
+      "Improve drainage and avoid overwatering",
+      "Apply fungicide such as mefenoxam or metalaxyl",
+      "Remove infected roots",
+      "Use soil amendments to improve aeration"
+    ],
+    "prevention": [
+      "Plant in well-drained sites",
+      "Use disease-free planting material",
+      "Implement crop rotation"
+    ],
+    "source": "ICAR"
+  },
+  "tulsi___leaf_spot": {
+    "crop": "Tulsi",
+    "disease": "Leaf Spot",
+    "pathogen": "Alternaria alternata",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Lesions with concentric rings",
+      "Yellow halo around spots",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Temperatures 20–25°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Improve air circulation by pruning",
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected leaves promptly",
+      "Avoid excessive nitrogen fertilization"
+    ],
+    "prevention": [
+      "Plant disease-resistant varieties",
+      "Use clean seed or cuttings",
+      "Rotate with non-host crops"
+    ],
+    "source": "ICAR"
+  },
+  "tulsi___bacterial_leaf_spot": {
+    "crop": "Tulsi",
+    "disease": "Bacterial Leaf Spot",
+    "pathogen": "Xanthomonas campestris pv. campestris",
+    "symptoms": [
+      "Water-soaked lesions turning brown",
+      "Yellow halo around spots",
+      "Leaf distortion and wilting",
+      "Premature leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>80%)",
+      "Temperatures 25–30°C",
+      "Overhead watering"
+    ],
+    "management": [
+      "Improve airflow and reduce leaf wetness",
+      "Apply copper-based bactericide such as Bordeaux mixture",
+      "Remove and destroy infected leaves",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Use disease-free planting material",
+      "Practice crop rotation",
+      "Sanitize tools"
+    ],
+    "source": "FAO"
+  },
+  "tulsi___powdery_mildew": {
+    "crop": "Tulsi",
+    "disease": "Powdery Mildew",
+    "pathogen": "Erysiphe sp.",
+    "symptoms": [
+      "White powdery patches on leaves and stems",
+      "Leaf distortion and curling",
+      "Yellowing of affected areas",
+      "Reduced plant vigor"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 15–25°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Improve airflow by pruning",
+      "Apply fungicide such as sulfur or mancozeb",
+      "Remove heavily infected leaves",
+      "Avoid overhead irrigation"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Maintain proper spacing",
+      "Sanitize tools"
+    ],
+    "source": "ICAR"
+  },
+  "mint___leaf_spot": {
+    "crop": "Mint",
+    "disease": "Leaf Spot",
+    "pathogen": "Pestalotiopsis sp.",
+    "symptoms": [
+      "Circular brown lesions on leaves",
+      "Lesions coalesce into larger necrotic patches",
+      "Yellow halo around spots",
+      "Leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity (>70%)",
+      "Temperatures 20–25°C",
+      "Dense canopy"
+    ],
+    "management": [
+      "Prune to improve airflow",
+      "Apply fungicide such as mancozeb or chlorothalonil",
+      "Remove infected leaves",
+      "Avoid overhead watering"
+    ],
+    "prevention": [
+      "Use disease-free planting material",
+      "Plant in well-drained soil",
+      "Maintain proper spacing"
+    ],
+    "source": "ICAR"
+  },
+  "mint___anthracnose": {
+    "crop": "Mint",
+    "disease": "Anthracnose",
+    "pathogen": "Colletotrichum sp.",
+    "symptoms": [
+      "Dark brown to black lesions on leaves",
+      "Water-soaked appearance before drying",
+      "Leaf wilting and collapse",
+      "Fruit or leaf drop"
+    ],
+    "favorable_conditions": [
+      "High humidity",
+      "Temperatures 25–35°C",
+      "Waterlogged soil"
+    ],
+    "management": [
+      "Improve drainage",
+      "Apply fungicide such as mancozeb or carbendazim",
+      "Remove infected plant parts",
+      "Avoid excessive nitrogen"
+    ],
+    "prevention": [
+      "Use resistant varieties",
+      "Plant in well-drained sites",
+      "Rotate crops"
+    ],
+    "source": "FAO"
+  },
+  "mint___root_rot": {
+    "crop": "Mint",
+    "disease": "Root Rot",
+    "pathogen": "Fusarium oxysporum f. sp. menthae",
+    "symptoms": [
+      "Wilting despite adequate watering",
+      "Yellowing of leaves",
+      "Stunted growth",
+      "Blackened, rotted roots"
+    ],
+    "favorable_conditions": [
+      "Waterlogged or poorly drained soils",
+      "High soil moisture",
+      "Temperatures above 25°C"
+    ],
+    "management": [
+      "Improve drainage and avoid overwatering",
+      "Apply fungicide such as carbendazim or mefenoxam",
+      "Remove infected roots",
+      "Use soil amendments to improve aeration"
+    ],
+    "prevention": [
+      "Plant in well-drained sites",
+      "Use disease-free planting material",
+      "Implement crop rotation"
+    ],
+    "source": "ICAR"
+  }
+}

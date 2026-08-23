@@ -1,0 +1,21 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "farm-saathi-7859d",
+                    "appId": "1:507667439115:android:a87f3e50721015520c710e",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "farm-saathi-7859d",
+                    "configurations": {
+                        "android": "1:507667439115:android:a87f3e50721015520c710e"
+                    }
+                }
+            }
+        }
+    }
+}

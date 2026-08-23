@@ -79,14 +79,17 @@ class CropEngine:
         if self._model_loaded:
             return
 
-        import joblib
+        import xgboost as xgb
+        import json
 
         model_path = Path(settings.CROP_MODEL_PATH)
         encoder_path = Path(settings.CROP_ENCODER_PATH)
 
         if model_path.exists() and encoder_path.exists():
-            self._model = joblib.load(model_path)
-            self._encoder = joblib.load(encoder_path)
+            self._model = xgb.XGBClassifier()
+            self._model.load_model(str(model_path))
+            with open(encoder_path, "r") as f:
+                self._encoder_classes = json.load(f)
             logger.info("Crop model loaded successfully")
         else:
             logger.warning(
@@ -103,7 +106,6 @@ class CropEngine:
             return {}
 
         try:
-            import pandas as pd
             feature_order = ["Temperature", "Humidity", "pH", "Rainfall"]
             row = [
                 features.get("temperature", 25),
@@ -111,9 +113,9 @@ class CropEngine:
                 features.get("ph", 6.5),
                 features.get("rainfall", 100),
             ]
-            X = pd.DataFrame([row], columns=feature_order)
-            probs = self._model.predict_proba(X)[0]
-            classes = self._encoder.classes_
+            
+            probs = self._model.predict_proba([row])[0]
+            classes = self._encoder_classes
             return {cls: float(p) for cls, p in zip(classes, probs)}
         except Exception as e:
             logger.error(f"XGBoost inference failed: {e}")
