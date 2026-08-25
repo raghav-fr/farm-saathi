@@ -67,8 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F2E9),
-      body: SingleChildScrollView(
-        child: Column(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
           children: [
             // ── Hero Section ──────────────────────────────────────────────
             Container(
@@ -264,6 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

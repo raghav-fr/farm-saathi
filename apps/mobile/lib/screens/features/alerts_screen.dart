@@ -73,8 +73,9 @@ class _AlertsScreenState extends State<AlertsScreen> {
             )
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _fetchAlerts,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: _fetchAlerts,
         color: _brandGreen,
         child: _isLoading
             ? const Center(child: CircularProgressIndicator(color: _brandGreen))
@@ -156,6 +157,7 @@ class _AlertsScreenState extends State<AlertsScreen> {
                       );
                     },
                   ),
+        ),
       ),
     );
   }

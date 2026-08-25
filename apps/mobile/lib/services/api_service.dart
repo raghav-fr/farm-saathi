@@ -33,22 +33,106 @@ class ApiService {
 
   // --- Weather ---
   Future<Map<String, dynamic>> getCurrentWeather(double lat, double lon, {String language = 'en', bool forceRefresh = false}) async {
-    final response = await _dio.get('/weather/current', queryParameters: {
-      'lat': lat,
-      'lon': lon,
-      'language': language,
-      'forceRefresh': forceRefresh,
-    });
-    return response.data;
+    // 1. Fetch Reverse Geocoding for City Name using Nominatim
+    String cityName = "Unknown Location";
+    try {
+      final geoResponse = await Dio().get(
+        'https://nominatim.openstreetmap.org/reverse',
+        queryParameters: {
+          'lat': lat,
+          'lon': lon,
+          'format': 'json',
+        },
+        options: Options(
+          headers: {
+            'User-Agent': 'FarmSaathi/1.0 (contact@farmsaathi.com)', // Required by Nominatim
+            'Accept-Language': language,
+          },
+        ),
+      );
+      if (geoResponse.data != null) {
+        final address = geoResponse.data['address'];
+        if (address != null) {
+          String city = address['city'] ?? 
+                     address['town'] ?? 
+                     address['village'] ?? 
+                     address['suburb'] ??
+                     address['municipality'] ??
+                     "Unknown Location";
+          
+          String district = address['state_district'] ?? 
+                            address['county'] ?? 
+                            address['district'] ?? 
+                            "";
+          
+          if (district.isNotEmpty && district != city) {
+            cityName = '$city, $district';
+          } else {
+            cityName = city;
+          }
+        }
+      }
+    } catch (e) {
+      print("Geocoding error: $e");
+    }
+
+    // 2. Fetch Open-Meteo Weather
+    final response = await Dio().get(
+      'https://api.open-meteo.com/v1/forecast',
+      queryParameters: {
+        'latitude': lat,
+        'longitude': lon,
+        'current': 'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day',
+        'daily': 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max',
+        'timezone': 'auto'
+      },
+    );
+    
+    final data = response.data;
+    final current = data['current'];
+
+    // Map WMO Weather code to text
+    String getConditionText(int code) {
+      if (code == 0) return "Clear sky";
+      if (code == 1) return "Mainly clear";
+      if (code == 2) return "Partly cloudy";
+      if (code == 3) return "Overcast";
+      if (code == 45 || code == 48) return "Fog";
+      if (code >= 51 && code <= 55) return "Drizzle";
+      if (code >= 61 && code <= 65) return "Rain";
+      if (code >= 71 && code <= 75) return "Snow";
+      if (code >= 80 && code <= 82) return "Rain showers";
+      if (code >= 95) return "Thunderstorm";
+      return "Unknown";
+    }
+
+    return {
+      'location': {
+        'name': cityName,
+        'lat': lat,
+        'lon': lon,
+      },
+      'current': {
+        'temperature_c': current['temperature_2m'],
+        'humidity_pct': current['relative_humidity_2m'],
+        'condition': getConditionText(current['weather_code']),
+        'wind_kph': current['wind_speed_10m'],
+        'feels_like_c': current['apparent_temperature'],
+        'rainfall_mm': current['precipitation'],
+      },
+      'daily': data['daily'],
+      'raw_data': data
+    };
   }
 
   // --- Market ---
   Future<Map<String, dynamic>> getMarketRates({String? state, String? district, String? commodity}) async {
-    final response = await _dio.get('/market/rates', queryParameters: {
-      'state': ?state,
-      'district': ?district,
-      'commodity': ?commodity,
-    });
+    final query = <String, dynamic>{};
+    if (state != null && state.isNotEmpty) query['state'] = state;
+    if (district != null && district.isNotEmpty) query['district'] = district;
+    if (commodity != null && commodity.isNotEmpty) query['commodity'] = commodity;
+    
+    final response = await _dio.get('/market/rates', queryParameters: query);
     return response.data;
   }
 
@@ -159,6 +243,41 @@ class ApiService {
 
   Future<Map<String, dynamic>> recommendCrop(Map<String, dynamic> data) async {
     final response = await _dio.post('/crops/recommend', data: data);
+    return response.data;
+  }
+
+  // --- AI Chat ---
+  Future<Map<String, dynamic>> postChat({
+    required String message,
+    String? conversationId,
+    String? farmId,
+    String language = 'en',
+    String? imageBase64,
+  }) async {
+    final response = await _dio.post('/chat', data: {
+      'message': message,
+      if (conversationId != null) 'conversation_id': conversationId,
+      if (farmId != null) 'farm_id': farmId,
+      'language': language,
+      if (imageBase64 != null) 'image': imageBase64,
+    });
+    return response.data;
+  }
+
+  // --- AI Disease Detection ---
+  Future<Map<String, dynamic>> predictDisease({
+    required String imagePath,
+    String? farmId,
+    String? cropName,
+    String language = 'en',
+  }) async {
+    final formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(imagePath),
+      if (farmId != null) 'farm_id': farmId,
+      if (cropName != null) 'crop_name': cropName,
+      'language': language,
+    });
+    final response = await _dio.post('/disease/predict', data: formData);
     return response.data;
   }
 }

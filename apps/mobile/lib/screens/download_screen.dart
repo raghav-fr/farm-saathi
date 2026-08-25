@@ -19,7 +19,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
     final aiService = context.read<LocalAIService>();
     await aiService.downloadAllModels();
     if (mounted && aiService.isModelLoaded) {
-      context.go('/login');
+      context.go('/');
     }
   }
 
@@ -73,7 +73,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                         ),
                         onPressed: _startDownload,
                         child: const Text(
-                          'Download (2.4 GB)',
+                          'Download (1.6 GB)',
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                         ),
                       ),
@@ -95,7 +95,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                               ),
                               elevation: 0,
                             ),
-                            onPressed: () => context.go('/login'),
+                            onPressed: () => context.go('/'),
                             child: const Text(
                               'Continue',
                               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),

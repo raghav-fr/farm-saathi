@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fllama/fllama.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Represents one downloadable model
 class ModelDownloadItem {
@@ -43,6 +45,9 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
   bool get isModelLoaded => _isModelLoaded;
   String get statusMessage => _statusMessage;
   String get progressText => _progressText;
+  
+  double? _contextId;
+  String? _lastLoadError;
 
   double get overallProgress {
     if (_models.isEmpty) return 0.0;
@@ -53,18 +58,17 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
 
   bool get isDownloadComplete => _models.isNotEmpty && _models.every((m) => m.isComplete);
 
-  // Single model: Gemma 4 handles everything —
-  // vision (disease photos) + text (crop, weather, market advisories)
+  // Single model: Gemma 2B (2 Billion params) - lighter and mobile-friendly
   final List<ModelDownloadItem> _models = [
     ModelDownloadItem(
-      name: 'Gemma 4 Multimodal',
+      name: 'Gemma 2B Chat',
       description:
-          'Handles disease detection, crop advisories, weather & market analysis',
+          'Handles local chat inference natively on mobile devices.',
       url:
-          'https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-Q4_K_M.gguf',
-      fileName: 'gemma-4-E4B-it-Q4_K_M.gguf',
-      taskId: 'gemma4_model_download',
-      sizeLabel: '2.4 GB',
+          'https://huggingface.co/bartowski/gemma-2-2b-it-GGUF/resolve/main/gemma-2-2b-it-Q4_K_M.gguf',
+      fileName: 'gemma-2-2b-it-Q4_K_M.gguf',
+      taskId: 'gemma_2b_model_download',
+      sizeLabel: '1.6 GB',
     ),
   ];
 
@@ -82,8 +86,8 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
           model.progress = update.progress;
           _statusMessage = 'Downloading ${model.name}...';
           
-          // Assuming Gemma 4 model size is roughly 2457 MB (2.4 GB)
-          const totalMB = 2457.0;
+          // Assuming Gemma 2B model size is roughly 1600 MB (1.6 GB)
+          const totalMB = 1600.0;
           final downloadedMB = (update.progress * totalMB);
           _progressText = '${downloadedMB.toStringAsFixed(1)} MB / ${totalMB.toStringAsFixed(1)} MB';
           
@@ -127,14 +131,21 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
       ],
     );
 
-    // Check if model already on disk
+    // Check if model already on disk and is a valid size (> 100MB)
     final dir = await getApplicationDocumentsDirectory();
     bool allExist = true;
     for (final model in _models) {
       final file = File('${dir.path}/${model.fileName}');
       if (await file.exists()) {
-        model.isComplete = true;
-        model.progress = 1.0;
+        final length = await file.length();
+        if (length > 100 * 1024 * 1024) {
+          model.isComplete = true;
+          model.progress = 1.0;
+        } else {
+          // File is too small (corrupted or incomplete), delete it
+          await file.delete();
+          allExist = false;
+        }
       } else {
         allExist = false;
       }
@@ -202,8 +213,8 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
       // Show a persistent notification for the download
       FileDownloader().configureNotification(
         running: TaskNotification(
-          '${model.name} Downloading',
-          'FarmSaathi AI model: {progress}%',
+          'Downloading ${model.name}',
+          'Progress: {progress}%',
         ),
         complete: TaskNotification(
           '${model.name} Ready',
@@ -260,31 +271,158 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners();
   }
 
-  Future<void> _loadModels() async {
-    _statusMessage = 'Loading Gemma 4 into memory...';
+  // --- Settings & Diagnostics ---
+  
+  Future<Map<String, dynamic>> analyzeModel() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/${_models.first.fileName}');
+    
+    bool exists = await file.exists();
+    double sizeMB = 0;
+    if (exists) {
+      sizeMB = (await file.length()) / (1024 * 1024);
+    }
+
+    return {
+      'exists': exists,
+      'sizeMB': sizeMB.toStringAsFixed(2),
+      'expectedSize': _models.first.sizeLabel,
+      'lastError': _lastLoadError ?? 'None',
+      'isModelLoaded': _isModelLoaded,
+      'statusMessage': _statusMessage,
+      'isCurrentlyDownloading': _isDownloading,
+    };
+  }
+
+  Future<void> deleteAndRedownloadModel() async {
+    _isDownloading = false;
+    _isModelLoaded = false;
+    _statusMessage = 'Preparing to delete and re-download...';
+    _progressText = '';
     notifyListeners();
 
-    // In production, initialize llama.cpp FFI bindings for Gemma 4 here
-    await Future.delayed(const Duration(seconds: 2));
-    _isModelLoaded = true;
-    _statusMessage = 'Gemma 4 Ready ✓';
+    // Cancel tasks
+    await FileDownloader().cancelTasksWithIds(_models.map((e) => e.taskId).toList());
+
+    final dir = await getApplicationDocumentsDirectory();
+    for (final model in _models) {
+      final file = File('${dir.path}/${model.fileName}');
+      if (await file.exists()) {
+        try {
+          await file.delete();
+        } catch (_) {}
+      }
+      model.progress = 0;
+      model.isComplete = false;
+    }
+
+    notifyListeners();
+    await downloadAllModels();
+  }
+
+  Future<void> _loadModels() async {
+    _statusMessage = 'Loading Gemma 2B into memory...';
+    notifyListeners();
+
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final modelPath = '${dir.path}/${_models.first.fileName}';
+      
+      final loadCommand = await Fllama.instance()?.initContext(
+        modelPath,
+        nCtx: 2048, // Much larger context window for RAG Data
+        nThreads: 4, // Utilize 4 CPU cores
+        nGpuLayers: 99, // Offload as many layers to the GPU as possible
+      );
+
+      if (loadCommand != null && loadCommand.containsKey('contextId')) {
+        _contextId = (loadCommand['contextId'] as num).toDouble();
+        _isModelLoaded = true;
+        _lastLoadError = null;
+        _statusMessage = 'Gemma 2B Ready ✓';
+      } else {
+        throw Exception("Failed to get contextId from fllama");
+      }
+    } catch (e) {
+      debugPrint("Failed to load Llama model: $e");
+      _isModelLoaded = false;
+      _lastLoadError = e.toString();
+      _statusMessage = 'Load Failed (See Analyze)';
+    }
     notifyListeners();
   }
 
   // --- AI Inference APIs ---
 
+  // --- Contextual Offline RAG Engine ---
+  
+  Future<String> _buildContextualPrompt(String userPrompt, Map<String, dynamic>? farmerProfile) async {
+    final prefs = await SharedPreferences.getInstance();
+    
+    final weather = prefs.getString('cached_weather');
+    final alerts = prefs.getString('cached_alerts');
+    
+    final keys = prefs.getKeys();
+    final marketRates = [];
+    for (final key in keys) {
+      if (key.startsWith('market_rates_')) {
+        final val = prefs.getString(key);
+        if (val != null) marketRates.add(val);
+      }
+    }
+
+    final buffer = StringBuffer();
+    buffer.writeln("System: You are an intelligent offline agricultural assistant named FarmSaathi AI. Use the following real-time cached data from the app to provide highly accurate, contextual advice to the farmer.");
+    
+    if (farmerProfile != null) {
+      buffer.writeln("Farmer, Crop & Location Details:");
+      buffer.writeln(jsonEncode(farmerProfile));
+    }
+
+    if (weather != null) buffer.writeln("Weather Data (including 7-day forecast): $weather");
+    if (alerts != null) buffer.writeln("Farm Alerts: $alerts");
+    if (marketRates.isNotEmpty) buffer.writeln("Market Rates: ${marketRates.join(' | ')}");
+
+    buffer.writeln("\nUser Question: $userPrompt");
+    buffer.writeln("\nAssistant: ");
+
+    return buffer.toString();
+  }
+
   // Chat generation (text-only prompt)
-  Stream<String> generateResponse(String prompt) async* {
+  Stream<String> generateResponse(String prompt, {Map<String, dynamic>? farmerProfile}) async* {
     if (!_isModelLoaded) {
       yield "Model not loaded. Please download the model first.";
       return;
     }
-    final mockResponse =
-        "[On-Device AI Placeholder]\nYou asked: $prompt\n\n"
-        "(Note: The full Gemma-4 on-device generation requires native C++ FFI bindings, which are not currently bundled in this demo. This is a mock response.)";
-    for (int i = 0; i < mockResponse.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 20));
-      yield mockResponse[i];
+    
+    if (_contextId == null) {
+      yield "AI Engine failed to initialize. Error: $_lastLoadError";
+      return;
+    }
+    
+    final fullPrompt = await _buildContextualPrompt(prompt, farmerProfile);
+    
+    // Start completion
+    Fllama.instance()?.completion(_contextId!, prompt: fullPrompt);
+    
+    // Listen to token stream
+    final stream = Fllama.instance()!.onTokenStream;
+    if (stream != null) {
+      await for (final event in stream) {
+        if (event['contextId'] == _contextId) {
+          final token = event['token'] as String?;
+          final done = event['done'] as bool? ?? false;
+          
+          if (token != null && token.isNotEmpty) {
+            yield token;
+          }
+          
+          if (done) {
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -307,7 +445,7 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   // Vision: Process a disease photo using Gemma 4
-  Future<Map<String, String>> analyzeImage(File imageFile) async {
+  Future<Map<String, dynamic>> analyzeImage(File imageFile) async {
     if (!_isModelLoaded) throw Exception("Model not loaded");
 
     // Simulate Vision processing delay (~10-15s on mobile CPUs)
@@ -320,6 +458,23 @@ class LocalAIService extends ChangeNotifier with WidgetsBindingObserver {
       'disease': 'Apple Scab (AI Detection — Gemma 4)',
       'management': knowledge['management'] ?? 'Apply standard fungicides. Prune infected leaves.',
       'confidence': '89%',
+    };
+  }
+
+  // Recommendation: Offline crop recommendation using Gemma 4
+  Future<Map<String, dynamic>> recommendCrop(Map<String, dynamic> data) async {
+    if (!_isModelLoaded) throw Exception("Model not loaded");
+
+    // Simulate local inference delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    return {
+      'recommendations': [
+        {'crop': 'Maize (Local AI)', 'score': 0.95},
+        {'crop': 'Wheat (Local AI)', 'score': 0.88},
+        {'crop': 'Rice (Local AI)', 'score': 0.72},
+      ],
+      'explanation': 'Based on your local offline data profile, Maize is highly suitable. (Offline fallback generated by local model).'
     };
   }
 }

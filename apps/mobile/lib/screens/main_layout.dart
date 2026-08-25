@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 
 import 'home_screen.dart';
 import 'features/crops_screen.dart';
+import 'features/news_screen.dart';
 import 'features/disease_screen.dart';
 import 'features/market_screen.dart';
 import 'features/settings_screen.dart';
@@ -18,57 +19,78 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
+  
+  final GlobalKey<CropsScreenState> _cropsKey = GlobalKey<CropsScreenState>();
 
-  final List<Widget> _screens = [
+  late final List<Widget> _screens = [
     const HomeScreen(),
-    const CropsScreen(),
-    const DiseaseScreen(),
+    CropsScreen(key: _cropsKey),
     const MarketScreen(),
+    const NewsScreen(),
     const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Determine title based on index
-    String title = 'FarmSaathi';
-    switch (_currentIndex) {
-      case 0: title = 'Dashboard'; break;
-      case 1: title = 'My Crops'; break;
-      case 2: title = 'Disease Check'; break;
-      case 3: title = 'Market Prices'; break;
-      case 4: title = 'Settings'; break;
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
       body: _screens[_currentIndex],
-      extendBody: true, // Allows body to scroll behind the floating nav bar
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.brand500.withValues(alpha: 0.3),
-              blurRadius: 16,
-              offset: const Offset(0, 4),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (_currentIndex == 1)
+            FloatingActionButton(
+              heroTag: 'crop_rec_fab',
+              onPressed: () {
+                _cropsKey.currentState?.showAIRecommendationSheet();
+              },
+              backgroundColor: Colors.white,
+              foregroundColor: AppTheme.brand500,
+              elevation: 4,
+              child: const Icon(Icons.psychology, size: 24),
+            )
+          else
+            FloatingActionButton(
+              heroTag: 'disease_fab',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DiseaseScreen()),
+                );
+              },
+              backgroundColor: AppTheme.brand500,
+              foregroundColor: Colors.white,
+              elevation: 4,
+              child: const Icon(Icons.camera_alt_outlined, size: 24),
             ),
-          ],
-        ),
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ChatScreen()),
-            );
-          },
-          backgroundColor: AppTheme.brand500,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          icon: const Icon(Icons.psychology_outlined),
-          label: Text('Ask AI', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
-        ),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.brand500.withValues(alpha: 0.3),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: FloatingActionButton.extended(
+              heroTag: 'chat_fab',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ChatScreen()),
+                );
+              },
+              backgroundColor: AppTheme.brand500,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              icon: const Icon(Icons.psychology_outlined),
+              label: Text('Ask AI', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -90,8 +112,8 @@ class _MainLayoutState extends State<MainLayout> {
             children: [
               _buildNavItem(0, Icons.home_outlined, Icons.home_rounded, 'Home'),
               _buildNavItem(1, Icons.grass_outlined, Icons.grass_rounded, 'Crops'),
-              _buildNavItem(2, Icons.document_scanner_outlined, Icons.document_scanner_rounded, 'Disease'),
-              _buildNavItem(3, Icons.storefront_outlined, Icons.storefront_rounded, 'Market'),
+              _buildNavItem(2, Icons.storefront_outlined, Icons.storefront_rounded, 'Market'),
+              _buildNavItem(3, Icons.newspaper_outlined, Icons.newspaper, 'News'),
               _buildNavItem(4, Icons.settings_outlined, Icons.settings_rounded, 'Settings'),
             ],
           ),

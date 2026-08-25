@@ -77,8 +77,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Weather & Advisory'), backgroundColor: Colors.transparent, elevation: 0),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -128,6 +129,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

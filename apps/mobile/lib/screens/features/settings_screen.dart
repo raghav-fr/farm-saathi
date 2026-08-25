@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../services/auth_service.dart';
 import '../../services/api_service.dart';
+import '../../services/local_ai_service.dart';
 import '../../theme/app_theme.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,7 +16,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _isLoading = true;
-  List<dynamic> _news = [];
 
   @override
   void initState() {
@@ -26,11 +26,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _fetchSettingsData() async {
     setState(() => _isLoading = true);
     try {
-      final api = context.read<ApiService>();
-      final newsData = await api.getNews(page: 1, limit: 5);
-      
+      // Simulate fetching profile or other settings data
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
-        _news = newsData['items'] ?? [];
         _isLoading = false;
       });
     } catch (e) {
@@ -44,12 +42,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final authService = context.watch<AuthService>();
     final theme = Theme.of(context);
 
-    return RefreshIndicator(
-      onRefresh: _fetchSettingsData,
-      color: theme.colorScheme.primary,
-      child: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: const Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: RefreshIndicator(
+        onRefresh: _fetchSettingsData,
+        color: theme.colorScheme.primary,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
           // Profile Section
           GlassCard(
             padding: const EdgeInsets.all(20),
@@ -110,26 +115,135 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 32),
           
           Text(
-            'Latest News & Schemes',
+            'AI Edge Model Manager',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
           
-          if (_isLoading)
-            const Center(child: Padding(
-              padding: EdgeInsets.all(24.0),
-              child: CircularProgressIndicator(),
-            ))
-          else if (_news.isEmpty)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Text('No news available.', style: TextStyle(color: Colors.black54)),
-              ),
-            )
-          else
-            ..._news.map((item) => _buildNewsCard(item)),
-
+          Consumer<LocalAIService>(
+            builder: (context, localAi, child) {
+              return GlassCard(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          localAi.isModelLoaded ? Icons.check_circle : Icons.storage,
+                          color: localAi.isModelLoaded ? Colors.green : Colors.black54,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            localAi.isModelLoaded ? 'AI Model Ready' : 'AI Model Status',
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    if (localAi.isDownloading) ...[
+                      LinearProgressIndicator(
+                        value: localAi.overallProgress,
+                        backgroundColor: Colors.grey.shade200,
+                        color: AppTheme.brand500,
+                        borderRadius: BorderRadius.circular(8),
+                        minHeight: 8,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        localAi.progressText.isNotEmpty ? localAi.progressText : 'Downloading...',
+                        style: const TextStyle(fontSize: 12, color: Colors.black54),
+                      ),
+                    ] else ...[
+                      Text(
+                        localAi.statusMessage,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: localAi.isModelLoaded ? Colors.green.shade700 : Colors.red.shade700,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            icon: const Icon(Icons.analytics, size: 18),
+                            label: const Text('Analyze Model'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppTheme.brand700,
+                              side: const BorderSide(color: AppTheme.brand500),
+                            ),
+                            onPressed: () async {
+                              final data = await localAi.analyzeModel();
+                              if (!context.mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('AI Diagnostics'),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('File Exists: ${data['exists']}'),
+                                        Text('Size: ${data['sizeMB']} (Expected ${data['expectedSize']})'),
+                                        Text('Currently Loaded: ${data['isModelLoaded']}'),
+                                        Text('Currently Downloading: ${data['isCurrentlyDownloading']}'),
+                                        const SizedBox(height: 12),
+                                        const Text('Engine Initialization Logs:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                                        Text(data['lastError'], style: const TextStyle(fontSize: 12, color: Colors.black54)),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Close'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.download, size: 18),
+                            label: const Text('Re-download'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade600,
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: () async {
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Confirm Re-download'),
+                                  content: const Text('This will delete the existing AI model and restart the download from scratch. Are you sure?'),
+                                  actions: [
+                                    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                                    TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Re-download', style: TextStyle(color: Colors.red))),
+                                  ],
+                                ),
+                              );
+                              if (confirm == true) {
+                                await localAi.deleteAndRedownloadModel();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          
           const SizedBox(height: 32),
           
           SizedBox(
@@ -153,7 +267,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 40), // Bottom padding for FAB
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildSettingsTile({required IconData icon, required String title, String? subtitle, VoidCallback? onTap}) {
@@ -177,48 +291,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildNewsCard(dynamic item) {
-    return GlassCard(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  item['category'] ?? 'News',
-                  style: TextStyle(color: Colors.green.shade700, fontSize: 10, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                item['date'] ?? '',
-                style: const TextStyle(color: Colors.black45, fontSize: 12),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            item['title'] ?? '',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF0D1F0F)),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item['excerpt'] ?? '',
-            style: const TextStyle(color: Colors.black54, fontSize: 13),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
 
 }

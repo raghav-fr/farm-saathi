@@ -5,9 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'services/local_ai_service.dart';
 import 'services/auth_service.dart';
-import 'services/location_service.dart';
-import 'services/api_service.dart';
+import '../services/location_service.dart';
+import '../services/api_service.dart';
+import '../services/firestore_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 
@@ -19,6 +21,10 @@ void main() async {
   // and pass DefaultFirebaseOptions.currentPlatform here.
   try {
     await Firebase.initializeApp();
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
   } catch (e) {
     debugPrint("Firebase not yet configured: $e");
   }
@@ -30,6 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => LocationService()),
         Provider(create: (_) => ApiService()),
+        Provider(create: (_) => FirestoreService()),
       ],
       child: const FarmSaathiApp(),
     ),
@@ -42,7 +49,7 @@ class FarmSaathiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'FarmSaathi App',
+      title: 'FarmSaathi-AI',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
       theme: AppTheme.themeData,

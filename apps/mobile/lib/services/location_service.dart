@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5,6 +6,8 @@ class LocationService extends ChangeNotifier {
   Position? _currentPosition;
   bool _isLoading = false;
   String? _error;
+
+  StreamSubscription<Position>? _positionStream;
 
   Position? get currentPosition => _currentPosition;
   bool get isLoading => _isLoading;
@@ -40,7 +43,7 @@ class LocationService extends ChangeNotifier {
     return true;
   }
 
-  Future<void> getCurrentPosition() async {
+  Future<void> startLiveTracking() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -53,14 +56,37 @@ class LocationService extends ChangeNotifier {
         return;
       }
 
+      // Fetch initial location quickly
       _currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
+      
+      // Start live stream, update every 2000 meters (2km)
+      _positionStream?.cancel();
+      _positionStream = Geolocator.getPositionStream(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 2000,
+        ),
+      ).listen((Position position) {
+        _currentPosition = position;
+        notifyListeners();
+      }, onError: (e) {
+        _error = e.toString();
+        notifyListeners();
+      });
+
     } catch (e) {
       _error = e.toString();
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _positionStream?.cancel();
+    super.dispose();
   }
 }

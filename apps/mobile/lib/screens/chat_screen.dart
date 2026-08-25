@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/auth_service.dart';
 import '../services/local_ai_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/typing_indicator.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -28,7 +30,8 @@ class _ChatScreenState extends State<ChatScreen> {
     _controller.clear();
 
     final aiService = context.read<LocalAIService>();
-    final stream = aiService.generateResponse(text);
+    final authService = context.read<AuthService>();
+    final stream = aiService.generateResponse(text, farmerProfile: authService.farmerProfile);
 
     int botMsgIndex = _messages.length - 1;
 
@@ -92,22 +95,23 @@ class _ChatScreenState extends State<ChatScreen> {
                         border: isUser ? null : Border.all(color: Colors.black12),
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Text(
-                        msg['content']!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: isUser ? Colors.white : AppTheme.textPrimary,
-                        ),
-                      ),
+                      child: (!isUser && msg['content']!.isEmpty && _isGenerating)
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: .5, vertical: 8.0),
+                              child: TypingIndicator(color: AppTheme.brand500, size: 4.0),
+                            )
+                          : Text(
+                              msg['content']!,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: isUser ? Colors.white : AppTheme.textPrimary,
+                              ),
+                            ),
                     ),
                   );
                 },
               ),
             ),
-            if (_isGenerating)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
-              ),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
